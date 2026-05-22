@@ -1,0 +1,2342 @@
+[
+  {
+    "id": "percentage",
+    "slug": "percentage-calculator",
+    "cat": "math",
+    "priority": "normal",
+    "name": "Percentage Calculator",
+    "title": "Percentage Calculator — Free Online Calculator | Calc Labz",
+    "desc": "X% of a number, percentage change & more"
+  },
+  {
+    "id": "ratio",
+    "slug": "ratio-calculator",
+    "cat": "math",
+    "priority": "normal",
+    "name": "Ratio Calculator",
+    "title": "Ratio Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Simplify ratios and find proportional values"
+  },
+  {
+    "id": "squareroot",
+    "slug": "square-root-calculator",
+    "cat": "math",
+    "priority": "normal",
+    "name": "Square Root Calculator",
+    "title": "Square Root Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Square root, cube root & nth root"
+  },
+  {
+    "id": "logarithm",
+    "slug": "logarithm-calculator",
+    "cat": "math",
+    "priority": "normal",
+    "name": "Logarithm Calculator",
+    "title": "Logarithm Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Natural log, log base 10 and custom base"
+  },
+  {
+    "id": "factorial",
+    "slug": "factorial-calculator",
+    "cat": "math",
+    "priority": "normal",
+    "name": "Factorial Calculator",
+    "title": "Factorial Calculator — Free Online Calculator | Calc Labz",
+    "desc": "n! Factorial, permutations & combinations"
+  },
+  {
+    "id": "quadratic",
+    "slug": "quadratic-calculator",
+    "cat": "math",
+    "priority": "normal",
+    "name": "Quadratic Equation",
+    "title": "Quadratic Equation — Free Online Calculator | Calc Labz",
+    "desc": "Solve ax² + bx + c = 0"
+  },
+  {
+    "id": "prime",
+    "slug": "prime-calculator",
+    "cat": "math",
+    "priority": "normal",
+    "name": "Prime Number Checker",
+    "title": "Prime Number Checker — Free Online Calculator | Calc Labz",
+    "desc": "Check if a number is prime & find factors"
+  },
+  {
+    "id": "numbersystem",
+    "slug": "number-system-calculator",
+    "cat": "math",
+    "priority": "normal",
+    "name": "Number Base Converter",
+    "title": "Number Base Converter — Free Online Calculator | Calc Labz",
+    "desc": "Binary, Octal, Decimal, Hex conversions"
+  },
+  {
+    "id": "average",
+    "slug": "average-calculator",
+    "cat": "math",
+    "priority": "normal",
+    "name": "Average / Mean Calculator",
+    "title": "Average / Mean Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Mean, median, mode, range, variance"
+  },
+  {
+    "id": "statistics",
+    "slug": "statistics-calculator",
+    "cat": "math",
+    "priority": "normal",
+    "name": "Statistics Calculator",
+    "title": "Statistics Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Variance, std dev, skewness from a dataset"
+  },
+  {
+    "id": "matrix2x2",
+    "slug": "matrix2x2-calculator",
+    "cat": "math",
+    "priority": "normal",
+    "name": "2×2 Matrix Calculator",
+    "title": "2×2 Matrix Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Determinant, inverse, trace of a 2×2 matrix"
+  },
+  {
+    "id": "combinations",
+    "slug": "combinations-calculator",
+    "cat": "math",
+    "priority": "normal",
+    "name": "Probability Calculator",
+    "title": "Probability Calculator — Free Online Calculator | Calc Labz",
+    "desc": "nCr, nPr, and event probability"
+  },
+  {
+    "id": "lcmgcd",
+    "slug": "lcmgcd-calculator",
+    "cat": "math",
+    "priority": "normal",
+    "name": "LCM & GCD Calculator",
+    "title": "LCM & GCD Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Least Common Multiple & Greatest Common Divisor"
+  },
+  {
+    "id": "romanNumeral",
+    "slug": "romannumeral-calculator",
+    "cat": "math",
+    "priority": "normal",
+    "name": "Roman Numeral Converter",
+    "title": "Roman Numeral Converter — Free Online Calculator | Calc Labz",
+    "desc": "Convert between Arabic and Roman numerals"
+  },
+  {
+    "id": "triangleArea",
+    "slug": "trianglearea-calculator",
+    "cat": "math",
+    "priority": "normal",
+    "name": "Triangle Calculator",
+    "title": "Triangle Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Area, perimeter, angles — all triangle types"
+  },
+  {
+    "id": "scientific",
+    "slug": "scientific-calculator",
+    "cat": "math",
+    "priority": "normal",
+    "name": "Scientific Calculator",
+    "title": "Scientific Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Trigonometry, logarithms, powers and more"
+  },
+  {
+    "id": "fraction",
+    "slug": "fraction-calculator",
+    "cat": "math",
+    "priority": "normal",
+    "name": "Fraction Calculator",
+    "title": "Fraction Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Add, subtract, multiply and divide fractions with simplification"
+  },
+  {
+    "id": "stddev",
+    "slug": "stddev-calculator",
+    "cat": "math",
+    "priority": "normal",
+    "name": "Standard Deviation Calculator",
+    "title": "Standard Deviation Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Mean, variance, standard deviation from raw data"
+  },
+  {
+    "id": "lineareq",
+    "slug": "lineareq-calculator",
+    "cat": "math",
+    "priority": "normal",
+    "name": "Linear Equation Solver",
+    "title": "Linear Equation Solver — Free Online Calculator | Calc Labz",
+    "desc": "Solve ax + b = c for any single variable"
+  },
+  {
+    "id": "circleCalc",
+    "slug": "circlecalc-calculator",
+    "cat": "math",
+    "priority": "normal",
+    "name": "Circle & Sphere Calculator",
+    "title": "Circle & Sphere Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Area, circumference, arc length, sphere volume"
+  },
+  {
+    "id": "determinant",
+    "slug": "determinant-calculator",
+    "cat": "math",
+    "priority": "normal",
+    "name": "Matrix Determinant (3×3)",
+    "title": "Matrix Determinant (3×3) — Free Online Calculator | Calc Labz",
+    "desc": "Calculate determinant of a 3×3 matrix"
+  },
+  {
+    "id": "complexnum",
+    "slug": "complexnum-calculator",
+    "cat": "math",
+    "priority": "normal",
+    "name": "Complex Number Calculator",
+    "title": "Complex Number Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Add, subtract, multiply, divide complex numbers (a + bi)"
+  },
+  {
+    "id": "emi",
+    "slug": "emi-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Loan EMI Calculator",
+    "title": "Loan EMI Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Monthly EMI, total interest & payment breakdown"
+  },
+  {
+    "id": "sip",
+    "slug": "sip-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "SIP Calculator",
+    "title": "SIP Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Systematic Investment Plan future value"
+  },
+  {
+    "id": "gst",
+    "slug": "gst-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "GST Calculator",
+    "title": "GST Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Add GST to net price — CGST, SGST & IGST split"
+  },
+  {
+    "id": "pregst",
+    "slug": "pregst-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Pre-GST / Reverse GST",
+    "title": "Pre-GST / Reverse GST — Free Online Calculator | Calc Labz",
+    "desc": "Extract original price from GST-inclusive MRP"
+  },
+  {
+    "id": "compoundinterest",
+    "slug": "compound-interest-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Compound Interest",
+    "title": "Compound Interest — Free Online Calculator | Calc Labz",
+    "desc": "A = P(1 + r/n)^nt with full breakdown"
+  },
+  {
+    "id": "simpleinterest",
+    "slug": "simple-interest-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Simple Interest",
+    "title": "Simple Interest — Free Online Calculator | Calc Labz",
+    "desc": "SI = PRT/100"
+  },
+  {
+    "id": "incometax",
+    "slug": "income-tax-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Income Tax Calculator",
+    "title": "Income Tax Calculator — Free Online Calculator | Calc Labz",
+    "desc": "New regime FY 2025-26 (India)"
+  },
+  {
+    "id": "roi",
+    "slug": "roi-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "ROI Calculator",
+    "title": "ROI Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Return on Investment & CAGR"
+  },
+  {
+    "id": "ppf",
+    "slug": "ppf-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "PPF Calculator",
+    "title": "PPF Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Public Provident Fund maturity"
+  },
+  {
+    "id": "fd",
+    "slug": "fd-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Fixed Deposit Calculator",
+    "title": "Fixed Deposit Calculator — Free Online Calculator | Calc Labz",
+    "desc": "FD maturity with flexible compounding frequency"
+  },
+  {
+    "id": "mortgage",
+    "slug": "mortgage-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Mortgage Calculator",
+    "title": "Mortgage Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Home loan monthly payment & amortization"
+  },
+  {
+    "id": "carloan",
+    "slug": "car-loan-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Car Loan EMI",
+    "title": "Car Loan EMI — Free Online Calculator | Calc Labz",
+    "desc": "Vehicle loan monthly instalment"
+  },
+  {
+    "id": "breakeven",
+    "slug": "breakeven-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Break-Even Calculator",
+    "title": "Break-Even Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Units & revenue needed to break even"
+  },
+  {
+    "id": "inflation",
+    "slug": "inflation-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Inflation Calculator",
+    "title": "Inflation Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Future value with inflation erosion"
+  },
+  {
+    "id": "swp",
+    "slug": "swp-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "SWP Calculator",
+    "title": "SWP Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Systematic Withdrawal Plan — monthly income from corpus"
+  },
+  {
+    "id": "lumpsum",
+    "slug": "lumpsum-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Lumpsum Investment",
+    "title": "Lumpsum Investment — Free Online Calculator | Calc Labz",
+    "desc": "One-time investment future value with returns"
+  },
+  {
+    "id": "nps",
+    "slug": "nps-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "NPS Calculator",
+    "title": "NPS Calculator — Free Online Calculator | Calc Labz",
+    "desc": "National Pension Scheme corpus & pension estimate"
+  },
+  {
+    "id": "gratuity",
+    "slug": "gratuity-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Gratuity Calculator",
+    "title": "Gratuity Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Employee gratuity & leave encashment as per Indian law"
+  },
+  {
+    "id": "hra",
+    "slug": "hra-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "HRA Exemption Calculator",
+    "title": "HRA Exemption Calculator — Free Online Calculator | Calc Labz",
+    "desc": "House Rent Allowance tax exemption — Section 10(13A)"
+  },
+  {
+    "id": "cagr",
+    "slug": "cagr-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "CAGR Calculator",
+    "title": "CAGR Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Compound Annual Growth Rate — investments, revenue, portfolio"
+  },
+  {
+    "id": "creditcard",
+    "slug": "credit-card-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Credit Card Interest Calculator",
+    "title": "Credit Card Interest Calculator — Free Online Calculator | Calc Labz",
+    "desc": "True cost of minimum payments and revolving credit"
+  },
+  {
+    "id": "networth",
+    "slug": "networth-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Net Worth Calculator",
+    "title": "Net Worth Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Total assets minus liabilities"
+  },
+  {
+    "id": "tds",
+    "slug": "tds-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "TDS Calculator",
+    "title": "TDS Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Tax Deducted at Source on salary & payments"
+  },
+  {
+    "id": "epf",
+    "slug": "epf-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "EPF / PF Calculator",
+    "title": "EPF / PF Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Employee & Employer PF contribution & corpus"
+  },
+  {
+    "id": "profitloss",
+    "slug": "profitloss-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Profit & Loss Calculator",
+    "title": "Profit & Loss Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Profit, loss, margin and markup percentage"
+  },
+  {
+    "id": "stockreturn",
+    "slug": "stock-return-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Stock Return Calculator",
+    "title": "Stock Return Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Shares P&L with brokerage & taxes (India)"
+  },
+  {
+    "id": "mutualfundreturns",
+    "slug": "mutualfundreturns-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Mutual Fund Returns (XIRR)",
+    "title": "Mutual Fund Returns (XIRR) — Free Online Calculator | Calc Labz",
+    "desc": "Estimate fund return from NAV change"
+  },
+  {
+    "id": "taxregime",
+    "slug": "tax-regime-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Old vs New Tax Regime",
+    "title": "Old vs New Tax Regime — Free Online Calculator | Calc Labz",
+    "desc": "Compare tax liability under both regimes for FY 2025-26"
+  },
+  {
+    "id": "capitalgains",
+    "slug": "capital-gains-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Capital Gains Tax Calculator",
+    "title": "Capital Gains Tax Calculator — Free Online Calculator | Calc Labz",
+    "desc": "STCG & LTCG on stocks, mutual funds, property (India)"
+  },
+  {
+    "id": "prepayment",
+    "slug": "prepayment-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Home Loan Prepayment Savings",
+    "title": "Home Loan Prepayment Savings — Free Online Calculator | Calc Labz",
+    "desc": "Interest saved and tenure reduced by lump-sum prepayment"
+  },
+  {
+    "id": "stepupsip",
+    "slug": "step-up-sip-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Step-Up SIP Calculator",
+    "title": "Step-Up SIP Calculator — Free Online Calculator | Calc Labz",
+    "desc": "SIP with annual increment — see accelerated wealth creation"
+  },
+  {
+    "id": "savingsgoal",
+    "slug": "savings-goal-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Savings Goal Planner",
+    "title": "Savings Goal Planner — Free Online Calculator | Calc Labz",
+    "desc": "How much to save monthly to reach your target amount"
+  },
+  {
+    "id": "dividendyield",
+    "slug": "dividend-yield-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Dividend Yield Calculator",
+    "title": "Dividend Yield Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Annual dividend yield, payout ratio and income from shares"
+  },
+  {
+    "id": "goldinvestment",
+    "slug": "gold-investment-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Gold Investment Calculator",
+    "title": "Gold Investment Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Gold purchase value, returns and SIP in gold"
+  },
+  {
+    "id": "rd",
+    "slug": "rd-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "RD Calculator",
+    "title": "RD Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Recurring Deposit maturity value and interest earned"
+  },
+  {
+    "id": "xirr",
+    "slug": "xirr-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "XIRR Calculator",
+    "title": "XIRR Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Extended IRR for irregular cash flows — SIPs, lump sums"
+  },
+  {
+    "id": "loaneligibility",
+    "slug": "loan-eligibility-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Loan Eligibility Calculator",
+    "title": "Loan Eligibility Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Maximum loan amount based on your income and obligations"
+  },
+  {
+    "id": "balancetransfer",
+    "slug": "balance-transfer-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Home Loan Balance Transfer",
+    "title": "Home Loan Balance Transfer — Free Online Calculator | Calc Labz",
+    "desc": "Interest saved by transferring your loan to a lower rate"
+  },
+  {
+    "id": "ssy",
+    "slug": "ssy-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Sukanya Samriddhi Yojana (SSY)",
+    "title": "Sukanya Samriddhi Yojana (SSY) — Free Online Calculator | Calc Labz",
+    "desc": "SSY maturity amount for girl child savings scheme"
+  },
+  {
+    "id": "scss",
+    "slug": "scss-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "SCSS Calculator",
+    "title": "SCSS Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Senior Citizens Savings Scheme quarterly interest and maturity"
+  },
+  {
+    "id": "advancetax",
+    "slug": "advance-tax-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Advance Tax Calculator",
+    "title": "Advance Tax Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Quarterly advance tax installment schedule for FY 2025-26"
+  },
+  {
+    "id": "inhandsalary",
+    "slug": "in-hand-salary-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "In-Hand Salary Calculator",
+    "title": "In-Hand Salary Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Take-home pay after PF, tax & deductions"
+  },
+  {
+    "id": "ctcbreakup",
+    "slug": "ctc-breakup-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "CTC to In-Hand Breakdown",
+    "title": "CTC to In-Hand Breakdown — Free Online Calculator | Calc Labz",
+    "desc": "Full CTC structure with all components decoded"
+  },
+  {
+    "id": "salarycomparison",
+    "slug": "salarycomparison-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Salary Comparison",
+    "title": "Salary Comparison — Free Online Calculator | Calc Labz",
+    "desc": "Compare old vs new job offer — CTC, in-hand & growth"
+  },
+  {
+    "id": "goalsip",
+    "slug": "goalsip-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Goal-Based SIP Calculator",
+    "title": "Goal-Based SIP Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Monthly SIP needed to reach your financial goal"
+  },
+  {
+    "id": "elssreturns",
+    "slug": "elssreturns-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "ELSS Tax Saver Returns",
+    "title": "ELSS Tax Saver Returns — Free Online Calculator | Calc Labz",
+    "desc": "ELSS mutual fund returns with 80C tax savings"
+  },
+  {
+    "id": "nsc",
+    "slug": "nsc-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "NSC Calculator",
+    "title": "NSC Calculator — Free Online Calculator | Calc Labz",
+    "desc": "National Savings Certificate maturity & tax benefit"
+  },
+  {
+    "id": "apy",
+    "slug": "apy-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "APY Calculator",
+    "title": "APY Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Atal Pension Yojana — monthly contribution & pension estimate"
+  },
+  {
+    "id": "brokerage",
+    "slug": "brokerage-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Stock Brokerage & Tax Calculator",
+    "title": "Stock Brokerage & Tax Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Total trading cost — brokerage, STT, GST & stamp duty"
+  },
+  {
+    "id": "taxsaving",
+    "slug": "tax-saving-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Tax Saving Optimizer",
+    "title": "Tax Saving Optimizer — Free Online Calculator | Calc Labz",
+    "desc": "Optimize ₹1.5L deduction across 80C, 80D, 80CCD"
+  },
+  {
+    "id": "retirementcorpus",
+    "slug": "retirement-corpus-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Retirement Corpus Calculator",
+    "title": "Retirement Corpus Calculator — Free Online Calculator | Calc Labz",
+    "desc": "How much you need to retire comfortably"
+  },
+  {
+    "id": "salaryhike",
+    "slug": "salaryhike-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Salary Hike Calculator",
+    "title": "Salary Hike Calculator — Free Online Calculator | Calc Labz",
+    "desc": "New salary after hike — monthly increase, annual gain & real value"
+  },
+  {
+    "id": "bmi",
+    "slug": "bmi-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "BMI Calculator",
+    "title": "BMI Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Body Mass Index with category & ideal weight"
+  },
+  {
+    "id": "bmr",
+    "slug": "bmr-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "BMR Calculator",
+    "title": "BMR Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Basal Metabolic Rate (Mifflin-St Jeor)"
+  },
+  {
+    "id": "tdee",
+    "slug": "tdee-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "TDEE Calculator",
+    "title": "TDEE Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Total Daily Energy Expenditure"
+  },
+  {
+    "id": "water",
+    "slug": "water-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Water Intake Calculator",
+    "title": "Water Intake Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Daily hydration requirement"
+  },
+  {
+    "id": "heartrate",
+    "slug": "heartrate-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Heart Rate Zones",
+    "title": "Heart Rate Zones — Free Online Calculator | Calc Labz",
+    "desc": "Target heart rate for every fitness zone"
+  },
+  {
+    "id": "age",
+    "slug": "age-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Age Calculator",
+    "title": "Age Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Exact age in years, months, days & more"
+  },
+  {
+    "id": "calories",
+    "slug": "calories-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Calories Burned Calculator",
+    "title": "Calories Burned Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Calories burned during exercise"
+  },
+  {
+    "id": "sleep",
+    "slug": "sleep-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Sleep Calculator",
+    "title": "Sleep Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Optimal bedtimes based on sleep cycles"
+  },
+  {
+    "id": "macros",
+    "slug": "macros-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Macro Calculator",
+    "title": "Macro Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Daily protein, carbs & fat targets"
+  },
+  {
+    "id": "pregnancy",
+    "slug": "pregnancy-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Pregnancy Due Date",
+    "title": "Pregnancy Due Date — Free Online Calculator | Calc Labz",
+    "desc": "EDD and trimester tracker"
+  },
+  {
+    "id": "idealweight",
+    "slug": "idealweight-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Ideal Weight Calculator",
+    "title": "Ideal Weight Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Multiple formula ideal body weight"
+  },
+  {
+    "id": "ovulation",
+    "slug": "ovulation-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Ovulation & Fertile Window",
+    "title": "Ovulation & Fertile Window — Free Online Calculator | Calc Labz",
+    "desc": "Estimate peak fertile days based on cycle length"
+  },
+  {
+    "id": "bloodpressure",
+    "slug": "blood-pressure-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Blood Pressure Classifier",
+    "title": "Blood Pressure Classifier — Free Online Calculator | Calc Labz",
+    "desc": "Classify your BP reading and understand the risk level"
+  },
+  {
+    "id": "alcohol",
+    "slug": "alcohol-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "BAC Calculator",
+    "title": "BAC Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Blood Alcohol Content estimator"
+  },
+  {
+    "id": "waisthip",
+    "slug": "waisthip-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Waist-to-Hip Ratio",
+    "title": "Waist-to-Hip Ratio — Free Online Calculator | Calc Labz",
+    "desc": "Cardiovascular risk indicator"
+  },
+  {
+    "id": "ibw",
+    "slug": "ibw-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "IBW — Ideal Body Weight",
+    "title": "IBW — Ideal Body Weight — Free Online Calculator | Calc Labz",
+    "desc": "Target weight by height using clinical formulas"
+  },
+  {
+    "id": "vitamins",
+    "slug": "vitamins-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Vitamin D Deficiency Check",
+    "title": "Vitamin D Deficiency Check — Free Online Calculator | Calc Labz",
+    "desc": "Estimated Vitamin D level & supplementation"
+  },
+  {
+    "id": "lungcapacity",
+    "slug": "lungcapacity-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Lung Capacity (FVC) Estimator",
+    "title": "Lung Capacity (FVC) Estimator — Free Online Calculator | Calc Labz",
+    "desc": "Forced Vital Capacity prediction"
+  },
+  {
+    "id": "bodyfat",
+    "slug": "body-fat-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Body Fat % Calculator (Navy Method)",
+    "title": "Body Fat % Calculator (Navy Method) — Free Online Calculator | Calc Labz",
+    "desc": "Estimate body fat percentage using measurements"
+  },
+  {
+    "id": "proteinintake",
+    "slug": "protein-intake-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Protein Intake Calculator",
+    "title": "Protein Intake Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Daily protein requirement based on weight, activity and goal"
+  },
+  {
+    "id": "smokingcost",
+    "slug": "smoking-cost-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Smoking Cost Calculator",
+    "title": "Smoking Cost Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Money wasted on cigarettes and health risk assessment"
+  },
+  {
+    "id": "diabetesrisk",
+    "slug": "diabetes-risk-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Diabetes Risk Score",
+    "title": "Diabetes Risk Score — Free Online Calculator | Calc Labz",
+    "desc": "ADA-based type 2 diabetes risk assessment"
+  },
+  {
+    "id": "sleepdebt",
+    "slug": "sleepdebt-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Sleep Debt Calculator",
+    "title": "Sleep Debt Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Cumulative sleep deficit and recovery plan"
+  },
+  {
+    "id": "anemia",
+    "slug": "anemia-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Anemia Risk Checker",
+    "title": "Anemia Risk Checker — Free Online Calculator | Calc Labz",
+    "desc": "Hemoglobin level interpretation and severity classification"
+  },
+  {
+    "id": "bsa",
+    "slug": "bsa-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Body Surface Area Calculator",
+    "title": "Body Surface Area Calculator — Free Online Calculator | Calc Labz",
+    "desc": "BSA using Mosteller & DuBois formulas (used in drug dosing)"
+  },
+  {
+    "id": "cholesterolratio",
+    "slug": "cholesterolratio-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Cholesterol Ratio Calculator",
+    "title": "Cholesterol Ratio Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Total/HDL ratio, LDL/HDL ratio & cardiovascular risk"
+  },
+  {
+    "id": "caloriedeficit",
+    "slug": "calorie-deficit-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Calorie Deficit Calculator",
+    "title": "Calorie Deficit Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Daily calories & timeline to reach your goal weight"
+  },
+  {
+    "id": "length",
+    "slug": "length-calculator",
+    "cat": "unit",
+    "priority": "normal",
+    "name": "Length Converter",
+    "title": "Length Converter — Free Online Calculator | Calc Labz",
+    "desc": "cm, m, km, inch, ft, mile, yard"
+  },
+  {
+    "id": "weight",
+    "slug": "weight-calculator",
+    "cat": "unit",
+    "priority": "normal",
+    "name": "Weight Converter",
+    "title": "Weight Converter — Free Online Calculator | Calc Labz",
+    "desc": "kg, g, lb, oz, stone, tonne"
+  },
+  {
+    "id": "temperature",
+    "slug": "temperature-calculator",
+    "cat": "unit",
+    "priority": "normal",
+    "name": "Temperature Converter",
+    "title": "Temperature Converter — Free Online Calculator | Calc Labz",
+    "desc": "°C, °F, K, Rankine"
+  },
+  {
+    "id": "area",
+    "slug": "area-calculator",
+    "cat": "unit",
+    "priority": "normal",
+    "name": "Area Converter",
+    "title": "Area Converter — Free Online Calculator | Calc Labz",
+    "desc": "m², km², acres, hectares, sq ft"
+  },
+  {
+    "id": "speed",
+    "slug": "speed-calculator",
+    "cat": "unit",
+    "priority": "normal",
+    "name": "Speed Converter",
+    "title": "Speed Converter — Free Online Calculator | Calc Labz",
+    "desc": "km/h, mph, m/s, knots"
+  },
+  {
+    "id": "currency",
+    "slug": "currency-calculator",
+    "cat": "unit",
+    "priority": "normal",
+    "name": "Currency Converter (INR Base)",
+    "title": "Currency Converter (INR Base) — Free Online Calculator | Calc Labz",
+    "desc": "Approximate conversions (not live)"
+  },
+  {
+    "id": "volume",
+    "slug": "volume-calculator",
+    "cat": "unit",
+    "priority": "normal",
+    "name": "Volume Converter",
+    "title": "Volume Converter — Free Online Calculator | Calc Labz",
+    "desc": "Liters, gallons, ml, cubic units"
+  },
+  {
+    "id": "data",
+    "slug": "data-calculator",
+    "cat": "unit",
+    "priority": "normal",
+    "name": "Data Storage Converter",
+    "title": "Data Storage Converter — Free Online Calculator | Calc Labz",
+    "desc": "Bits, bytes, KB, MB, GB, TB"
+  },
+  {
+    "id": "pressure",
+    "slug": "pressure-calculator",
+    "cat": "unit",
+    "priority": "normal",
+    "name": "Pressure Converter",
+    "title": "Pressure Converter — Free Online Calculator | Calc Labz",
+    "desc": "Pa, bar, psi, atm, mmHg, kPa"
+  },
+  {
+    "id": "energy",
+    "slug": "energy-calculator",
+    "cat": "unit",
+    "priority": "normal",
+    "name": "Energy Converter",
+    "title": "Energy Converter — Free Online Calculator | Calc Labz",
+    "desc": "Joules, kWh, calories, BTU, eV"
+  },
+  {
+    "id": "angle",
+    "slug": "angle-calculator",
+    "cat": "unit",
+    "priority": "normal",
+    "name": "Angle Converter",
+    "title": "Angle Converter — Free Online Calculator | Calc Labz",
+    "desc": "Degrees, radians, gradians, turns"
+  },
+  {
+    "id": "dateiff",
+    "slug": "dateiff-calculator",
+    "cat": "datetime",
+    "priority": "normal",
+    "name": "Date Difference",
+    "title": "Date Difference — Free Online Calculator | Calc Labz",
+    "desc": "Days, weeks, months between two dates"
+  },
+  {
+    "id": "timeconv",
+    "slug": "timeconv-calculator",
+    "cat": "datetime",
+    "priority": "normal",
+    "name": "Time Unit Converter",
+    "title": "Time Unit Converter — Free Online Calculator | Calc Labz",
+    "desc": "Seconds, minutes, hours, days, weeks"
+  },
+  {
+    "id": "countdown",
+    "slug": "countdown-calculator",
+    "cat": "datetime",
+    "priority": "normal",
+    "name": "Event Countdown",
+    "title": "Event Countdown — Free Online Calculator | Calc Labz",
+    "desc": "Days, hours, minutes until your event"
+  },
+  {
+    "id": "timezone",
+    "slug": "timezone-calculator",
+    "cat": "datetime",
+    "priority": "normal",
+    "name": "Time Zone Converter",
+    "title": "Time Zone Converter — Free Online Calculator | Calc Labz",
+    "desc": "Convert time across global time zones"
+  },
+  {
+    "id": "workingdays",
+    "slug": "workingdays-calculator",
+    "cat": "datetime",
+    "priority": "normal",
+    "name": "Working Days Calculator",
+    "title": "Working Days Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Business days between dates (excl. weekends)"
+  },
+  {
+    "id": "resistor",
+    "slug": "resistor-calculator",
+    "cat": "engineering",
+    "priority": "normal",
+    "name": "Resistor Color Code",
+    "title": "Resistor Color Code — Free Online Calculator | Calc Labz",
+    "desc": "Decode 4-band resistor colors"
+  },
+  {
+    "id": "power",
+    "slug": "power-calculator",
+    "cat": "engineering",
+    "priority": "normal",
+    "name": "Power Calculator",
+    "title": "Power Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Electrical power, current, voltage"
+  },
+  {
+    "id": "pythagorean",
+    "slug": "pythagorean-calculator",
+    "cat": "engineering",
+    "priority": "normal",
+    "name": "Pythagorean Theorem",
+    "title": "Pythagorean Theorem — Free Online Calculator | Calc Labz",
+    "desc": "Find hypotenuse or missing side"
+  },
+  {
+    "id": "ledresistor",
+    "slug": "ledresistor-calculator",
+    "cat": "engineering",
+    "priority": "normal",
+    "name": "LED Resistor Calculator",
+    "title": "LED Resistor Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Calculate resistor value to safely drive an LED"
+  },
+  {
+    "id": "voltdivider",
+    "slug": "voltdivider-calculator",
+    "cat": "engineering",
+    "priority": "normal",
+    "name": "Voltage Divider Calculator",
+    "title": "Voltage Divider Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Output voltage and current from a resistor voltage divider"
+  },
+  {
+    "id": "batterylife",
+    "slug": "batterylife-calculator",
+    "cat": "engineering",
+    "priority": "normal",
+    "name": "Battery Life Calculator",
+    "title": "Battery Life Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Estimate how long a battery will last for a device"
+  },
+  {
+    "id": "pcbtrace",
+    "slug": "pcbtrace-calculator",
+    "cat": "engineering",
+    "priority": "normal",
+    "name": "PCB Trace Width Calculator",
+    "title": "PCB Trace Width Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Minimum trace width for a given current (IPC-2221)"
+  },
+  {
+    "id": "decibel",
+    "slug": "decibel-calculator",
+    "cat": "engineering",
+    "priority": "normal",
+    "name": "Decibel (dB) Calculator",
+    "title": "Decibel (dB) Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Convert between dB and power/voltage ratios"
+  },
+  {
+    "id": "antennalen",
+    "slug": "antennalen-calculator",
+    "cat": "engineering",
+    "priority": "normal",
+    "name": "Antenna Length Calculator",
+    "title": "Antenna Length Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Dipole, quarter-wave and Yagi antenna lengths"
+  },
+  {
+    "id": "torque",
+    "slug": "torque-calculator",
+    "cat": "engineering",
+    "priority": "normal",
+    "name": "Torque Calculator",
+    "title": "Torque Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Torque, force, arm length and angular conversions"
+  },
+  {
+    "id": "tip",
+    "slug": "tip-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Tip Calculator",
+    "title": "Tip Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Split bill with tip among friends"
+  },
+  {
+    "id": "discount",
+    "slug": "discount-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Discount Calculator",
+    "title": "Discount Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Sale price, savings & discount %"
+  },
+  {
+    "id": "fuel",
+    "slug": "fuel-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Fuel Cost Calculator",
+    "title": "Fuel Cost Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Trip cost, mileage & efficiency"
+  },
+  {
+    "id": "salary",
+    "slug": "salary-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Salary Calculator",
+    "title": "Salary Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Monthly, weekly & daily from CTC"
+  },
+  {
+    "id": "emi2",
+    "slug": "emi2-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "EMI Eligibility",
+    "title": "EMI Eligibility — Free Online Calculator | Calc Labz",
+    "desc": "Max loan you can get based on income"
+  },
+  {
+    "id": "grade",
+    "slug": "grade-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Grade / GPA Calculator",
+    "title": "Grade / GPA Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Percentage to grade & GPA conversion"
+  },
+  {
+    "id": "electricbill",
+    "slug": "electricbill-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Electricity Bill Estimator",
+    "title": "Electricity Bill Estimator — Free Online Calculator | Calc Labz",
+    "desc": "Monthly electricity cost by appliance"
+  },
+  {
+    "id": "loanaffordability",
+    "slug": "loan-affordability-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Loan Affordability",
+    "title": "Loan Affordability — Free Online Calculator | Calc Labz",
+    "desc": "Max home price based on income & down payment"
+  },
+  {
+    "id": "caloriesfood",
+    "slug": "calories-food-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Food Calorie Tracker",
+    "title": "Food Calorie Tracker — Free Online Calculator | Calc Labz",
+    "desc": "Calories from protein, carbs & fat intake"
+  },
+  {
+    "id": "wiresize",
+    "slug": "wiresize-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Wire / Cable Size Calculator",
+    "title": "Wire / Cable Size Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Recommended wire gauge for current load"
+  },
+  {
+    "id": "pixelresolution",
+    "slug": "pixelresolution-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Image / Pixel Size Calculator",
+    "title": "Image / Pixel Size Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Megapixels, file size & print dimensions"
+  },
+  {
+    "id": "typing_speed",
+    "slug": "typing-speed-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Reading / Typing Time",
+    "title": "Reading / Typing Time — Free Online Calculator | Calc Labz",
+    "desc": "Time to read or type a given word count"
+  },
+  {
+    "id": "emi_extra",
+    "slug": "emi-extra-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Extra EMI Prepayment Benefit",
+    "title": "Extra EMI Prepayment Benefit — Free Online Calculator | Calc Labz",
+    "desc": "Interest saved by paying extra EMI"
+  },
+  {
+    "id": "investVsRent",
+    "slug": "investvsrent-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Rent vs Buy Calculator",
+    "title": "Rent vs Buy Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Is buying or renting more financially sensible?"
+  },
+  {
+    "id": "unitPrice",
+    "slug": "unitprice-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Unit Price / Value Comparator",
+    "title": "Unit Price / Value Comparator — Free Online Calculator | Calc Labz",
+    "desc": "Which pack offers the best value per unit?"
+  },
+  {
+    "id": "petrolParity",
+    "slug": "petrolparity-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Petrol vs EV Cost Calculator",
+    "title": "Petrol vs EV Cost Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Annual running cost — ICE vs Electric vehicle"
+  },
+  {
+    "id": "laundry",
+    "slug": "laundry-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Clothes / Fabric Care Size",
+    "title": "Clothes / Fabric Care Size — Free Online Calculator | Calc Labz",
+    "desc": "Size conversion for clothing across regions"
+  },
+  {
+    "id": "weddingbudget",
+    "slug": "weddingbudget-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Wedding Budget Planner",
+    "title": "Wedding Budget Planner — Free Online Calculator | Calc Labz",
+    "desc": "Estimate total wedding cost based on guest count and city tier"
+  },
+  {
+    "id": "rentafford",
+    "slug": "rentafford-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "House Rent Affordability",
+    "title": "House Rent Affordability — Free Online Calculator | Calc Labz",
+    "desc": "Maximum rent you can afford based on income and expenses"
+  },
+  {
+    "id": "freelancerate",
+    "slug": "freelancerate-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Freelancer Rate Calculator",
+    "title": "Freelancer Rate Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Ideal hourly and daily rate based on desired annual income"
+  },
+  {
+    "id": "carbonfootprint",
+    "slug": "carbonfootprint-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Carbon Footprint Calculator",
+    "title": "Carbon Footprint Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Estimate your annual CO₂ emissions from daily activities"
+  },
+  {
+    "id": "cartco",
+    "slug": "cartco-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Car Total Cost of Ownership",
+    "title": "Car Total Cost of Ownership — Free Online Calculator | Calc Labz",
+    "desc": "True annual cost of owning a car including all expenses"
+  },
+  {
+    "id": "tipsplit",
+    "slug": "tipsplit-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Bill Split & Tip Calculator",
+    "title": "Bill Split & Tip Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Split group bill with custom tip per person"
+  },
+  {
+    "id": "travelbudget",
+    "slug": "travelbudget-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Travel Budget Estimator",
+    "title": "Travel Budget Estimator — Free Online Calculator | Calc Labz",
+    "desc": "Estimate total trip cost based on destination and days"
+  },
+  {
+    "id": "mileage",
+    "slug": "mileage-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Mileage & Fuel Efficiency",
+    "title": "Mileage & Fuel Efficiency — Free Online Calculator | Calc Labz",
+    "desc": "km/L, L/100km, MPG — convert and compare fuel economy"
+  },
+  {
+    "id": "cooking",
+    "slug": "cooking-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Cooking Measurement Converter",
+    "title": "Cooking Measurement Converter — Free Online Calculator | Calc Labz",
+    "desc": "Convert cups, tbsp, tsp, ml, grams for common ingredients"
+  },
+  {
+    "id": "shoesize",
+    "slug": "shoesize-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Shoe Size Converter",
+    "title": "Shoe Size Converter — Free Online Calculator | Calc Labz",
+    "desc": "Convert shoe sizes between US, UK, EU, India and CM"
+  },
+  {
+    "id": "stopwatch",
+    "slug": "stopwatch-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Stopwatch & Timer",
+    "title": "Stopwatch & Timer — Free Online Calculator | Calc Labz",
+    "desc": "Online stopwatch with lap times and countdown"
+  },
+  {
+    "id": "randomnum",
+    "slug": "randomnum-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Random Number Generator",
+    "title": "Random Number Generator — Free Online Calculator | Calc Labz",
+    "desc": "Generate random integers, decimals, dice rolls and lists"
+  },
+  {
+    "id": "evpetrolsavings",
+    "slug": "evpetrolsavings-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "EV vs Petrol/Diesel Savings",
+    "title": "EV vs Petrol/Diesel Savings — Free Online Calculator | Calc Labz",
+    "desc": "Compare total cost of ownership — EV vs ICE vehicle"
+  },
+  {
+    "id": "speed_dist",
+    "slug": "speed-dist-calculator",
+    "cat": "science",
+    "priority": "normal",
+    "name": "Speed / Distance / Time",
+    "title": "Speed / Distance / Time — Free Online Calculator | Calc Labz",
+    "desc": "Solve any leg of the SDT triangle"
+  },
+  {
+    "id": "ohm_advanced",
+    "slug": "ohm-advanced-calculator",
+    "cat": "science",
+    "priority": "normal",
+    "name": "Circuit Power Calculator",
+    "title": "Circuit Power Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Series & parallel resistance + power"
+  },
+  {
+    "id": "density",
+    "slug": "density-calculator",
+    "cat": "science",
+    "priority": "normal",
+    "name": "Density Calculator",
+    "title": "Density Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Density, mass, volume — solve any"
+  },
+  {
+    "id": "chemMolar",
+    "slug": "chemmolar-calculator",
+    "cat": "science",
+    "priority": "normal",
+    "name": "Molar Mass Calculator",
+    "title": "Molar Mass Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Concentration, moles & molarity"
+  },
+  {
+    "id": "wavelength",
+    "slug": "wavelength-calculator",
+    "cat": "science",
+    "priority": "normal",
+    "name": "Wave Properties Calculator",
+    "title": "Wave Properties Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Wavelength, frequency, wave speed"
+  },
+  {
+    "id": "halflife",
+    "slug": "halflife-calculator",
+    "cat": "science",
+    "priority": "normal",
+    "name": "Radioactive Decay / Half-Life",
+    "title": "Radioactive Decay / Half-Life — Free Online Calculator | Calc Labz",
+    "desc": "Remaining quantity after radioactive decay"
+  },
+  {
+    "id": "ph",
+    "slug": "ph-calculator",
+    "cat": "science",
+    "priority": "normal",
+    "name": "pH Calculator",
+    "title": "pH Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Acid/base strength from H⁺ ion concentration"
+  },
+  {
+    "id": "kinematicCalc",
+    "slug": "kinematiccalc-calculator",
+    "cat": "science",
+    "priority": "normal",
+    "name": "Kinematics Calculator",
+    "title": "Kinematics Calculator — Free Online Calculator | Calc Labz",
+    "desc": "SUVAT equations — solve for any variable"
+  },
+  {
+    "id": "acceleration",
+    "slug": "acceleration-calculator",
+    "cat": "science",
+    "priority": "normal",
+    "name": "Acceleration Calculator",
+    "title": "Acceleration Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Linear acceleration, deceleration and stopping distance"
+  },
+  {
+    "id": "concrete",
+    "slug": "concrete-calculator",
+    "cat": "construction",
+    "priority": "normal",
+    "name": "Concrete Calculator",
+    "title": "Concrete Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Cement, sand, aggregate for slabs & columns"
+  },
+  {
+    "id": "bricks",
+    "slug": "bricks-calculator",
+    "cat": "construction",
+    "priority": "normal",
+    "name": "Brick & Mortar Calculator",
+    "title": "Brick & Mortar Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Number of bricks and mortar needed for a wall"
+  },
+  {
+    "id": "paint",
+    "slug": "paint-calculator",
+    "cat": "construction",
+    "priority": "normal",
+    "name": "Paint Calculator",
+    "title": "Paint Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Litres of paint needed for walls & ceiling"
+  },
+  {
+    "id": "flooring",
+    "slug": "flooring-calculator",
+    "cat": "construction",
+    "priority": "normal",
+    "name": "Flooring / Tiles Calculator",
+    "title": "Flooring / Tiles Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Number of tiles & boxes for any room"
+  },
+  {
+    "id": "steel",
+    "slug": "steel-calculator",
+    "cat": "construction",
+    "priority": "normal",
+    "name": "Steel / Rebar Calculator",
+    "title": "Steel / Rebar Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Weight of steel bars for reinforcement"
+  },
+  {
+    "id": "roofing",
+    "slug": "roofing-calculator",
+    "cat": "construction",
+    "priority": "normal",
+    "name": "Roofing Material Calculator",
+    "title": "Roofing Material Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Sheets, underlayment & ridge caps needed"
+  },
+  {
+    "id": "earthwork",
+    "slug": "earthwork-calculator",
+    "cat": "construction",
+    "priority": "normal",
+    "name": "Earthwork / Excavation",
+    "title": "Earthwork / Excavation — Free Online Calculator | Calc Labz",
+    "desc": "Volume of soil for trenches & pits"
+  },
+  {
+    "id": "plasterwork",
+    "slug": "plasterwork-calculator",
+    "cat": "construction",
+    "priority": "normal",
+    "name": "Plaster Calculator",
+    "title": "Plaster Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Cement & sand for wall plastering"
+  },
+  {
+    "id": "waterTank",
+    "slug": "watertank-calculator",
+    "cat": "construction",
+    "priority": "normal",
+    "name": "Water Tank / Reservoir Size",
+    "title": "Water Tank / Reservoir Size — Free Online Calculator | Calc Labz",
+    "desc": "Capacity for household or building use"
+  },
+  {
+    "id": "landarea",
+    "slug": "landarea-calculator",
+    "cat": "construction",
+    "priority": "normal",
+    "name": "Plot & Land Area Converter",
+    "title": "Plot & Land Area Converter — Free Online Calculator | Calc Labz",
+    "desc": "Convert between Indian and international area units"
+  },
+  {
+    "id": "stampdutycalc",
+    "slug": "stamp-duty-calculator",
+    "cat": "construction",
+    "priority": "normal",
+    "name": "Stamp Duty & Registration Calculator",
+    "title": "Stamp Duty & Registration Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Property registration cost based on value and state"
+  },
+  {
+    "id": "constructioncost",
+    "slug": "construction-cost-calculator",
+    "cat": "construction",
+    "priority": "normal",
+    "name": "Home Construction Cost",
+    "title": "Home Construction Cost — Free Online Calculator | Calc Labz",
+    "desc": "Estimate construction cost per sq ft by city tier"
+  },
+  {
+    "id": "solarpanel",
+    "slug": "solar-panel-calculator",
+    "cat": "construction",
+    "priority": "normal",
+    "name": "Solar Panel Savings Calculator",
+    "title": "Solar Panel Savings Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Rooftop solar ROI, payback period and lifetime savings"
+  },
+  {
+    "id": "homerenovation",
+    "slug": "home-renovation-calculator",
+    "cat": "construction",
+    "priority": "normal",
+    "name": "Home Renovation Cost Estimator",
+    "title": "Home Renovation Cost Estimator — Free Online Calculator | Calc Labz",
+    "desc": "Room-wise renovation budget with material costs"
+  },
+  {
+    "id": "cgpa",
+    "slug": "cgpa-calculator",
+    "cat": "education",
+    "priority": "normal",
+    "name": "CGPA to Percentage",
+    "title": "CGPA to Percentage — Free Online Calculator | Calc Labz",
+    "desc": "Convert CGPA to percentage (various university scales)"
+  },
+  {
+    "id": "examneeded",
+    "slug": "examneeded-calculator",
+    "cat": "education",
+    "priority": "normal",
+    "name": "Exam Score Needed",
+    "title": "Exam Score Needed — Free Online Calculator | Calc Labz",
+    "desc": "What score you need in finals to achieve your target percentage"
+  },
+  {
+    "id": "eduloan",
+    "slug": "eduloan-calculator",
+    "cat": "education",
+    "priority": "normal",
+    "name": "Education Loan EMI",
+    "title": "Education Loan EMI — Free Online Calculator | Calc Labz",
+    "desc": "Student loan EMI with moratorium period"
+  },
+  {
+    "id": "studyhours",
+    "slug": "studyhours-calculator",
+    "cat": "education",
+    "priority": "normal",
+    "name": "Study Hours Planner",
+    "title": "Study Hours Planner — Free Online Calculator | Calc Labz",
+    "desc": "Plan study hours per subject to cover syllabus before exam"
+  },
+  {
+    "id": "scholarship",
+    "slug": "scholarship-calculator",
+    "cat": "education",
+    "priority": "normal",
+    "name": "Scholarship Savings Calculator",
+    "title": "Scholarship Savings Calculator — Free Online Calculator | Calc Labz",
+    "desc": "How much a scholarship reduces your total education loan burden"
+  },
+  {
+    "id": "pomodoro",
+    "slug": "pomodoro-calculator",
+    "cat": "education",
+    "priority": "normal",
+    "name": "Pomodoro Study Planner",
+    "title": "Pomodoro Study Planner — Free Online Calculator | Calc Labz",
+    "desc": "Plan focused study sessions with work/break intervals"
+  },
+  {
+    "id": "gpaconverter",
+    "slug": "gpaconverter-calculator",
+    "cat": "education",
+    "priority": "normal",
+    "name": "GPA / CGPA Converter",
+    "title": "GPA / CGPA Converter — Free Online Calculator | Calc Labz",
+    "desc": "Convert GPA between US, Indian, UK and German scales"
+  },
+  {
+    "id": "readingtime",
+    "slug": "readingtime-calculator",
+    "cat": "education",
+    "priority": "normal",
+    "name": "Reading Time Calculator",
+    "title": "Reading Time Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Estimate time to finish a book based on your reading speed"
+  },
+  {
+    "id": "typingtest",
+    "slug": "typingtest-calculator",
+    "cat": "education",
+    "priority": "normal",
+    "name": "Typing Speed Analyzer",
+    "title": "Typing Speed Analyzer — Free Online Calculator | Calc Labz",
+    "desc": "Calculate net WPM, accuracy and skill level from test results"
+  },
+  {
+    "id": "spellingbee",
+    "slug": "spellingbee-calculator",
+    "cat": "education",
+    "priority": "normal",
+    "name": "Spelling Bee Score Tracker",
+    "title": "Spelling Bee Score Tracker — Free Online Calculator | Calc Labz",
+    "desc": "Track spelling accuracy, speed and skill level"
+  },
+  {
+    "id": "fire",
+    "slug": "fire-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "FIRE Calculator",
+    "title": "FIRE Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Financial Independence, Retire Early — years to freedom"
+  },
+  {
+    "id": "debtavalanche",
+    "slug": "debtavalanche-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Debt Snowball vs Avalanche",
+    "title": "Debt Snowball vs Avalanche — Free Online Calculator | Calc Labz",
+    "desc": "Compare payoff strategies — save interest or win quick"
+  },
+  {
+    "id": "emergencyfund",
+    "slug": "emergencyfund-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Emergency Fund Calculator",
+    "title": "Emergency Fund Calculator — Free Online Calculator | Calc Labz",
+    "desc": "How much you need in your rainy-day fund"
+  },
+  {
+    "id": "rentvsbuy",
+    "slug": "rentvsbuy-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Rent vs Buy Home Calculator",
+    "title": "Rent vs Buy Home Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Should you rent or buy? Total cost comparison over time"
+  },
+  {
+    "id": "carleasevsbuy",
+    "slug": "carleasevsbuy-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Car Lease vs Buy Calculator",
+    "title": "Car Lease vs Buy Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Total cost of leasing vs buying a vehicle"
+  },
+  {
+    "id": "homedownpayment",
+    "slug": "homedownpayment-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Home Down Payment Planner",
+    "title": "Home Down Payment Planner — Free Online Calculator | Calc Labz",
+    "desc": "Monthly savings needed to reach your down payment goal"
+  },
+  {
+    "id": "loancompare",
+    "slug": "loancompare-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Loan Comparison Calculator",
+    "title": "Loan Comparison Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Compare up to 3 loan offers side-by-side"
+  },
+  {
+    "id": "refinance",
+    "slug": "refinance-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Refinance Savings Calculator",
+    "title": "Refinance Savings Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Should you refinance? Compare old vs new loan terms"
+  },
+  {
+    "id": "creditutil",
+    "slug": "creditutil-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Credit Utilization Calculator",
+    "title": "Credit Utilization Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Credit score impact of your card usage"
+  },
+  {
+    "id": "insuranceneed",
+    "slug": "insuranceneed-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Insurance Need Calculator",
+    "title": "Insurance Need Calculator — Free Online Calculator | Calc Labz",
+    "desc": "How much life insurance cover do you actually need?"
+  },
+  {
+    "id": "npvirr",
+    "slug": "npvirr-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "NPV / IRR Calculator",
+    "title": "NPV / IRR Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Net Present Value and Internal Rate of Return for projects"
+  },
+  {
+    "id": "bondyield",
+    "slug": "bondyield-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Bond Yield / YTM Calculator",
+    "title": "Bond Yield / YTM Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Yield to maturity, current yield, and holding return"
+  },
+  {
+    "id": "optionprofit",
+    "slug": "optionprofit-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Option Profit Calculator",
+    "title": "Option Profit Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Call & put option P&L with break-even and max loss"
+  },
+  {
+    "id": "forexpip",
+    "slug": "forexpip-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Forex Pip / Lot Size Calculator",
+    "title": "Forex Pip / Lot Size Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Calculate pip value and position size for forex trading"
+  },
+  {
+    "id": "portfoliorebalance",
+    "slug": "portfoliorebalance-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Portfolio Rebalancing Calculator",
+    "title": "Portfolio Rebalancing Calculator — Free Online Calculator | Calc Labz",
+    "desc": "How much to buy/sell to match your target allocation"
+  },
+  {
+    "id": "assetallocation",
+    "slug": "assetallocation-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Asset Allocation Calculator",
+    "title": "Asset Allocation Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Suggested allocation based on age, risk profile and goals"
+  },
+  {
+    "id": "montecarlo",
+    "slug": "montecarlo-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Monte Carlo Retirement Simulator",
+    "title": "Monte Carlo Retirement Simulator — Free Online Calculator | Calc Labz",
+    "desc": "Probability of your retirement plan succeeding"
+  },
+  {
+    "id": "inflationgoal",
+    "slug": "inflationgoal-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Inflation-Adjusted Goal Planner",
+    "title": "Inflation-Adjusted Goal Planner — Free Online Calculator | Calc Labz",
+    "desc": "Future cost of your goal adjusted for inflation + SIP needed"
+  },
+  {
+    "id": "businessloan",
+    "slug": "businessloan-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Business Loan EMI + DSCR",
+    "title": "Business Loan EMI + DSCR — Free Online Calculator | Calc Labz",
+    "desc": "Business loan EMI and Debt Service Coverage Ratio"
+  },
+  {
+    "id": "gstinvoice",
+    "slug": "gstinvoice-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "GST Invoice + Profit Margin",
+    "title": "GST Invoice + Profit Margin — Free Online Calculator | Calc Labz",
+    "desc": "Generate invoice breakdown with profit margin analysis"
+  },
+  {
+    "id": "esoptax",
+    "slug": "esoptax-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "ESOP Tax Calculator",
+    "title": "ESOP Tax Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Tax on ESOP exercise and sale — perquisite vs capital gains"
+  },
+  {
+    "id": "freelancetax",
+    "slug": "freelancetax-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Freelance Tax + GST Calculator",
+    "title": "Freelance Tax + GST Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Estimated income tax and GST for freelancers / consultants"
+  },
+  {
+    "id": "tcsremittance",
+    "slug": "tcsremittance-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "TCS on Foreign Remittance",
+    "title": "TCS on Foreign Remittance — Free Online Calculator | Calc Labz",
+    "desc": "Tax Collected at Source on LRS payments abroad"
+  },
+  {
+    "id": "sec80c",
+    "slug": "sec80c-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Section 80C Optimizer",
+    "title": "Section 80C Optimizer — Free Online Calculator | Calc Labz",
+    "desc": "Maximize your ₹1.5L tax deduction across 80C instruments"
+  },
+  {
+    "id": "hravshomeloan",
+    "slug": "hravshomeloan-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "HRA vs Home Loan Benefit",
+    "title": "HRA vs Home Loan Benefit — Free Online Calculator | Calc Labz",
+    "desc": "Compare tax benefits of HRA exemption vs home loan deductions"
+  },
+  {
+    "id": "proftax",
+    "slug": "professionaltax-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Professional Tax by State",
+    "title": "Professional Tax by State — Free Online Calculator | Calc Labz",
+    "desc": "Monthly professional tax deduction based on your state"
+  },
+  {
+    "id": "leaveencash",
+    "slug": "leaveencash-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Leave Encashment Calculator",
+    "title": "Leave Encashment Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Tax-exempt leave encashment on retirement or resignation"
+  },
+  {
+    "id": "onerepmax",
+    "slug": "onerepmax-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "One Rep Max (1RM) Calculator",
+    "title": "One Rep Max (1RM) Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Estimate your max lift from sub-maximal reps"
+  },
+  {
+    "id": "runningpace",
+    "slug": "runningpace-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Running Pace / Race Predictor",
+    "title": "Running Pace / Race Predictor — Free Online Calculator | Calc Labz",
+    "desc": "Pace calculator and race time predictions (5K to Marathon)"
+  },
+  {
+    "id": "bodyrecomp",
+    "slug": "bodyrecomp-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Body Recomposition Planner",
+    "title": "Body Recomposition Planner — Free Online Calculator | Calc Labz",
+    "desc": "Simultaneous fat loss and muscle gain — calories + macros"
+  },
+  {
+    "id": "vo2max",
+    "slug": "vo2max-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "VO2 Max Estimator",
+    "title": "VO2 Max Estimator — Free Online Calculator | Calc Labz",
+    "desc": "Estimate cardiovascular fitness from run/walk data"
+  },
+  {
+    "id": "leanbodymass",
+    "slug": "leanbodymass-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Lean Body Mass Calculator",
+    "title": "Lean Body Mass Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Calculate fat-free mass using multiple formulas"
+  },
+  {
+    "id": "caloriegoal",
+    "slug": "caloriegoal-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Calorie Intake by Goal Timeline",
+    "title": "Calorie Intake by Goal Timeline — Free Online Calculator | Calc Labz",
+    "desc": "Daily calories needed to hit your target weight by a date"
+  },
+  {
+    "id": "electrolyte",
+    "slug": "electrolyte-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Water + Electrolyte Calculator",
+    "title": "Water + Electrolyte Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Daily water and electrolyte needs based on activity and climate"
+  },
+  {
+    "id": "attendance",
+    "slug": "attendance-calculator",
+    "cat": "education",
+    "priority": "normal",
+    "name": "Attendance Percentage Calculator",
+    "title": "Attendance Percentage Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Track attendance and calculate classes needed for 75%"
+  },
+  {
+    "id": "gpaplanner",
+    "slug": "gpaplanner-calculator",
+    "cat": "education",
+    "priority": "normal",
+    "name": "Semester GPA Planner",
+    "title": "Semester GPA Planner — Free Online Calculator | Calc Labz",
+    "desc": "Plan your target grades to achieve desired CGPA"
+  },
+  {
+    "id": "percentile",
+    "slug": "percentile-calculator",
+    "cat": "education",
+    "priority": "normal",
+    "name": "Percentile Calculator",
+    "title": "Percentile Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Find percentile rank from score and total candidates"
+  },
+  {
+    "id": "cutoffpredictor",
+    "slug": "cutoffpredictor-calculator",
+    "cat": "education",
+    "priority": "normal",
+    "name": "Cutoff Predictor",
+    "title": "Cutoff Predictor — Free Online Calculator | Calc Labz",
+    "desc": "Predict exam cutoff based on difficulty and past trends"
+  },
+  {
+    "id": "revisionplanner",
+    "slug": "revisionplanner-calculator",
+    "cat": "education",
+    "priority": "normal",
+    "name": "Revision Planner",
+    "title": "Revision Planner — Free Online Calculator | Calc Labz",
+    "desc": "Create a timetable dividing subjects across available days"
+  },
+  {
+    "id": "inverterbattery",
+    "slug": "inverterbattery-calculator",
+    "cat": "engineering",
+    "priority": "normal",
+    "name": "Inverter / Battery Backup Calculator",
+    "title": "Inverter / Battery Backup Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Inverter VA rating and battery capacity for your load"
+  },
+  {
+    "id": "acbtu",
+    "slug": "acbtu-calculator",
+    "cat": "engineering",
+    "priority": "normal",
+    "name": "AC Load / BTU Calculator",
+    "title": "AC Load / BTU Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Air conditioner tonnage needed for your room size"
+  },
+  {
+    "id": "beamload",
+    "slug": "beamload-calculator",
+    "cat": "engineering",
+    "priority": "normal",
+    "name": "Beam Load / Deflection Calculator",
+    "title": "Beam Load / Deflection Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Simply supported beam — max bending moment and deflection"
+  },
+  {
+    "id": "pipeflow",
+    "slug": "pipeflow-calculator",
+    "cat": "engineering",
+    "priority": "normal",
+    "name": "Pipe Flow / Pressure Drop",
+    "title": "Pipe Flow / Pressure Drop — Free Online Calculator | Calc Labz",
+    "desc": "Flow rate, velocity and friction loss in pipes"
+  },
+  {
+    "id": "threephase",
+    "slug": "threephase-calculator",
+    "cat": "engineering",
+    "priority": "normal",
+    "name": "3-Phase Electrical Calculator",
+    "title": "3-Phase Electrical Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Power, current and voltage for 3-phase electrical systems"
+  },
+  {
+    "id": "transformercalc",
+    "slug": "transformercalc-calculator",
+    "cat": "engineering",
+    "priority": "normal",
+    "name": "Transformer Calculator",
+    "title": "Transformer Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Turns ratio, voltage and current for transformer design"
+  },
+  {
+    "id": "heatexchanger",
+    "slug": "heatexchanger-calculator",
+    "cat": "engineering",
+    "priority": "normal",
+    "name": "Heat Exchanger Calculator",
+    "title": "Heat Exchanger Calculator — Free Online Calculator | Calc Labz",
+    "desc": "LMTD, heat transfer rate and required area"
+  },
+  {
+    "id": "fluidflow",
+    "slug": "fluidflow-calculator",
+    "cat": "engineering",
+    "priority": "normal",
+    "name": "Fluid Flow Calculator",
+    "title": "Fluid Flow Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Reynolds number, velocity and pressure drop in pipes"
+  },
+  {
+    "id": "gearratio",
+    "slug": "gearratio-calculator",
+    "cat": "engineering",
+    "priority": "normal",
+    "name": "Gear Ratio Calculator",
+    "title": "Gear Ratio Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Speed, torque and power through gear trains"
+  },
+  {
+    "id": "concretemix",
+    "slug": "concretemix-calculator",
+    "cat": "construction",
+    "priority": "normal",
+    "name": "Concrete Mix Design Calculator",
+    "title": "Concrete Mix Design Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Cement, sand, aggregate and water quantities per mix ratio"
+  },
+  {
+    "id": "materialwaste",
+    "slug": "materialwaste-calculator",
+    "cat": "construction",
+    "priority": "normal",
+    "name": "Material Wastage Calculator",
+    "title": "Material Wastage Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Tile, paint, flooring material with wastage factor"
+  },
+  {
+    "id": "rainwater",
+    "slug": "rainwater-calculator",
+    "cat": "construction",
+    "priority": "normal",
+    "name": "Rainwater Harvesting Calculator",
+    "title": "Rainwater Harvesting Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Potential rainwater collection and tank size for your roof"
+  },
+  {
+    "id": "ecomprofit",
+    "slug": "ecomprofit-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "E-commerce Profit Calculator",
+    "title": "E-commerce Profit Calculator — Free Online Calculator | Calc Labz",
+    "desc": "True profit per order with all hidden costs included"
+  },
+  {
+    "id": "restaurantcost",
+    "slug": "restaurantcost-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Restaurant Food Cost Calculator",
+    "title": "Restaurant Food Cost Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Menu pricing based on food cost percentage target"
+  },
+  {
+    "id": "subscriptionpricing",
+    "slug": "subscriptionpricing-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Subscription Pricing Calculator",
+    "title": "Subscription Pricing Calculator — Free Online Calculator | Calc Labz",
+    "desc": "MRR, ARR, churn impact and LTV calculations"
+  },
+  {
+    "id": "uniteconomics",
+    "slug": "uniteconomics-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Unit Economics Calculator",
+    "title": "Unit Economics Calculator — Free Online Calculator | Calc Labz",
+    "desc": "LTV, CAC, payback period and contribution margin per unit"
+  },
+  {
+    "id": "eventbudget",
+    "slug": "eventbudget-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Event Budget Calculator",
+    "title": "Event Budget Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Complete event cost breakdown by category"
+  },
+  {
+    "id": "householdbudget",
+    "slug": "householdbudget-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Household Budget Planner",
+    "title": "Household Budget Planner — Free Online Calculator | Calc Labz",
+    "desc": "50/30/20 rule and category-wise monthly budget breakdown"
+  },
+  {
+    "id": "sgb",
+    "slug": "sgb-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Sovereign Gold Bond (SGB) Calculator",
+    "title": "Sovereign Gold Bond (SGB) Calculator — Free Online Calculator | Calc Labz",
+    "desc": "SGB maturity value, interest earned & returns vs physical gold"
+  },
+  {
+    "id": "foTurnover",
+    "slug": "fo-turnover-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "F&O Turnover Calculator (ITR-3)",
+    "title": "F&O Turnover Calculator (ITR-3) — Free Online Calculator | Calc Labz",
+    "desc": "Calculate F&O trading turnover for income tax filing as per ICAI guidelines"
+  },
+  {
+    "id": "presumptiveTax",
+    "slug": "presumptive-tax-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Presumptive Tax Calculator (44AD/44ADA)",
+    "title": "Presumptive Tax Calculator (44AD/44ADA) — Free Online Calculator | Calc Labz",
+    "desc": "Presumptive income tax for small businesses & professionals without full books"
+  },
+  {
+    "id": "homeloanTaxBenefit",
+    "slug": "homeloan-taxbenefit-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Home Loan Tax Benefit Calculator",
+    "title": "Home Loan Tax Benefit Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Income tax savings on home loan interest (24b) & principal (80C)"
+  },
+  {
+    "id": "indexedCost",
+    "slug": "indexed-cost-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Indexed Cost of Acquisition Calculator",
+    "title": "Indexed Cost of Acquisition Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Calculate indexed cost using CII for long-term capital gains tax"
+  },
+  {
+    "id": "goldComparison",
+    "slug": "gold-comparison-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Digital Gold vs SGB vs Gold ETF",
+    "title": "Digital Gold vs SGB vs Gold ETF — Free Online Calculator | Calc Labz",
+    "desc": "Compare returns, taxes & charges across gold investment options"
+  },
+  {
+    "id": "rentYield",
+    "slug": "rent-yield-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Rental Yield Calculator",
+    "title": "Rental Yield Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Gross & net rental yield on investment property"
+  },
+  {
+    "id": "intermittentFasting",
+    "slug": "intermittent-fasting-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Intermittent Fasting Window Calculator",
+    "title": "Intermittent Fasting Window Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Calculate eating & fasting windows for 16:8, 18:6, 20:4, OMAD protocols"
+  },
+  {
+    "id": "waistHeightRatio",
+    "slug": "waist-height-ratio-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Waist-to-Height Ratio Calculator",
+    "title": "Waist-to-Height Ratio Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Better predictor of cardiovascular risk than BMI — keep waist below half your height"
+  },
+  {
+    "id": "cgpaToPercentage",
+    "slug": "cgpa-to-percentage-calculator",
+    "cat": "education",
+    "priority": "normal",
+    "name": "CGPA to Percentage Converter",
+    "title": "CGPA to Percentage Converter — Free Online Calculator | Calc Labz",
+    "desc": "Convert CGPA to percentage for any university scale — 10-point, 4-point, VTU, Mumbai, Anna"
+  },
+  {
+    "id": "retirementDate",
+    "slug": "retirement-date-calculator",
+    "cat": "datetime",
+    "priority": "normal",
+    "name": "Retirement Date Calculator",
+    "title": "Retirement Date Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Exact retirement date, days/months/years remaining based on DOB & retirement age"
+  },
+  {
+    "id": "ageUnits",
+    "slug": "age-units-calculator",
+    "cat": "datetime",
+    "priority": "normal",
+    "name": "Age in Days, Hours & Minutes",
+    "title": "Age in Days, Hours & Minutes — Free Online Calculator | Calc Labz",
+    "desc": "Your exact age in years, months, days, hours, minutes & weeks"
+  },
+  {
+    "id": "dataUsage",
+    "slug": "data-usage-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Mobile Data Usage Calculator",
+    "title": "Mobile Data Usage Calculator — Free Online Calculator | Calc Labz",
+    "desc": "Calculate daily & monthly mobile data consumption by app — find the right Jio/Airtel plan"
+  }
+]

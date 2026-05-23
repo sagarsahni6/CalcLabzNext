@@ -250,7 +250,7 @@ body{background:var(--bg0);color:var(--txt)}
   position:relative;
   padding:40px 24px;
   border-radius:var(--r-md);
-  background:var(--bg1);
+  background:radial-gradient(circle at 50% 50%, #f0f4ff 0%, #f7f9fb 100%);
   border:1px solid var(--brd);
   overflow:hidden;
   text-align:center;
@@ -700,39 +700,41 @@ body{background:var(--bg0);color:var(--txt)}
 
 /* ── WHY / TRUST SECTION (HOME) ────────────────── */
 .why-section{
-  padding:36px;
-  background:var(--bg1);
-  border:1px solid var(--brd);
+  padding:48px 36px;
+  background:#0F172A;
+  color:#ffffff;
   border-radius:var(--r-md);
   margin-top:44px;
 }
 .why-section h2{
-  font-size:1.5rem;font-weight:700;margin-bottom:24px;color:var(--txt);
+  font-size:1.5rem;font-weight:700;margin-bottom:24px;color:#ffffff;
   text-align:center;
 }
-.why-section p{font-size:.875rem;color:var(--txt1);line-height:1.7;margin-bottom:16px}
+.why-section p{font-size:.875rem;color:#94A3B8;line-height:1.7;margin-bottom:16px}
 .why-section p:last-child{margin-bottom:0}
-.why-section a{color:var(--p);font-weight:600}
+.why-section a{color:#93C5FD;font-weight:600}
+.why-section a:hover{color:#BFDBFE;text-decoration:underline}
 
 /* Trust feature grid */
 .trust-feature-grid{
-  display:grid;grid-template-columns:1fr;gap:16px;
+  display:grid;grid-template-columns:1fr;gap:24px;
   margin-bottom:24px;
 }
 .trust-feature-card{
-  padding:24px 20px;text-align:center;
-  background:var(--bg2);border:1px solid var(--brd);
+  padding:24px 20px;text-align:left;
+  background:transparent;border:none;
   border-radius:var(--r-md);
   transition:all var(--dur) var(--ease);
 }
-.trust-feature-card:hover{transform:translateY(-3px);border-color:var(--p);box-shadow:var(--shadow-md)}
+.trust-feature-card:hover{transform:translateY(-3px)}
 .trust-feature-icon{
   width:48px;height:48px;border-radius:var(--r-sm);
   display:grid;place-items:center;
-  margin:0 auto 14px;font-size:1.2rem;color:#fff;
+  margin:0 0 14px;font-size:1.4rem;color:#B4C5FF;
+  background:transparent !important;
 }
-.trust-feature-card h3{font-size:.95rem;font-weight:700;color:var(--txt);margin-bottom:6px}
-.trust-feature-card p{font-size:.82rem;color:var(--txt2);line-height:1.5;margin:0}
+.trust-feature-card h3{font-size:1.1rem;font-weight:600;color:#ffffff;margin-bottom:8px}
+.trust-feature-card p{font-size:.875rem;color:#94A3B8;line-height:1.6;margin:0}
 
 /* ── TWO-COLUMN CALCULATOR LAYOUT ───────────────── */
 .calc-two-col{

@@ -218,21 +218,21 @@ export default function HomePage() {
         <h2>Why Calc Labz?</h2>
         <div className="trust-feature-grid">
           <div className="trust-feature-card">
-            <div className="trust-feature-icon" style={{ background: 'var(--p)' }}>
+            <div className="trust-feature-icon">
               <Icon name="fa-check-circle" />
             </div>
             <h3>100% Free Forever</h3>
             <p>300+ calculators across finance, health, math, and engineering — no hidden costs, no paywalls.</p>
           </div>
           <div className="trust-feature-card">
-            <div className="trust-feature-icon" style={{ background: 'var(--indigo)' }}>
+            <div className="trust-feature-icon">
               <Icon name="fa-lock" />
             </div>
             <h3>Privacy First</h3>
             <p>All calculations run in your browser. Zero data sent to servers. Your numbers stay on your device.</p>
           </div>
           <div className="trust-feature-card">
-            <div className="trust-feature-icon" style={{ background: '#0EA5E9' }}>
+            <div className="trust-feature-icon">
               <Icon name="fa-wifi" />
             </div>
             <h3>Works Offline</h3>

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { DB, findCalcBySlug } from '@/data/calculator-db';
 import ThemeProvider from '@/components/layout/ThemeProvider';
@@ -15,10 +15,16 @@ const CommandPalette = dynamic(() => import('@/components/ui/CommandPalette'));
 import Script from 'next/script';
 
 const inter = Inter({
-
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-inter',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-mono',
+  weight: ['400', '500', '600', '700'],
 });
 
 
@@ -89,7 +95,7 @@ export default function RootLayout({
   });
 
   return (
-    <html lang="en" className={inter.variable} data-scroll-behavior="smooth">
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`} data-scroll-behavior="smooth">
       <body>
         <script
           id="slug-map-init"

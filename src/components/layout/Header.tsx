@@ -12,8 +12,8 @@ function CalcLabzLogo() {
       {/* Beaker icon */}
       <defs>
         <linearGradient id="logo-grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#004C8F" />
-          <stop offset="100%" stopColor="#003D75" />
+          <stop offset="0%" stopColor="#2563EB" />
+          <stop offset="100%" stopColor="#1D4ED8" />
         </linearGradient>
       </defs>
       <rect x="1" y="1" width="30" height="30" rx="8" fill="url(#logo-grad)" />

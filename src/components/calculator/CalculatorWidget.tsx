@@ -333,35 +333,11 @@ export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWid
             <div ref={resultRef} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               {/* Main Result with animated value */}
               {result.main && (
-                <div className="res-card hi" style={{
-                  background: 'linear-gradient(135deg, var(--surface-glass, var(--glass)), rgba(0,76,143,0.08))',
-                  border: '1.5px solid var(--p)',
-                  padding: '28px',
-                  borderRadius: '20px',
-                  position: 'relative',
-                  overflow: 'hidden',
-                }}>
-                  {/* Decorative glow orbs */}
-                  <div style={{
-                    position: 'absolute', top: '-40px', right: '-40px',
-                    width: '120px', height: '120px',
-                    background: 'radial-gradient(circle, rgba(0,76,143,0.2), transparent)',
-                    borderRadius: '50%',
-                    pointerEvents: 'none',
-                    filter: 'blur(20px)',
-                  }} />
-                  <div style={{
-                    position: 'absolute', bottom: '-30px', left: '-30px',
-                    width: '80px', height: '80px',
-                    background: 'radial-gradient(circle, rgba(0,61,117,0.15), transparent)',
-                    borderRadius: '50%',
-                    pointerEvents: 'none',
-                    filter: 'blur(15px)',
-                  }} />
-                  <div className="res-lbl" style={{ color: 'var(--p)', fontWeight: 600, fontSize: '0.85rem', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '.06em' }}>
+                <div className="res-main-card">
+                  <div className="res-lbl">
                     {result.main.label}
                   </div>
-                  <div className="res-val" style={{ fontSize: '2.4rem', fontWeight: 800, color: 'var(--txt)', letterSpacing: '-0.02em' }}>
+                  <div className="res-val">
                     <AnimatedValue value={result.main.value} />
                   </div>
                 </div>

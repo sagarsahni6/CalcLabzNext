@@ -298,8 +298,8 @@ export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWid
                     }}
                   />
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem', color: 'var(--txt2)', marginTop: '4px' }}>
-                    <span>{inp.prefix}{range.min.toLocaleString()}{inp.suffix}</span>
-                    <span>{inp.prefix}{range.max.toLocaleString()}{inp.suffix}</span>
+                    <span>{inp.prefix}{range.min.toLocaleString('en-IN')}{inp.suffix}</span>
+                    <span>{inp.prefix}{range.max.toLocaleString('en-IN')}{inp.suffix}</span>
                   </div>
                 </div>
               )}

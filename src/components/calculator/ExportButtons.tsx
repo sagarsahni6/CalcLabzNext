@@ -40,12 +40,12 @@ function ExportButton({ iconName, label, onClick }: { iconName: string; label: s
         cursor: 'pointer', transition: 'all 0.2s var(--ease)',
       }}
       onMouseEnter={e => {
-        (e.target as HTMLElement).style.background = 'var(--bg3)';
-        (e.target as HTMLElement).style.borderColor = 'var(--p)';
+        (e.currentTarget as HTMLElement).style.background = 'var(--bg3)';
+        (e.currentTarget as HTMLElement).style.borderColor = 'var(--p)';
       }}
       onMouseLeave={e => {
-        (e.target as HTMLElement).style.background = 'var(--bg2)';
-        (e.target as HTMLElement).style.borderColor = 'var(--brd)';
+        (e.currentTarget as HTMLElement).style.background = 'var(--bg2)';
+        (e.currentTarget as HTMLElement).style.borderColor = 'var(--brd)';
       }}
     >
       <Icon name={iconName} style={{ fontSize: '0.9rem' }} />

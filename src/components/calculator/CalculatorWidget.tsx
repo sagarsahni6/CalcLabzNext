@@ -172,17 +172,13 @@ export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWid
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => {
       calculate();
-      // Auto-scroll to results if they exist
-      if (resultRef.current) {
-        resultRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }
     }, 300);
     return () => { if (debounceRef.current) clearTimeout(debounceRef.current); };
   }, [values, calculate]);
 
-  // Auto-focus first input on mount
+  // Auto-focus first input on mount (desktop only — prevents mobile keyboard popup)
   useEffect(() => {
-    if (inputs.length > 0) {
+    if (inputs.length > 0 && window.innerWidth > 768) {
       const firstInput = document.getElementById(`inp_${inputs[0].id}`);
       if (firstInput) firstInput.focus();
     }

@@ -8,6 +8,8 @@ import Sidebar from '@/components/layout/Sidebar';
 import Footer from '@/components/layout/Footer';
 import MobileNav from '@/components/layout/MobileNav';
 import ConsentBanner from '@/components/layout/ConsentBanner';
+import BackToTop from '@/components/ui/BackToTop';
+import LoadingBar from '@/components/ui/LoadingBar';
 import dynamic from 'next/dynamic';
 const CommandPalette = dynamic(() => import('@/components/ui/CommandPalette'));
 import Script from 'next/script';
@@ -123,6 +125,7 @@ export default function RootLayout({
 
           <div className="app-wrapper">
             <Header />
+            <LoadingBar />
             <div className="app-body">
               <Sidebar />
               <main id="mainContent">
@@ -132,6 +135,7 @@ export default function RootLayout({
             <Footer />
             <MobileNav />
           </div>
+          <BackToTop />
           <ConsentBanner />
           <CommandPalette />
         </ThemeProvider>

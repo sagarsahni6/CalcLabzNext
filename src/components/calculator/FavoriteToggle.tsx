@@ -95,7 +95,11 @@ export default function FavoriteToggle({ slug, name }: FavoriteToggleProps) {
         flexShrink: 0
       }}
     >
-      <Icon name={isFav ? 'fa-heart' : 'fa-heart'} style={{ fontWeight: isFav ? 900 : 400, color: isFav ? 'var(--rose)' : 'inherit' }} />
+      {isFav ? (
+        <Icon name="fa-heart" style={{ color: 'var(--rose)' }} />
+      ) : (
+        <Icon name="fa-heart" style={{ color: 'inherit', opacity: 0.45 }} />
+      )}
     </button>
   );
 }

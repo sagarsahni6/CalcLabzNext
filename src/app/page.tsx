@@ -132,8 +132,8 @@ export default function HomePage() {
           <div className="stat-icon stat-pink">
             <Icon name="fa-shield-halved" />
           </div>
-          <div className="stat-n">0</div>
-          <div className="stat-l">Signup Required</div>
+          <div className="stat-n">100%</div>
+          <div className="stat-l">Free Access</div>
         </div>
         <div className="stat">
           <div className="stat-icon stat-sky">

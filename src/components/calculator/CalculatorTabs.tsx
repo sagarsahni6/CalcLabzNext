@@ -47,10 +47,13 @@ export default function CalculatorTabs({ children, hasGuide }: CalculatorTabsPro
           return (
             <div
               key={tabId}
-              style={{
-                display: isVisible ? 'block' : 'none',
-              }}
+              style={
+                isVisible
+                  ? { display: 'block' }
+                  : { visibility: 'hidden', height: 0, overflow: 'hidden', position: 'absolute', pointerEvents: 'none' }
+              }
               className={isVisible ? 'pulse' : ''}
+              aria-hidden={!isVisible}
             >
               {child}
             </div>

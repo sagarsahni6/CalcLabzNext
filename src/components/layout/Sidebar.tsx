@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState, useCallback } from 'react';
 import { CATEGORY_META, CalculatorCategory } from '@/types/calculator';
+import { getCalcsByCategory } from '@/data/calculator-db';
 import Icon from '@/components/ui/Icon';
 
 export default function Sidebar() {
@@ -71,6 +72,7 @@ export default function Sidebar() {
                     <Icon name={cat.icon} />
                   </span>
                   <span className="cat-lbl">{cat.name}</span>
+                  <span className="cat-count">{getCalcsByCategory(key).length}</span>
                   <Icon name="fa-chevron-right" className="cat-arr" />
                 </Link>
               </div>

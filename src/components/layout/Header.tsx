@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { findCalcBySlug } from '@/data/calculator-db';
+import { CATEGORY_META, CalculatorCategory } from '@/types/calculator';
 import Icon from '@/components/ui/Icon';
 
 function CalcLabzLogo() {
@@ -38,6 +39,7 @@ function CalcLabzLogo() {
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
+  const [catOpen, setCatOpen] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -52,10 +54,20 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Close category dropdown when clicking outside
+  useEffect(() => {
+    if (!catOpen) return;
+    const handleClick = () => setCatOpen(false);
+    document.addEventListener('click', handleClick);
+    return () => document.removeEventListener('click', handleClick);
+  }, [catOpen]);
+
   const toggleSidebar = () => {
     document.getElementById('sidebar')?.classList.toggle('open');
     document.body.classList.toggle('sidebar-open');
   };
+
+  const categories = Object.entries(CATEGORY_META) as [CalculatorCategory, typeof CATEGORY_META[CalculatorCategory]][];
 
   return (
     <header className={`hdr${scrolled ? ' hdr-scrolled' : ''}`}>
@@ -83,6 +95,41 @@ export default function Header() {
           aria-label="Search calculators"
         />
       </div>
+
+      {/* Desktop navigation links */}
+      <nav className="hdr-nav">
+        <Link href="/" className="hdr-nav-link">
+          <Icon name="fa-house" /> Home
+        </Link>
+        <div className="hdr-nav-dropdown" onClick={(e) => { e.stopPropagation(); setCatOpen(!catOpen); }}>
+          <button className="hdr-nav-link" aria-expanded={catOpen} aria-haspopup="true">
+            <Icon name="fa-border-all" /> Categories <Icon name="fa-chevron-down" className={`hdr-nav-chevron${catOpen ? ' open' : ''}`} />
+          </button>
+          {catOpen && (
+            <div className="hdr-dropdown-menu">
+              {categories.map(([key, cat]) => (
+                <Link
+                  key={key}
+                  href={`/${key}-calculators`}
+                  className="hdr-dropdown-item"
+                  onClick={() => setCatOpen(false)}
+                >
+                  <span className="hdr-dropdown-ico" style={{ background: cat.color }}>
+                    <Icon name={cat.icon} />
+                  </span>
+                  {cat.name}
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+        <Link href="/dashboard" className="hdr-nav-link">
+          <Icon name="fa-chart-line" /> Dashboard
+        </Link>
+        <Link href="/blog" className="hdr-nav-link">
+          <Icon name="fa-newspaper" /> Guides
+        </Link>
+      </nav>
 
       <div className="hdr-actions">
         <button

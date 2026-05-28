@@ -7,11 +7,14 @@ import { getCalcFunction } from '@/lib/calc-registry-client';
 import { DB } from '@/data/calculator-db';
 import { getInterpretation } from '@/lib/interpretation-engine';
 import Icon from '@/components/ui/Icon';
+import CountUpValue from '@/components/ui/CountUpValue';
 import InterpretationBadge from '@/components/calculator/InterpretationBadge';
 import ExportButtons from '@/components/calculator/ExportButtons';
 import ComparisonMode from '@/components/calculator/ComparisonMode';
 import RelatedCalculators from '@/components/calculator/RelatedCalculators';
+import CalculatorErrorBoundary from '@/components/calculator/CalculatorErrorBoundary';
 import { addToHistory } from '@/lib/history';
+import { validateField } from '@/lib/validation';
 
 // Lazy-load Recharts chart component (only loads when chart data exists)
 const ResultChart = dynamic(() => import('@/components/calculator/ResultChart'), {
@@ -68,14 +71,7 @@ function getRangeParams(inp: CalculatorInput, label: string) {
   return null;
 }
 
-/* ── Animated number display ─────────────────── */
-function AnimatedValue({ value }: { value: string | number }) {
-  return (
-    <span className="animated-value" style={{ display: 'inline-block', transition: 'transform 0.3s cubic-bezier(.4,0,.2,1), opacity 0.3s', animation: 'countUp 0.4s ease-out' }}>
-      {value}
-    </span>
-  );
-}
+
 
 export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWidgetProps) {
   const [result, setResult] = useState<CalculatorResult | null>(null);
@@ -115,12 +111,18 @@ export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWid
 
     const newErrors: Record<string, string> = {};
     inputs.forEach((inp) => {
-      if (inp.type === 'select' || inp.type === 'text' || inp.type === 'date') return;
+      if (inp.type === 'select' || inp.type === 'text' || inp.type === 'date' || inp.type === 'time' || inp.type === 'datetime-local') return;
       const val = values[inp.id];
-      if (val === '' || val === undefined) {
-        newErrors[inp.id] = inp.label + ' is required';
-      } else if (typeof val === 'string' && isNaN(parseFloat(val))) {
-        newErrors[inp.id] = 'Enter a valid number';
+
+      // Use validation framework with input-level constraints
+      const error = validateField(inp.label, val, {
+        required: true,
+        min: inp.min,
+        max: inp.max,
+        type: 'non-negative',
+      });
+      if (error) {
+        newErrors[inp.id] = error;
       }
     });
 
@@ -206,6 +208,7 @@ export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWid
   }, [calcId, values, result]);
 
   return (
+    <CalculatorErrorBoundary calculatorName={DB[calcId]?.name || calcId}>
     <div>
       {/* ── Inputs ── */}
       <div className="inp-grid">
@@ -338,7 +341,7 @@ export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWid
                     {result.main.label}
                   </div>
                   <div className="res-val">
-                    <AnimatedValue value={result.main.value} />
+                    <CountUpValue value={result.main.value} />
                   </div>
                 </div>
               )}
@@ -351,45 +354,52 @@ export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWid
               {/* Secondary Results Grid */}
               {result.secondary && result.secondary.length > 0 && (
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px' }}>
-                  {result.secondary.map((r, i) => (
-                    <div
-                      className="res-card"
-                      key={i}
-                      role="button"
-                      tabIndex={0}
-                      title="Click to copy"
-                      onClick={() => {
-                        navigator.clipboard.writeText(`${r.label}: ${r.value}`).then(() => {
-                          // Show brief "Copied!" feedback
-                          const el = document.getElementById(`res-card-${i}`);
-                          if (el) { el.textContent = 'Copied!'; setTimeout(() => { el.textContent = ''; }, 1200); }
-                        }).catch(() => {});
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault();
-                          navigator.clipboard.writeText(`${r.label}: ${r.value}`).catch(() => {});
-                        }
-                      }}
-                      style={{
-                        background: 'var(--bg2)',
-                        padding: '16px',
-                        borderRadius: '12px',
-                        border: '1px solid var(--brd)',
-                        animation: `slideUp 0.3s ease-out ${i * 50}ms both`,
-                      }}
-                    >
-                      <div className="res-lbl" style={{ fontSize: '0.78rem', color: 'var(--txt2)', marginBottom: '6px', lineHeight: 1.3 }}>{r.label}</div>
-                      <div className={`res-val sm${r.pos ? ' pos' : ''}${r.neg ? ' neg' : ''}`} style={{
-                        fontSize: '1.2rem',
-                        fontWeight: 700,
-                        color: r.pos ? 'var(--emerald)' : r.neg ? '#ef4444' : 'var(--fg)',
-                      }}>
-                        {r.value}
+                  {result.secondary.map((r, i) => {
+                    const cardClass = `res-card${
+                      r.label.toLowerCase().includes('principal') || r.label.toLowerCase().includes('invested') || r.label.toLowerCase().includes('wealth') ? ' principal-card' :
+                      r.label.toLowerCase().includes('interest') || r.label.toLowerCase().includes('gain') || r.label.toLowerCase().includes('return') ? ' interest-card' :
+                      r.label.toLowerCase().includes('tax') || r.label.toLowerCase().includes('charge') || r.label.toLowerCase().includes('cost') || r.label.toLowerCase().includes('fee') ? ' cost-card' : ''
+                    }`;
+                    return (
+                      <div
+                        className={cardClass}
+                        key={i}
+                        role="button"
+                        tabIndex={0}
+                        title="Click to copy"
+                        onClick={() => {
+                          navigator.clipboard.writeText(`${r.label}: ${r.value}`).then(() => {
+                            // Show brief "Copied!" feedback
+                            const el = document.getElementById(`res-card-${i}`);
+                            if (el) { el.textContent = 'Copied!'; setTimeout(() => { el.textContent = ''; }, 1200); }
+                          }).catch(() => {});
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            navigator.clipboard.writeText(`${r.label}: ${r.value}`).catch(() => {});
+                          }
+                        }}
+                        style={{
+                          background: 'var(--bg2)',
+                          padding: '16px',
+                          borderRadius: '12px',
+                          border: '1px solid var(--brd)',
+                          animation: `slideUp 0.3s ease-out ${i * 50}ms both`,
+                        }}
+                      >
+                        <div className="res-lbl" style={{ fontSize: '0.78rem', color: 'var(--txt2)', marginBottom: '6px', lineHeight: 1.3 }}>{r.label}</div>
+                        <div className={`res-val sm${r.pos ? ' pos' : ''}${r.neg ? ' neg' : ''}`} style={{
+                          fontSize: '1.2rem',
+                          fontWeight: 700,
+                          color: r.pos ? 'var(--emerald)' : r.neg ? '#ef4444' : 'var(--fg)',
+                        }}>
+                          {r.value}
+                        </div>
+                        <span id={`res-card-${i}`} style={{ fontSize: '0.65rem', color: 'var(--p)', fontWeight: 600, minHeight: '14px', display: 'block', marginTop: '2px' }}></span>
                       </div>
-                      <span id={`res-card-${i}`} style={{ fontSize: '0.65rem', color: 'var(--p)', fontWeight: 600, minHeight: '14px', display: 'block', marginTop: '2px' }}></span>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </div>
@@ -439,5 +449,6 @@ export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWid
         }
       `}</style>
     </div>
+    </CalculatorErrorBoundary>
   );
 }

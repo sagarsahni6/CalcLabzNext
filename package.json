@@ -8,6 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "test": "node tests/formatINR.test.js && npx playwright test",
+    "test:unit": "vitest run",
+    "test:unit:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "test:headed": "node tests/formatINR.test.js && npx playwright test --headed"
   },
   "dependencies": {
@@ -22,8 +25,10 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^6.0.2",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.7"
   }
 }

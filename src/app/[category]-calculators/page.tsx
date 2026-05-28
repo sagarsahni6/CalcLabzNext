@@ -5,6 +5,7 @@ import { DB, getCalcsByCategory, getSlugForId } from '@/data/calculator-db';
 import { CATEGORY_META, CalculatorCategory } from '@/types/calculator';
 import Link from 'next/link';
 import Icon from '@/components/ui/Icon';
+import CategoryCalculatorList from '@/components/calculator/CategoryCalculatorList';
 
 export function generateStaticParams() {
   return Object.keys(CATEGORY_META).map((cat) => ({
@@ -131,27 +132,16 @@ export default async function CategoryPage({
         </div>
       </div>
 
-      {/* Calculators Grid */}
-      <div className="feat-grid" style={{ marginTop: '24px' }}>
-        {calcs.map((id) => {
-          const calc = DB[id];
-          return (
-            <Link
-              key={id}
-              href={`/${getSlugForId(id)}`}
-              className="feat-card"
-              aria-label={`Open ${calc.name}`}
-            >
-              <div className="fc-ico" style={{ background: catMeta.color }}>
-                <Icon name={calc.icon} />
-              </div>
-              <div className="fc-name">{calc.name}</div>
-              <div className="fc-desc">{calc.desc}</div>
-              {calc.badge && <span className="badge">{calc.badge}</span>}
-            </Link>
-          );
-        })}
-      </div>
+      {/* Calculators Grid & Interactive List */}
+      <CategoryCalculatorList
+        initialCalcs={calcs.map((id) => ({
+          id,
+          calc: DB[id],
+          slug: getSlugForId(id)
+        }))}
+        categoryKey={catKey}
+        categoryColor={catMeta.color}
+      />
     </div>
   );
 }

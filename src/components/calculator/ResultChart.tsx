@@ -8,22 +8,22 @@ import {
 } from 'recharts';
 import { ChartData } from '@/types/calculator';
 
-/* ── Color Palette (HDFC Navy-Blue) ───────────────── */
+/* ── Color Palette (Calc Labz Premium Theme Colors) ─ */
 const CHART_COLORS = [
-  '#004C8F', // Primary HDFC Navy
-  '#FF6B6B', // Contrast Coral/Rose
-  '#f59e0b', // Accent Amber/Gold
-  '#2E7BBF', // Secondary Medium Blue
-  '#003D75', // Deep Navy
-  '#94a3b8', // Cool Slate
-  '#003366', // Midnight Blue
-  '#393E46', // Charcoal
+  '#3B82F6', // Electric Blue (Primary)
+  '#10B981', // Emerald Green (Asset/Gain)
+  '#F59E0B', // Amber (Warning/Cost)
+  '#6366F1', // Indigo (Accent)
+  '#8B5CF6', // Purple
+  '#EC4899', // Pink
+  '#FB7185', // Soft Rose
+  '#94A3B8', // Cool Slate
 ];
 
 const AREA_GRADIENTS = [
-  { id: 'grad0', start: '#004C8F', end: 'rgba(0,76,143,0.05)' },
-  { id: 'grad1', start: '#2E7BBF', end: 'rgba(46,123,191,0.05)' },
-  { id: 'grad2', start: '#FF6B6B', end: 'rgba(255,107,107,0.05)' },
+  { id: 'grad0', start: '#3B82F6', end: 'rgba(59,130,246,0.02)' },
+  { id: 'grad1', start: '#10B981', end: 'rgba(16,185,129,0.02)' },
+  { id: 'grad2', start: '#F59E0B', end: 'rgba(245,158,11,0.02)' },
 ];
 
 /* ── Currency formatter for tooltips ───────────────── */

@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { findCalcBySlug } from '@/data/calculator-db';
 import { CATEGORY_META, CalculatorCategory } from '@/types/calculator';
 import Icon from '@/components/ui/Icon';
+import { useTheme } from '@/components/layout/ThemeProvider';
 
 function CalcLabzLogo() {
   return (
@@ -40,6 +41,7 @@ function CalcLabzLogo() {
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [catOpen, setCatOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -132,6 +134,14 @@ export default function Header() {
       </nav>
 
       <div className="hdr-actions">
+        <button
+          className="theme-toggle"
+          onClick={toggleTheme}
+          title={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+          aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+        >
+          <Icon name={theme === 'light' ? 'fa-moon' : 'fa-sun'} />
+        </button>
         <button
           className="hdr-search-trigger-mobile"
           onClick={() => typeof window !== 'undefined' && window.dispatchEvent(new CustomEvent('open-cmd-palette'))}

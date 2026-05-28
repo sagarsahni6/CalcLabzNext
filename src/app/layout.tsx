@@ -95,8 +95,24 @@ export default function RootLayout({
   });
 
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`} data-scroll-behavior="smooth">
-      <body>
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
+      <head>
+        <Script
+          id="theme-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var t = localStorage.getItem('cp_theme');
+                  if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                  document.documentElement.setAttribute('data-theme', t);
+                  if (document.body) document.body.classList.add(t);
+                } catch(e) {}
+              })();
+            `
+          }}
+        />
         <Script
           id="slug-map-init"
           strategy="beforeInteractive"
@@ -128,6 +144,8 @@ export default function RootLayout({
             `
           }}
         />
+      </head>
+      <body suppressHydrationWarning>
         <ThemeProvider>
 
           <div className="app-wrapper">

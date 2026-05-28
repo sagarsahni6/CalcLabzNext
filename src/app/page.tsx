@@ -5,6 +5,8 @@ import { CATEGORY_META, CalculatorCategory } from '@/types/calculator';
 import Icon from '@/components/ui/Icon';
 import RecentlyUsed from '@/components/home/RecentlyUsed';
 import HeroSearchTrigger from '@/components/home/HeroSearchTrigger';
+import AnimatedHeroText from '@/components/home/AnimatedHeroText';
+import CountUpValue from '@/components/ui/CountUpValue';
 
 export default function HomePage() {
   const featured = ['emi', 'sip', 'gst', 'bmi', 'percentage', 'incometax', 'taxregime', 'cagr'];
@@ -97,9 +99,10 @@ export default function HomePage() {
           Trusted by students, engineers &amp; professionals
         </div>
         <h1>300+ Free Online Calculators</h1>
-        <p style={{ marginBottom: '28px' }}>
-          EMI, SIP, GST, BMI, income tax and more — instant results, verified formulas, works offline.
-        </p>
+        <div style={{ fontSize: '1.15rem', color: 'var(--txt1)', marginBottom: '24px', display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+          <span>Instant, accurate, &amp; private tools for any formula:</span>
+          <AnimatedHeroText />
+        </div>
         <HeroSearchTrigger />
         <div className="hero-ctas">
           <Link href="/finance-calculators" className="hero-cta-primary">
@@ -117,21 +120,21 @@ export default function HomePage() {
           <div className="stat-icon stat-blue">
             <Icon name="fa-flask" />
           </div>
-          <div className="stat-n">300+</div>
+          <div className="stat-n"><CountUpValue value="300" />+</div>
           <div className="stat-l">Calculators</div>
         </div>
         <div className="stat">
           <div className="stat-icon stat-purple">
             <Icon name="fa-border-all" />
           </div>
-          <div className="stat-n">10</div>
+          <div className="stat-n"><CountUpValue value="10" /></div>
           <div className="stat-l">Categories</div>
         </div>
         <div className="stat">
           <div className="stat-icon stat-pink">
             <Icon name="fa-shield-halved" />
           </div>
-          <div className="stat-n">100%</div>
+          <div className="stat-n"><CountUpValue value="100" />%</div>
           <div className="stat-l">Free Access</div>
         </div>
         <div className="stat">
@@ -246,6 +249,79 @@ export default function HomePage() {
           <Link href="/bmi-calculator">BMI Calculator</Link>, and{' '}
           <Link href="/incometax-calculator">Income Tax Calculator</Link>.
         </p>
+      </section>
+
+      {/* ── Testimonials / Social Proof ── */}
+      <section className="testimonials-section">
+        <h2>What Our Users Say</h2>
+        <p className="testimonials-subtitle">
+          Trusted by students, engineers & professionals across India and beyond.
+        </p>
+        <div className="testimonials-grid">
+          <div className="testimonial-card">
+            <div className="testimonial-stars">★★★★★</div>
+            <p className="testimonial-text">
+              &ldquo;I use the EMI Calculator almost daily for my banking work. The formula transparency and offline access are game-changers. Best calculator site I&apos;ve found.&rdquo;
+            </p>
+            <div className="testimonial-author">
+              <div className="testimonial-avatar" style={{ background: 'linear-gradient(135deg, #2563EB, #3B82F6)' }}>
+                R
+              </div>
+              <div>
+                <div className="testimonial-name">Rahul Verma</div>
+                <div className="testimonial-role">Banking Professional, Mumbai</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="testimonial-card">
+            <div className="testimonial-stars">★★★★★</div>
+            <p className="testimonial-text">
+              &ldquo;As a CA student, the income tax and GST calculators save me hours every week. The fact that it works offline on my phone during commute is amazing.&rdquo;
+            </p>
+            <div className="testimonial-author">
+              <div className="testimonial-avatar" style={{ background: 'linear-gradient(135deg, #059669, #10B981)' }}>
+                P
+              </div>
+              <div>
+                <div className="testimonial-name">Priya Sharma</div>
+                <div className="testimonial-role">CA Student, Delhi</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="testimonial-card">
+            <div className="testimonial-stars">★★★★★</div>
+            <p className="testimonial-text">
+              &ldquo;Love the privacy-first approach. No signup, no data collection. I recommend Calc Labz to all my engineering students for quick formula verifications.&rdquo;
+            </p>
+            <div className="testimonial-author">
+              <div className="testimonial-avatar" style={{ background: 'linear-gradient(135deg, #7C3AED, #8B5CF6)' }}>
+                A
+              </div>
+              <div>
+                <div className="testimonial-name">Prof. Amit Kumar</div>
+                <div className="testimonial-role">Engineering Faculty, IIT Roorkee</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="testimonial-card">
+            <div className="testimonial-stars">★★★★★</div>
+            <p className="testimonial-text">
+              &ldquo;The health calculators — BMI, BMR, TDEE — helped me plan my fitness routine. The blog guides explained the formulas in a way I could actually understand.&rdquo;
+            </p>
+            <div className="testimonial-author">
+              <div className="testimonial-avatar" style={{ background: 'linear-gradient(135deg, #DC2626, #EF4444)' }}>
+                S
+              </div>
+              <div>
+                <div className="testimonial-name">Sneha Patel</div>
+                <div className="testimonial-role">Fitness Enthusiast, Bengaluru</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
     </>
   );

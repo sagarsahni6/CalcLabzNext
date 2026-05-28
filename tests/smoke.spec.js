@@ -60,8 +60,8 @@ test('Dashboard shows stats and history', async ({ page }) => {
   // Click Dashboard in sidebar
   await page.click('#qDash');
   
-  // Dashboard header should appear
-  await expect(page.locator('h1')).toContainText('Dashboard', { timeout: 5000 });
+  // Dashboard header should appear (Phase 2 changed to time-of-day greeting)
+  await expect(page.locator('h1')).toContainText(/Good (morning|afternoon|evening)/, { timeout: 5000 });
   
   // Stats should be visible
   await expect(page.locator('.stat').first()).toBeVisible();

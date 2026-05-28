@@ -58,6 +58,11 @@ self.addEventListener('fetch', e => {
     const url = new URL(e.request.url);
     if (url.origin !== self.location.origin) return;
 
+    // Bypass Next.js internal chunks, hot module updates, and localhost development
+    if (url.pathname.startsWith('/_next/') || url.pathname.includes('hot-update') || self.location.hostname === 'localhost' || self.location.hostname === '127.0.0.1') {
+        return;
+    }
+
     // HTML navigation requests: Network-first
     // Ensures users always get fresh HTML after deploys
     const isNavigation = e.request.mode === 'navigate';

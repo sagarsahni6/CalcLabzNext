@@ -1,12 +1,12 @@
 'use client';
 
 import { useSyncExternalStore } from 'react';
-import { getHistory, subscribe, formatTimeAgo } from '@/lib/history';
+import { getHistory, subscribe, formatTimeAgo, HistoryEntry } from '@/lib/history';
 import { getSlugForId } from '@/data/calculator-db';
 import Link from 'next/link';
 import Icon from '@/components/ui/Icon';
 
-const EMPTY_ARRAY: any[] = [];
+const EMPTY_ARRAY: HistoryEntry[] = [];
 const getServerSnapshot = () => EMPTY_ARRAY;
 
 export default function RecentlyUsed() {

@@ -2,14 +2,15 @@
 
 import { useEffect, useState } from 'react';
 
+const phrases = [
+  'EMI Calculator',
+  'SIP Planner',
+  'GST Helper',
+  'BMI Tracker',
+  'Tax Assistant',
+];
+
 export default function AnimatedHeroText() {
-  const phrases = [
-    'EMI Calculator',
-    'SIP Planner',
-    'GST Helper',
-    'BMI Tracker',
-    'Tax Assistant'
-  ];
   
   const [currentPhraseIdx, setCurrentPhraseIdx] = useState(0);
   const [displayText, setDisplayText] = useState('');

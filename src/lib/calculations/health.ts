@@ -227,7 +227,7 @@ export const calcIdealWeight: CalcFunction = (v) => {
   const robinson = gender === "Male" ? 52 + 1.9 * hIn : 49 + 1.7 * hIn;
   const bmi22 = (22 * (height / 100) ** 2);
   return {
-    main: { label: "Devine Formula", value: hamwi.toFixed(1) + " kg" },
+    main: { label: "Hamwi Formula", value: hamwi.toFixed(1) + " kg" },
     secondary: [
       { label: "Miller Formula", value: miller.toFixed(1) + " kg" },
       { label: "Robinson Formula", value: robinson.toFixed(1) + " kg" },
@@ -466,7 +466,7 @@ export const calcSmokingCost: CalcFunction = (v) => {
   const monthlyCost = dailyCost * 30;
   const yearlyCost = dailyCost * 365;
   const totalSpent = yearlyCost * yearsSmoked;
-  const investedAt12 = totalSpent * Math.pow(1.12, yearsSmoked);
+  const investedAt12 = yearsSmoked === 0 ? 0 : yearlyCost * ((Math.pow(1.12, yearsSmoked) - 1) / 0.12);
   return {
     main: { label: "Annual Smoking Cost", value: "₹" + Math.round(yearlyCost).toLocaleString() },
     secondary: [
@@ -489,7 +489,7 @@ export const calcChildHeight: CalcFunction = (v) => {
   return {
     main: {
       label: "Predicted Adult Height",
-      value: predicted.toFixed(1) + " cm (" + Math.floor(predicted / 2.54 / 12) + "'" + Math.round((predicted / 2.54) % 12) + '"'
+      value: predicted.toFixed(1) + " cm (" + Math.floor(predicted / 2.54 / 12) + "'" + Math.round((predicted / 2.54) % 12) + '\")'
     },
     secondary: [
       { label: "Height Range (±8.5cm)", value: low.toFixed(1) + " – " + high.toFixed(1) + " cm" },

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import Icon from '@/components/ui/Icon';
 import { CalculatorDefinition } from '@/types/calculator';
@@ -35,7 +35,7 @@ export default function CategoryCalculatorList({
   }, [categoryKey]);
 
   // Helper to determine if a calculator fits a subcategory
-  const matchesSubcat = (name: string, desc: string, subcat: string) => {
+  const matchesSubcat = useCallback((name: string, desc: string, subcat: string) => {
     if (subcat === 'All') return true;
     const text = (name + ' ' + desc).toLowerCase();
 
@@ -79,11 +79,11 @@ export default function CategoryCalculatorList({
     }
 
     return true;
-  };
+  }, [categoryKey]);
 
   // Filter and sort calculators
   const processedCalcs = useMemo(() => {
-    let result = initialCalcs.filter(({ calc }) => {
+    const result = initialCalcs.filter(({ calc }) => {
       const matchesSearch =
         calc.name.toLowerCase().includes(search.toLowerCase()) ||
         calc.desc.toLowerCase().includes(search.toLowerCase());
@@ -100,7 +100,7 @@ export default function CategoryCalculatorList({
     }
 
     return result;
-  }, [initialCalcs, search, selectedSubcat, sortBy]);
+  }, [initialCalcs, search, selectedSubcat, sortBy, matchesSubcat]);
 
   return (
     <div style={{ marginTop: '24px' }}>
@@ -144,7 +144,7 @@ export default function CategoryCalculatorList({
           <select
             id="sort-select"
             value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as any)}
+            onChange={(e) => setSortBy(e.target.value as 'default' | 'az' | 'za')}
             style={{
               padding: '10px 14px',
               borderRadius: 'var(--r-sm)',

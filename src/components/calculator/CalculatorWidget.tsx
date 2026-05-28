@@ -75,6 +75,7 @@ function getRangeParams(inp: CalculatorInput, label: string) {
 
 export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWidgetProps) {
   const [result, setResult] = useState<CalculatorResult | null>(null);
+  const [calcError, setCalcError] = useState<string | null>(null);
   const [values, setValues] = useState<Record<string, number | string>>(() => {
     const initial: Record<string, number | string> = {};
     inputs.forEach((inp) => {
@@ -90,6 +91,7 @@ export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWid
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const resultRef = useRef<HTMLDivElement | null>(null);
+  const widgetRef = useRef<HTMLDivElement | null>(null);
 
   const handleChange = useCallback((id: string, value: string, type?: string) => {
     if (type === 'select' || type === 'text' || type === 'date') {
@@ -98,6 +100,7 @@ export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWid
       const num = parseFloat(value);
       setValues((prev) => ({ ...prev, [id]: isNaN(num) ? value : num }));
     }
+    setCalcError(null);
     setErrors((prev) => {
       const next = { ...prev };
       delete next[id];
@@ -132,6 +135,7 @@ export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWid
     }
 
     try {
+      setCalcError(null);
       const res = calcFn(values);
       setResult(res);
 
@@ -149,6 +153,8 @@ export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWid
       }
     } catch (e) {
       console.error('Calculation error:', e);
+      setCalcError('Calculation error — please check your inputs.');
+      setResult(null);
     }
   }, [calcId, inputs, values]);
 
@@ -165,6 +171,7 @@ export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWid
     });
     setValues(initial);
     setResult(null);
+    setCalcError(null);
     setErrors({});
   }, [inputs]);
 
@@ -189,6 +196,9 @@ export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWid
   // Keyboard shortcuts: Enter = calculate, Escape = reset
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (!widgetRef.current || !widgetRef.current.contains(document.activeElement)) {
+        return;
+      }
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
         calculate();
@@ -209,7 +219,26 @@ export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWid
 
   return (
     <CalculatorErrorBoundary calculatorName={DB[calcId]?.name || calcId}>
-    <div>
+    <div ref={widgetRef}>
+      {calcError && (
+        <div style={{
+          padding: '16px',
+          background: 'rgba(239, 68, 68, 0.1)',
+          border: '1px solid #ef4444',
+          borderRadius: '12px',
+          color: '#ef4444',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+          marginTop: '20px',
+          marginBottom: '20px',
+          fontSize: '0.9rem',
+          fontWeight: 500,
+        }}>
+          <Icon name="fa-exclamation-triangle" style={{ fontSize: '1.1rem' }} />
+          <span>{calcError}</span>
+        </div>
+      )}
       {/* ── Inputs ── */}
       <div className="inp-grid">
         {inputs.map((inp, inputIdx) => {

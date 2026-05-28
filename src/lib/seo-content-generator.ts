@@ -58,7 +58,6 @@ export function generateSEOContent(
   category: CalculatorCategory,
   inputLabels: string[]
 ): SEOContent {
-  const inputList = inputLabels.join(', ');
   const catName = getCategoryName(category);
 
   return {

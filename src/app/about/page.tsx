@@ -29,12 +29,12 @@ export default function AboutPage() {
         name: 'Sagar Sahni',
         url: 'https://calclabz.com/author/sagar-sahni',
         jobTitle: 'Founder & Editor',
-        email: 'sagarsahni69@gmail.com',
+        email: 'support@calclabz.com',
         sameAs: ['https://github.com/sagarsahni6'],
       },
       contactPoint: {
         '@type': 'ContactPoint',
-        email: 'sagarsahni69@gmail.com',
+        email: 'support@calclabz.com',
         contactType: 'customer support',
       },
       address: {

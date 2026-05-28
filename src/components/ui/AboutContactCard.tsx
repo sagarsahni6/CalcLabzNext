@@ -8,7 +8,7 @@ export default function AboutContactCard() {
   const [copied, setCopied] = useState(false);
 
   const copyEmail = () => {
-    navigator.clipboard.writeText('sagarsahni69@gmail.com').then(() => {
+    navigator.clipboard.writeText('support@calclabz.com').then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
@@ -21,8 +21,8 @@ export default function AboutContactCard() {
           <Icon name="fa-envelope" />
         </span>
         <span>
-          <a href="mailto:sagarsahni69@gmail.com" style={{ color: 'var(--p)', fontWeight: 600 }}>
-            sagarsahni69@gmail.com
+          <a href="mailto:support@calclabz.com" style={{ color: 'var(--p)', fontWeight: 600 }}>
+            support@calclabz.com
           </a>
         </span>
         <button

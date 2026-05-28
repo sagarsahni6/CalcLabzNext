@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import { DB, findCalcBySlug, getAllCalculatorSlugs, getRegistryEntry, getSlugForId, getCalcsByCategory } from '@/data/calculator-db';
 import { CATEGORY_META, CalculatorCategory } from '@/types/calculator';
+import { BLOG_POSTS } from '@/data/blog-db';
 import CalculatorWidget from '@/components/calculator/CalculatorWidget';
 import FavoriteToggle from '@/components/calculator/FavoriteToggle';
 import CalculatorTabs from '@/components/calculator/CalculatorTabs';
@@ -430,6 +431,67 @@ export default async function CalculatorPage({
   const howToSteps = generateHowToSteps(calc.name, calc.inputs);
   const crossLinks = getCrossCategoryLinks(calcId);
 
+  // Category → gradient + icon mapping for thumbnails
+  const BLOG_CAT_THEME: Record<string, { gradient: string; icon: string }> = {
+    finance:   { gradient: 'linear-gradient(135deg, #1E3A5F, #2563EB)', icon: 'fa-landmark' },
+    tax:       { gradient: 'linear-gradient(135deg, #1E3A5F, #3B82F6)', icon: 'fa-file-invoice-dollar' },
+    health:    { gradient: 'linear-gradient(135deg, #7F1D1D, #DC2626)', icon: 'fa-heartbeat' },
+    education: { gradient: 'linear-gradient(135deg, #1E3A5F, #60A5FA)', icon: 'fa-graduation-cap' },
+    lifestyle: { gradient: 'linear-gradient(135deg, #713F12, #D97706)', icon: 'fa-lightbulb' },
+    everyday:  { gradient: 'linear-gradient(135deg, #78350F, #F59E0B)', icon: 'fa-calculator' },
+    math:      { gradient: 'linear-gradient(135deg, #312E81, #6366F1)', icon: 'fa-square-root-variable' },
+    science:   { gradient: 'linear-gradient(135deg, #4C1D95, #7C3AED)', icon: 'fa-flask' },
+    engineering: { gradient: 'linear-gradient(135deg, #334155, #64748B)', icon: 'fa-gear' },
+  };
+
+  const getCatTheme = (cat: string) => {
+    const key = cat.toLowerCase();
+    return BLOG_CAT_THEME[key] || { gradient: 'linear-gradient(135deg, #1E293B, #475569)', icon: 'fa-book' };
+  };
+
+  // Find recommended blogs for this calculator
+  const recommendedBlogs = (() => {
+    // 1. First get any blogs directly linked to this calculator
+    const directBlogs = BLOG_POSTS.filter((post) => post.calc === calcId);
+    
+    // 2. Next get blogs from the same category
+    const catMapping: Record<string, string[]> = {
+      finance: ['Finance', 'Tax'],
+      health: ['Health'],
+      everyday: ['Everyday', 'Lifestyle'],
+      education: ['Education'],
+      math: ['Math', 'Everyday'],
+      science: ['Science', 'Everyday'],
+      engineering: ['Engineering', 'Everyday'],
+      construction: ['Everyday', 'Finance'],
+      datetime: ['Everyday'],
+      unit: ['Everyday'],
+    };
+
+    const targetCats = catMapping[calc.cat] || ['Everyday'];
+    const categoryBlogs = BLOG_POSTS.filter(
+      (post) => post.calc !== calcId && targetCats.some(tc => post.cat.toLowerCase() === tc.toLowerCase())
+    );
+
+    // 3. Fallback blogs if we don't have enough
+    const fallbacks = BLOG_POSTS.filter(
+      (post) => post.calc !== calcId && !targetCats.some(tc => post.cat.toLowerCase() === tc.toLowerCase())
+    );
+
+    // Combine them in order: direct first, then category, then fallbacks
+    const combined = [...directBlogs, ...categoryBlogs, ...fallbacks];
+    
+    // Remove duplicates and limit to 3 posts
+    const seen = new Set<string>();
+    const unique = combined.filter((post) => {
+      if (seen.has(post.id)) return false;
+      seen.add(post.id);
+      return true;
+    });
+
+    return unique.slice(0, 3);
+  })();
+
   // JSON-LD structured data — WebApplication (better than SoftwareApplication for interactive tools)
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -677,6 +739,65 @@ export default async function CalculatorPage({
             </div>
           </div>
         </div>
+
+        {/* Recommended Guides & Articles */}
+        {recommendedBlogs.length > 0 && (
+          <div className="related-wrap" style={{ marginBottom: '32px' }}>
+            <h3>
+              <Icon name="fa-book-open" />
+              Recommended Guides &amp; Articles
+            </h3>
+            <div className="blog-grid">
+              {recommendedBlogs.map((post) => {
+                const theme = getCatTheme(post.cat);
+                return (
+                  <Link
+                    key={post.id}
+                    href={`/blog/${post.slug}`}
+                    className="blog-card"
+                    style={{ display: 'flex', flexDirection: 'column' }}
+                    aria-label={`Read guide: ${post.title}`}
+                  >
+                    {/* Thumbnail */}
+                    <div
+                      className="blog-card-thumbnail"
+                      style={{ background: theme.gradient, height: '140px' }}
+                    >
+                      <div className="blog-card-thumbnail-pattern" />
+                      <span className="blog-card-thumbnail-icon">
+                        <Icon name={theme.icon} />
+                      </span>
+                    </div>
+
+                    {/* Body */}
+                    <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                      <div className="blog-card-meta">
+                        <span className="blog-card-cat">{post.cat}</span>
+                        <span>{post.date}</span>
+                      </div>
+                      <h4 className="blog-card-title" style={{ fontSize: '1.1rem', marginTop: '8px', marginBottom: '8px', lineHeight: '1.4' }}>
+                        {post.title}
+                      </h4>
+                      <p className="blog-card-desc" style={{ fontSize: '0.85rem', color: 'var(--txt2)', margin: '0 0 16px 0' }}>
+                        {post.desc}
+                      </p>
+                      <div className="blog-card-footer" style={{ marginTop: 'auto', paddingTop: '12px' }}>
+                        <span style={{ fontSize: '0.78rem', color: 'var(--txt1)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <Icon name="fa-clock" style={{ width: '14px', height: '14px' }} />
+                          {post.readTime} read
+                        </span>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          Read Guide
+                          <Icon name="fa-chevron-right" style={{ width: '12px', height: '12px' }} />
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* Related Calculators — Same Category */}
         {relatedCalcs.length > 0 && (

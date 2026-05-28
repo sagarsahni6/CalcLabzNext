@@ -152,7 +152,8 @@ import {
   Image,
   Tag,
   Square,
-  GlassWater
+  GlassWater,
+  AtSign
 } from 'lucide-react';
 
 const iconMap: Record<string, React.ComponentType<{ className?: string; style?: React.CSSProperties }>> = {
@@ -201,6 +202,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string; style?: 
   'fa-seedling': Sprout,
   'fa-file-invoice': FileText,
   'fa-file-invoice-dollar': FileCheck,
+  'fa-file-lines': FileText,
   'fa-coins': Coins,
   'fa-arrow-trend-up': TrendingUp,
   'fa-piggy-bank': PiggyBank,
@@ -401,6 +403,8 @@ const iconMap: Record<string, React.ComponentType<{ className?: string; style?: 
   'fa-book': Book,
   'fa-hand-holding-heart': Heart,
   'fa-tags': Tags,
+  'fa-user': User,
+  'fa-at': AtSign,
 };
 
 interface IconProps {

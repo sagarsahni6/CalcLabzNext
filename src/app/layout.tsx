@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, JetBrains_Mono } from 'next/font/google';
+import { Inter, JetBrains_Mono, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { DB, findCalcBySlug } from '@/data/calculator-db';
 import ThemeProvider from '@/components/layout/ThemeProvider';
@@ -18,6 +18,13 @@ const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-inter',
+});
+
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-heading',
+  weight: ['500', '600', '700', '800'],
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -95,7 +102,7 @@ export default function RootLayout({
   });
 
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} ${plusJakarta.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <Script
           id="theme-init"

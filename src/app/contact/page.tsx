@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Script from 'next/script';
 import Icon from '@/components/ui/Icon';
+import FeedbackForm from '@/components/ui/FeedbackForm';
 
 export const metadata: Metadata = {
   title: 'Contact Us — Calc Labz Support & Feedback',
@@ -22,10 +23,10 @@ export default function ContactPage() {
       '@type': 'Organization',
       name: 'Calc Labz',
       url: 'https://calclabz.com',
-      email: 'sagarsahni69@gmail.com',
+      email: 'support@calclabz.com',
       contactPoint: {
         '@type': 'ContactPoint',
-        email: 'sagarsahni69@gmail.com',
+        email: 'support@calclabz.com',
         contactType: 'customer support',
         availableLanguage: ['English', 'Hindi'],
         areaServed: 'IN',
@@ -84,10 +85,10 @@ export default function ContactPage() {
                 <Icon name="fa-envelope" style={{ color: 'var(--p2)', marginRight: '10px' }} /> Email Us
               </h2>
               <p style={{ color: 'var(--txt1)', fontSize: '0.9rem', lineHeight: 1.6 }}>
-                For general support, feedback, bug reports, and business opportunities, please email Sagar Sahni directly at:
+                For general support, feedback, bug reports, and business opportunities, please email us directly at:
               </p>
-              <a href="mailto:sagarsahni69@gmail.com" style={{ display: 'inline-block', color: 'var(--p2)', fontWeight: 600, fontSize: '1.05rem', marginTop: '6px', textDecoration: 'underline' }}>
-                sagarsahni69@gmail.com
+              <a href="mailto:support@calclabz.com" style={{ display: 'inline-block', color: 'var(--p2)', fontWeight: 600, fontSize: '1.05rem', marginTop: '6px', textDecoration: 'underline' }}>
+                support@calclabz.com
               </a>
             </div>
 
@@ -110,37 +111,8 @@ export default function ContactPage() {
             </div>
           </section>
 
-          {/* Contact form (beautiful static layout that fallbacks to mailto link) */}
-          <section style={{ background: 'var(--bg2)', padding: '24px', borderRadius: 'var(--r-md)', border: '1px solid var(--brd)' }}>
-            <h2 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--txt)', margin: '0 0 16px' }}>Send a Message</h2>
-            
-            <form action="mailto:sagarsahni69@gmail.com" method="get" encType="text/plain" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div className="inp-grp">
-                <label htmlFor="contact-name">Your Name</label>
-                <div className="inp-wrap">
-                  <input type="text" id="contact-name" name="subject" placeholder="John Doe" required />
-                </div>
-              </div>
-
-              <div className="inp-grp">
-                <label htmlFor="contact-email">Your Email Address</label>
-                <div className="inp-wrap">
-                  <input type="email" id="contact-email" placeholder="john@example.com" required />
-                </div>
-              </div>
-
-              <div className="inp-grp">
-                <label htmlFor="contact-message">Message or Feedback</label>
-                <div className="inp-wrap" style={{ height: 'auto' }}>
-                  <textarea id="contact-message" name="body" placeholder="Please describe your feedback or suggestions..." rows={4} style={{ width: '100%', background: 'none', border: 'none', outline: 'none', padding: '12px 14px', color: 'var(--txt)', resize: 'vertical' }} required></textarea>
-                </div>
-              </div>
-
-              <button type="submit" className="btn btn-p" style={{ cursor: 'pointer', justifySelf: 'start', marginTop: '8px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                <Icon name="fa-paper-plane" /> Send via Email client
-              </button>
-            </form>
-          </section>
+          {/* Contact form (interactive AJAX version integrated with Web3Forms API) */}
+          <FeedbackForm />
         </div>
       </div>
     </div>

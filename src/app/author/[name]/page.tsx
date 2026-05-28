@@ -58,7 +58,7 @@ export default async function AuthorPage({ params }: PageProps) {
         url: 'https://calclabz.com',
       },
       description: 'Software developer and finance enthusiast. Founder of Calc Labz — India\'s comprehensive free calculator platform.',
-      email: 'sagarsahni69@gmail.com',
+      email: 'support@calclabz.com',
       sameAs: [
         'https://github.com/sagarsahni6',
       ],
@@ -123,9 +123,9 @@ export default async function AuthorPage({ params }: PageProps) {
             </p>
 
             <div style={{ display: 'flex', gap: '24px', marginTop: '20px' }}>
-              <a href="mailto:sagarsahni69@gmail.com" style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--p2)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500 }}>
+              <a href="mailto:support@calclabz.com" style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--p2)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500 }}>
                 <Mail size={16} />
-                sagarsahni69@gmail.com
+                support@calclabz.com
               </a>
               <span style={{ color: 'var(--brd)' }}>|</span>
               <a href="https://github.com/sagarsahni6" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--p2)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500 }}>

@@ -83,7 +83,7 @@ export default function EditorialPolicyPage() {
               Even with rigorous testing, errors can happen. If you spot a discrepancy, a mathematical bug, or an outdated rate, please let us know immediately.
             </p>
             <p style={{ marginTop: '8px' }}>
-              Send an email to <a href="mailto:sagarsahni69@gmail.com" style={{ color: 'var(--p2)', textDecoration: 'underline' }}>sagarsahni69@gmail.com</a> or use our <Link href="/contact" style={{ color: 'var(--p2)', textDecoration: 'underline' }}>Contact Form</Link>. We investigate and fix verified math issues within 24 hours of reporting.
+              Send an email to <a href="mailto:support@calclabz.com" style={{ color: 'var(--p2)', textDecoration: 'underline' }}>support@calclabz.com</a> or use our <Link href="/contact" style={{ color: 'var(--p2)', textDecoration: 'underline' }}>Contact Form</Link>. We investigate and fix verified math issues within 24 hours of reporting.
             </p>
           </div>
         </section>

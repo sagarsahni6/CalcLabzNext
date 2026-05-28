@@ -8,8 +8,7 @@ import { DB, getSlugForId } from '@/data/calculator-db';
 import { CATEGORY_META, CalculatorCategory } from '@/types/calculator';
 import Icon from '@/components/ui/Icon';
 import ReadingProgressBar from '@/components/blog/ReadingProgressBar';
-import BlogFeedback from '@/components/blog/BlogFeedback';
-import TableOfContents from '@/components/blog/TableOfContents';
+import { TocProvider, TocMobile, TocDesktop } from '@/components/blog/TableOfContents';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -144,44 +143,47 @@ export default async function BlogPostPage({ params }: Props) {
             </div>
           </div>
 
-          {/* Mobile Table of Contents (collapsible) */}
-          <TableOfContents />
+          <TocProvider>
+            {/* Mobile Table of Contents (collapsible) */}
+            <TocMobile />
 
-          {/* Body content wrapper with optional ToC sidebar */}
-          <div className="article-body-wrapper">
-            <div className="article-layout-with-toc">
-              <div>
-                <div 
-                  className="blog-content"
-                  dangerouslySetInnerHTML={{ __html: post.content.body }}
-                />
-
-                {/* In-content CTA box */}
-                {ctaCalc && ctaUrl && (
+            {/* Body content wrapper with optional ToC sidebar */}
+            <div className="article-body-wrapper">
+              <div className="article-layout-with-toc">
+                <div>
                   <div 
-                    className="cta-box" 
-                    style={{ 
-                      marginTop: '40px',
-                      borderLeft: `4px solid ${ctaMeta?.color ? ctaMeta.color.match(/#[0-9a-fA-F]{6}/)?.[0] || 'var(--p)' : 'var(--p)'}` 
-                    }}
-                  >
-                    <div className="cta-box-title">
-                      {post.content.cta?.text || `Try the ${ctaCalc.name}`}
-                    </div>
-                    <div className="cta-box-desc">
-                      {ctaCalc.desc}
-                    </div>
-                    <Link href={ctaUrl} className="cta-box-btn">
-                      Use Calculator Now
-                    </Link>
-                  </div>
-                )}
+                    className="blog-content"
+                    dangerouslySetInnerHTML={{ __html: post.content.body }}
+                  />
 
-                {/* Blog Feedback Widget */}
-                <BlogFeedback slug={slug} />
+                  {/* In-content CTA box */}
+                  {ctaCalc && ctaUrl && (
+                    <div 
+                      className="cta-box" 
+                      style={{ 
+                        marginTop: '40px',
+                        borderLeft: `4px solid ${ctaMeta?.color ? ctaMeta.color.match(/#[0-9a-fA-F]{6}/)?.[0] || 'var(--p)' : 'var(--p)'}` 
+                      }}
+                    >
+                      <div className="cta-box-title">
+                        {post.content.cta?.text || `Try the ${ctaCalc.name}`}
+                      </div>
+                      <div className="cta-box-desc">
+                        {ctaCalc.desc}
+                      </div>
+                      <Link href={ctaUrl} className="cta-box-btn">
+                        Use Calculator Now
+                      </Link>
+                    </div>
+                  )}
+
+                </div>
+
+                {/* Desktop ToC — placed as 2nd grid column so sticky works */}
+                <TocDesktop />
               </div>
             </div>
-          </div>
+          </TocProvider>
         </article>
 
         {/* ── Sidebar Widget Area ── */}

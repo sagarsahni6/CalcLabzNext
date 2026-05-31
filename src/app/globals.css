@@ -2594,3 +2594,186 @@ input[type="number"]{-moz-appearance:textfield}
 }
 .animate-fade-in{animation:fadeIn .4s var(--ease) both}
 
+/* ═══════════════════════════════════════════════════
+   CALCULATOR GRAPHIC VISUALIZATIONS
+   Inline SVG micro-visualizations for cards & hero
+   ═══════════════════════════════════════════════════ */
+
+/* ── Card-level graphic (inside feat-card on category pages) ── */
+.calc-card-graphic{
+  position:absolute;
+  bottom:8px;right:8px;
+  width:80px;height:60px;
+  opacity:0.55;
+  pointer-events:none;
+  transition:opacity .3s var(--ease), transform .3s var(--ease);
+  z-index:0;
+}
+.calc-card-graphic svg{
+  width:100%;height:100%;
+  overflow:visible;
+}
+.feat-card:hover .calc-card-graphic{
+  opacity:0.85;
+  transform:scale(1.08) translateY(-2px);
+}
+
+/* ── Hero-level graphic (on individual calculator pages) ── */
+.calc-visual-hero{
+  position:relative;
+  width:100%;
+  height:100px;
+  margin-bottom:20px;
+  border-radius:var(--r-md);
+  background:var(--bg2);
+  border:1px solid var(--brd);
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.calc-visual-hero::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg, var(--bg2) 0%, transparent 50%, var(--bg2) 100%);
+  pointer-events:none;
+  z-index:1;
+}
+.calc-hero-graphic{
+  width:100%;
+  max-width:400px;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:8px 16px;
+}
+.calc-hero-graphic svg{
+  width:100%;height:100%;
+  overflow:visible;
+}
+
+/* ── SVG Animation Keyframes ── */
+
+/* Bar chart growth — bars slide up */
+.calc-graphic-bar{
+  animation:calcBarGrow 0.6s var(--ease) both;
+}
+@keyframes calcBarGrow{
+  from{transform:scaleY(0);transform-origin:bottom}
+  to{transform:scaleY(1);transform-origin:bottom}
+}
+
+/* Line drawing — stroke-dasharray reveal */
+.calc-graphic-draw{
+  stroke-dasharray:200;
+  stroke-dashoffset:200;
+  animation:calcLineDraw 1.2s var(--ease) forwards;
+}
+@keyframes calcLineDraw{
+  to{stroke-dashoffset:0}
+}
+
+/* Subtle pulse on data points */
+.calc-graphic-pulse{
+  animation:calcPulse 2.5s ease-in-out infinite;
+}
+@keyframes calcPulse{
+  0%,100%{opacity:0.6;transform:scale(1)}
+  50%{opacity:1;transform:scale(1.2)}
+}
+
+/* Gentle floating for decorative elements */
+.calc-graphic-float{
+  animation:calcFloat 3s ease-in-out infinite;
+}
+@keyframes calcFloat{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-3px)}
+}
+
+/* Pie chart sweep animation */
+.calc-graphic-sweep{
+  animation:calcSweep 1s var(--ease) forwards;
+  stroke-dashoffset:200;
+}
+@keyframes calcSweep{
+  from{stroke-dashoffset:200}
+  to{stroke-dashoffset:0}
+}
+
+/* BMI gauge needle rotation */
+.calc-graphic-needle{
+  transform-origin:50% 70%;
+  animation:calcNeedle 1.5s var(--ease) forwards;
+}
+@keyframes calcNeedle{
+  from{transform:rotate(-45deg)}
+  to{transform:rotate(0deg)}
+}
+
+/* ── Dark Mode Overrides for Graphics ── */
+[data-theme="dark"] .calc-card-graphic{
+  opacity:0.45;
+}
+[data-theme="dark"] .feat-card:hover .calc-card-graphic{
+  opacity:0.75;
+}
+[data-theme="dark"] .calc-visual-hero{
+  background:var(--bg2);
+  border-color:var(--brd);
+}
+[data-theme="dark"] .calc-visual-hero::before{
+  background:linear-gradient(135deg, var(--bg2) 0%, transparent 50%, var(--bg2) 100%);
+}
+/* Boost fill/stroke opacity in dark mode for visibility */
+[data-theme="dark"] .calc-card-graphic svg rect,
+[data-theme="dark"] .calc-card-graphic svg circle,
+[data-theme="dark"] .calc-card-graphic svg ellipse,
+[data-theme="dark"] .calc-card-graphic svg path,
+[data-theme="dark"] .calc-hero-graphic svg rect,
+[data-theme="dark"] .calc-hero-graphic svg circle,
+[data-theme="dark"] .calc-hero-graphic svg ellipse,
+[data-theme="dark"] .calc-hero-graphic svg path{
+  filter:brightness(1.15);
+}
+/* Make light-mode-only fill colors adapt */
+[data-theme="dark"] .calc-card-graphic svg line[stroke="#E2E8F0"],
+[data-theme="dark"] .calc-hero-graphic svg line[stroke="#E2E8F0"]{
+  stroke:rgba(255,255,255,0.08);
+}
+[data-theme="dark"] .calc-card-graphic svg text[fill="#1E293B"],
+[data-theme="dark"] .calc-hero-graphic svg text[fill="#1E293B"]{
+  fill:#E2E8F0;
+}
+
+/* ── Responsive — simplify on mobile ── */
+@media(max-width:480px){
+  .calc-card-graphic{
+    width:60px;height:45px;
+    opacity:0.35;
+  }
+  .calc-visual-hero{
+    height:80px;
+  }
+  .calc-hero-graphic{
+    max-width:280px;
+  }
+}
+
+/* ── Reduced motion preference ── */
+@media(prefers-reduced-motion:reduce){
+  .calc-graphic-bar,
+  .calc-graphic-draw,
+  .calc-graphic-pulse,
+  .calc-graphic-float,
+  .calc-graphic-sweep,
+  .calc-graphic-needle{
+    animation:none !important;
+  }
+  .calc-graphic-draw{
+    stroke-dashoffset:0 !important;
+    stroke-dasharray:none !important;
+  }
+}

@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useRef, useEffect } from 'react';
 import Icon from '@/components/ui/Icon';
 
 interface ExportButtonsProps {
@@ -54,6 +55,204 @@ function ExportButton({ iconName, label, onClick }: { iconName: string; label: s
   );
 }
 
+/* ── Share Menu with multiple platforms ── */
+interface ShareOption {
+  label: string;
+  icon: string;
+  color: string;
+  getUrl: (text: string, pageUrl: string) => string;
+}
+
+const SHARE_OPTIONS: ShareOption[] = [
+  {
+    label: 'WhatsApp',
+    icon: 'fa-whatsapp',
+    color: '#25D366',
+    getUrl: (text, pageUrl) => `https://wa.me/?text=${encodeURIComponent(`${text}\n\n${pageUrl}`)}`,
+  },
+  {
+    label: 'Telegram',
+    icon: 'fa-telegram',
+    color: '#0088CC',
+    getUrl: (text, pageUrl) => `https://t.me/share/url?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(text)}`,
+  },
+  {
+    label: 'X (Twitter)',
+    icon: 'fa-x-twitter',
+    color: '#1DA1F2',
+    getUrl: (text, pageUrl) => `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(pageUrl)}`,
+  },
+  {
+    label: 'LinkedIn',
+    icon: 'fa-linkedin',
+    color: '#0A66C2',
+    getUrl: (text, pageUrl) => `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pageUrl)}&summary=${encodeURIComponent(text)}`,
+  },
+  {
+    label: 'Email',
+    icon: 'fa-envelope',
+    color: '#6366F1',
+    getUrl: (text, pageUrl) => `mailto:?subject=${encodeURIComponent('Calculator Results - CalcLabz')}&body=${encodeURIComponent(`${text}\n\n${pageUrl}`)}`,
+  },
+];
+
+function ShareMenu({ resultRef, calcName, calcId }: ExportButtonsProps) {
+  const [open, setOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Close on outside click
+  useEffect(() => {
+    if (!open) return;
+    function handleClick(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [open]);
+
+  function getShareText(): string {
+    const el = resultRef?.current;
+    if (!el) return `${calcName} Results (CalcLabz)`;
+    const text = el.innerText;
+    return `*${calcName} Results* (CalcLabz)\n\n${text}`;
+  }
+
+  function getPageUrl(): string {
+    if (typeof window !== 'undefined') return window.location.href;
+    return `https://calclabz.com/${calcId}-calculator`;
+  }
+
+  async function handleNativeShare() {
+    const text = getShareText();
+    const pageUrl = getPageUrl();
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: `${calcName} - CalcLabz`, text, url: pageUrl });
+      } catch {
+        // User cancelled
+      }
+    }
+    setOpen(false);
+  }
+
+  return (
+    <div ref={menuRef} style={{ position: 'relative' }}>
+      <ExportButton iconName="fa-share-nodes" label="Share" onClick={() => setOpen(!open)} />
+
+      {open && (
+        <div
+          style={{
+            position: 'absolute',
+            bottom: 'calc(100% + 8px)',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            background: 'var(--bg1, #12121a)',
+            border: '1px solid var(--brd, rgba(255,255,255,0.1))',
+            borderRadius: '14px',
+            padding: '8px',
+            boxShadow: '0 12px 40px rgba(0,0,0,0.5)',
+            backdropFilter: 'blur(16px)',
+            zIndex: 100,
+            minWidth: '180px',
+            animation: 'fadeIn 0.2s var(--ease)',
+          }}
+        >
+          {/* Platform options */}
+          {SHARE_OPTIONS.map((opt) => (
+            <button
+              key={opt.label}
+              onClick={() => {
+                const text = getShareText();
+                const pageUrl = getPageUrl();
+                window.open(opt.getUrl(text, pageUrl), '_blank', 'noopener,noreferrer');
+                setOpen(false);
+              }}
+              style={{
+                display: 'flex', alignItems: 'center', gap: '10px',
+                width: '100%', padding: '10px 12px', borderRadius: '10px',
+                background: 'transparent', border: 'none',
+                color: 'var(--txt1)', fontSize: '0.82rem', fontWeight: 500,
+                cursor: 'pointer', transition: 'all 0.15s var(--ease)',
+                textAlign: 'left',
+              }}
+              onMouseEnter={e => {
+                (e.currentTarget as HTMLElement).style.background = 'var(--bg2)';
+              }}
+              onMouseLeave={e => {
+                (e.currentTarget as HTMLElement).style.background = 'transparent';
+              }}
+            >
+              <Icon name={opt.icon} style={{ fontSize: '1rem', color: opt.color, width: '20px', textAlign: 'center' }} />
+              <span>{opt.label}</span>
+            </button>
+          ))}
+
+          {/* Native Share API (mobile) */}
+          {typeof navigator !== 'undefined' && 'share' in navigator && (
+            <>
+              <div style={{
+                height: '1px', background: 'var(--brd)', margin: '4px 8px',
+              }} />
+              <button
+                onClick={handleNativeShare}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '10px',
+                  width: '100%', padding: '10px 12px', borderRadius: '10px',
+                  background: 'transparent', border: 'none',
+                  color: 'var(--txt1)', fontSize: '0.82rem', fontWeight: 500,
+                  cursor: 'pointer', transition: 'all 0.15s var(--ease)',
+                  textAlign: 'left',
+                }}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLElement).style.background = 'var(--bg2)';
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLElement).style.background = 'transparent';
+                }}
+              >
+                <Icon name="fa-up-right-from-square" style={{ fontSize: '1rem', color: 'var(--p)', width: '20px', textAlign: 'center' }} />
+                <span>More Options…</span>
+              </button>
+            </>
+          )}
+
+          {/* Copy Link */}
+          <div style={{
+            height: '1px', background: 'var(--brd)', margin: '4px 8px',
+          }} />
+          <button
+            onClick={() => {
+              navigator.clipboard.writeText(getPageUrl()).then(() => {
+                showToast('Link copied!');
+                setOpen(false);
+              });
+            }}
+            style={{
+              display: 'flex', alignItems: 'center', gap: '10px',
+              width: '100%', padding: '10px 12px', borderRadius: '10px',
+              background: 'transparent', border: 'none',
+              color: 'var(--txt1)', fontSize: '0.82rem', fontWeight: 500,
+              cursor: 'pointer', transition: 'all 0.15s var(--ease)',
+              textAlign: 'left',
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLElement).style.background = 'var(--bg2)';
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLElement).style.background = 'transparent';
+            }}
+          >
+            <Icon name="fa-link" style={{ fontSize: '1rem', color: 'var(--txt2)', width: '20px', textAlign: 'center' }} />
+            <span>Copy Link</span>
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function ExportButtons({ resultRef, calcName, calcId }: ExportButtonsProps) {
   return (
     <div style={{
@@ -70,33 +269,7 @@ export default function ExportButtons({ resultRef, calcName, calcId }: ExportBut
           showToast('Failed to copy');
         });
       }} />
-      <ExportButton iconName="fa-download" label="CSV" onClick={() => {
-        const el = resultRef?.current;
-        if (!el) return;
-        const rows: string[][] = [['Label', 'Value']];
-        const cards = el.querySelectorAll('.res-card');
-        cards.forEach(card => {
-          const label = card.querySelector('.res-lbl')?.textContent || '';
-          const value = card.querySelector('.res-val')?.textContent || '';
-          if (label && value) rows.push([label, value]);
-        });
-        const csv = rows.map(r => r.map(c => `"${c}"`).join(',')).join('\n');
-        const blob = new Blob([csv], { type: 'text/csv' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${calcId}-results.csv`;
-        a.click();
-        URL.revokeObjectURL(url);
-        showToast('CSV downloaded!');
-      }} />
-      <ExportButton iconName="fa-share" label="WhatsApp" onClick={() => {
-        const el = resultRef?.current;
-        if (!el) return;
-        const text = el.innerText;
-        const msg = encodeURIComponent(`*${calcName} Results* (CalcLabz)\n\n${text}\n\nhttps://calclabz.com/${calcId}-calculator`);
-        window.open(`https://wa.me/?text=${msg}`, '_blank');
-      }} />
+      <ShareMenu resultRef={resultRef} calcName={calcName} calcId={calcId} />
     </div>
   );
 }

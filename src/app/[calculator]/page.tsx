@@ -14,6 +14,7 @@ import QuickAnswer from '@/components/seo/QuickAnswer';
 import JsonLd from '@/components/seo/JsonLd';
 import { getCalculatorSchemas } from '@/lib/seo/schema';
 import { generateCalculatorMetadata } from '@/lib/seo/metadata';
+import CalculatorGraphic from '@/components/calculator/CalculatorGraphic';
 
 // ── STATIC GENERATION ─────────────────────────────
 export function generateStaticParams() {
@@ -431,6 +432,11 @@ export default async function CalculatorPage({
           <span>›</span>
           <span>{calc.name}</span>
         </nav>
+
+        {/* Visual Concept Explainer — animated inline SVG */}
+        <div className="calc-visual-hero">
+          <CalculatorGraphic calcId={calcId} category={calc.cat} variant="hero" />
+        </div>
 
         {/* Calculator Header with Favorite Toggle */}
         <div className="calc-hdr">

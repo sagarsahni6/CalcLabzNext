@@ -433,7 +433,7 @@ export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWid
               )}
             </div>
 
-            {/* Export buttons (Print, Copy, CSV, WhatsApp Share) */}
+            {/* Export buttons (Print, Copy, Share) */}
             <ExportButtons resultRef={resultRef} calcName={DB[calcId]?.name || calcId} calcId={calcId} />
 
             {/* Comparison Mode for side-by-side scenarios */}

@@ -3,6 +3,7 @@
 import { useState, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import Icon from '@/components/ui/Icon';
+import CalculatorGraphic from '@/components/calculator/CalculatorGraphic';
 
 /** Only the serializable fields from CalculatorDefinition — no functions */
 interface CategoryCalcItem {
@@ -246,6 +247,7 @@ export default function CategoryCalculatorList({
               <div className="fc-name">{calc.name}</div>
               <div className="fc-desc">{calc.desc}</div>
               {calc.badge && <span className="badge">{calc.badge}</span>}
+              <CalculatorGraphic calcId={id} category={categoryKey} variant="card" />
             </Link>
           ))}
         </div>

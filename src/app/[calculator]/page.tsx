@@ -470,52 +470,6 @@ export default async function CalculatorPage({
                 <CalculatorWidget calcId={calcId} inputs={calc.inputs} tips={calc.tips} />
               </div>
 
-              {/* Tab 2: Formula & Math Explanation */}
-              <div data-tab="formula">
-                <div className="formula-box">
-                  <h3>
-                    <Icon name="fa-square-root-variable" />
-                    Mathematical Formula
-                  </h3>
-
-                  <div className="formula-display">
-                    <code>{formulaInfo.formula}</code>
-                  </div>
-
-                  <div className="formula-desc-text">
-                    {formulaInfo.formulaDesc}
-                  </div>
-
-                  <h4 className="formula-example-title">
-                    <Icon name="fa-file-signature" />
-                    Step-by-Step Worked Example
-                  </h4>
-                  <div className="formula-example">
-                    {formulaInfo.example}
-                  </div>
-                </div>
-              </div>
-
-              {/* Tab 3: Accordion FAQs */}
-              <div data-tab="faqs">
-                <div className="faqs-wrap">
-                  <h3>
-                    <Icon name="fa-circle-question" />
-                    Frequently Asked Questions
-                  </h3>
-                  {faqs.map((faq, idx) => (
-                    <details key={idx} className="faq-details">
-                      <summary>
-                        <span>{faq.q}</span>
-                        <Icon name="fa-chevron-down" style={{ fontSize: '0.85rem', color: 'var(--txt2)' }} />
-                      </summary>
-                      <div className="faq-answer">
-                        {faq.a}
-                      </div>
-                    </details>
-                  ))}
-                </div>
-              </div>
 
               {/* Tab 4: Guide Link */}
               {registry?.blogSlug && (
@@ -565,6 +519,71 @@ export default async function CalculatorPage({
                 : 'Finance and tax outputs are planning estimates only and should be checked against current rules.'
               }</p>
               <p><strong>Need a correction?</strong> <Link href="/contact">Contact us</Link> with the calculator name and the issue you found.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Formula & Examples — Standalone Section ── */}
+        <div className="standalone-section formula-section">
+          <div className="standalone-section-header">
+            <div className="standalone-section-icon">
+              <Icon name="fa-square-root-variable" />
+            </div>
+            <div>
+              <h2>Formula & Worked Example</h2>
+              <p>The math behind the {calc.name}</p>
+            </div>
+          </div>
+          <div className="standalone-section-body">
+            <div className="formula-box">
+              <h3>
+                <Icon name="fa-square-root-variable" />
+                Mathematical Formula
+              </h3>
+
+              <div className="formula-display">
+                <code>{formulaInfo.formula}</code>
+              </div>
+
+              <div className="formula-desc-text">
+                {formulaInfo.formulaDesc}
+              </div>
+
+              <h4 className="formula-example-title">
+                <Icon name="fa-file-signature" />
+                Step-by-Step Worked Example
+              </h4>
+              <div className="formula-example">
+                {formulaInfo.example}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── FAQs — Standalone Section ── */}
+        <div className="standalone-section faqs-section">
+          <div className="standalone-section-header">
+            <div className="standalone-section-icon">
+              <Icon name="fa-circle-question" />
+            </div>
+            <div>
+              <h2>Frequently Asked Questions</h2>
+              <p>Common questions about the {calc.name}</p>
+            </div>
+          </div>
+          <div className="standalone-section-body">
+            <div className="faqs-wrap">
+              {faqs.map((faq, idx) => (
+                <details key={idx} className="faq-details">
+                  <summary>
+                    <span>{faq.q}</span>
+                    <Icon name="fa-chevron-down" style={{ fontSize: '0.85rem', color: 'var(--txt2)' }} />
+                  </summary>
+                  <div className="faq-answer">
+                    {faq.a}
+                  </div>
+                </details>
+              ))}
             </div>
           </div>
         </div>

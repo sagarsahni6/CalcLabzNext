@@ -13,29 +13,29 @@ export default function CalculatorTabs({ children, hasGuide }: CalculatorTabsPro
 
   const tabs = [
     { id: 'calc', label: 'Calculator', icon: 'fa-calculator' },
-    { id: 'formula', label: 'Formula & Examples', icon: 'fa-square-root-variable' },
-    { id: 'faqs', label: 'FAQs & Schema', icon: 'fa-circle-question' },
     ...(hasGuide ? [{ id: 'guide', label: 'User Guide', icon: 'fa-book-open' }] : []),
   ];
 
   return (
     <div>
-      {/* Tab Headers */}
-      <div className="tabs-row">
-        {tabs.map((tab) => {
-          const isActive = activeTab === tab.id;
-          return (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`tab-btn ${isActive ? 'active' : ''}`}
-            >
-              <Icon name={tab.icon} />
-              {tab.label}
-            </button>
-          );
-        })}
-      </div>
+      {/* Tab Headers — only show when there are multiple tabs */}
+      {tabs.length > 1 && (
+        <div className="tabs-row">
+          {tabs.map((tab) => {
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`tab-btn ${isActive ? 'active' : ''}`}
+              >
+                <Icon name={tab.icon} />
+                {tab.label}
+              </button>
+            );
+          })}
+        </div>
+      )}
 
       {/* Tab Contents - Keep all rendered in the HTML for Search Engine Indexing! */}
       <div className="tab-contents-wrap">

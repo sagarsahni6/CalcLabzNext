@@ -2,13 +2,15 @@ import React from 'react';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import Script from 'next/script';
 import { getPostBySlug, getRelatedPosts, BLOG_POSTS } from '@/data/blog-db';
 import { DB, getSlugForId } from '@/data/calculator-db';
 import { CATEGORY_META, CalculatorCategory } from '@/types/calculator';
 import Icon from '@/components/ui/Icon';
 import ReadingProgressBar from '@/components/blog/ReadingProgressBar';
 import { TocProvider, TocMobile, TocDesktop } from '@/components/blog/TableOfContents';
+import JsonLd from '@/components/seo/JsonLd';
+import { getBlogSchema } from '@/lib/seo/schema';
+import { generateBlogMetadata } from '@/lib/seo/metadata';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -21,7 +23,7 @@ export async function generateStaticParams() {
   }));
 }
 
-// ── DYNAMIC METADATA ──────────────────────────────
+// ── DYNAMIC METADATA ─────────────────────────────
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = getPostBySlug(slug);
@@ -33,25 +35,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const title = `${post.title} — Calc Labz`;
-  const description = post.desc;
-
-  return {
-    title,
-    description,
-    openGraph: {
-      title,
-      description,
-      url: `https://calclabz.com/blog/${post.slug}`,
-      type: 'article',
-      publishedTime: post.isoDate,
-      authors: [post.content.meta.author],
-      siteName: 'Calc Labz',
-    },
-    alternates: {
-      canonical: `https://calclabz.com/blog/${post.slug}`,
-    },
-  };
+  return generateBlogMetadata(
+    post.title,
+    post.desc,
+    post.slug,
+    post.isoDate,
+    post.content.meta.author,
+  );
 }
 
 export default async function BlogPostPage({ params }: Props) {
@@ -64,30 +54,22 @@ export default async function BlogPostPage({ params }: Props) {
 
   const relatedPosts = getRelatedPosts(post, 3);
 
-  // Schema Markup (JSON-LD)
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
-    'headline': post.title,
-    'description': post.desc,
-    'datePublished': post.isoDate,
-    'author': {
-      '@type': 'Organization',
-      'name': post.content.meta.author || 'Calc Labz Team',
-    },
-    'publisher': {
-      '@type': 'Organization',
-      'name': 'Calc Labz',
-      'logo': {
-        '@type': 'ImageObject',
-        'url': 'https://calclabz.com/calclabz-logo.png',
-      },
-    },
-    'mainEntityOfPage': {
-      '@type': 'WebPage',
-      '@id': `https://calclabz.com/blog/${post.slug}`,
-    },
-  };
+  // Calculate word count from HTML body (strip tags, count words)
+  const wordCount = post.content.body
+    .replace(/<[^>]*>/g, ' ')    // strip HTML tags
+    .replace(/\s+/g, ' ')         // normalize whitespace
+    .trim()
+    .split(' ')
+    .filter(Boolean).length;
+
+  const jsonLd = getBlogSchema({
+    title: post.title,
+    desc: post.desc,
+    slug: post.slug,
+    isoDate: post.isoDate,
+    authorName: post.content.meta.author || 'Sagar Sahni',
+    wordCount,
+  });
 
   // Resolve CTA Calculator Details
   const ctaCalcId = post.content.cta?.calc || post.calc;
@@ -100,12 +82,8 @@ export default async function BlogPostPage({ params }: Props) {
       {/* Reading Progress Bar */}
       <ReadingProgressBar />
 
-      {/* Schema Script Injection */}
-      <Script
-        id="blog-jsonld"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      {/* Schema — raw <script> tag for SSR HTML visibility to Googlebot */}
+      <JsonLd id="blog-jsonld" data={jsonLd} />
 
       <div className="article-layout">
         {/* ── Main Content Area ── */}
@@ -151,18 +129,18 @@ export default async function BlogPostPage({ params }: Props) {
             <div className="article-body-wrapper">
               <div className="article-layout-with-toc">
                 <div>
-                  <div 
+                  <div
                     className="blog-content"
                     dangerouslySetInnerHTML={{ __html: post.content.body }}
                   />
 
                   {/* In-content CTA box */}
                   {ctaCalc && ctaUrl && (
-                    <div 
-                      className="cta-box" 
-                      style={{ 
+                    <div
+                      className="cta-box"
+                      style={{
                         marginTop: '40px',
-                        borderLeft: `4px solid ${ctaMeta?.color ? ctaMeta.color.match(/#[0-9a-fA-F]{6}/)?.[0] || 'var(--p)' : 'var(--p)'}` 
+                        borderLeft: `4px solid ${ctaMeta?.color ? ctaMeta.color.match(/#[0-9a-fA-F]{6}/)?.[0] || 'var(--p)' : 'var(--p)'}`
                       }}
                     >
                       <div className="cta-box-title">
@@ -197,7 +175,7 @@ export default async function BlogPostPage({ params }: Props) {
               </h3>
               <div className="calc-widget-list">
                 <Link href={ctaUrl} className="calc-widget-item">
-                  <div 
+                  <div
                     className="calc-widget-icon"
                     style={{ background: ctaMeta?.color || 'var(--p)' }}
                   >
@@ -231,7 +209,7 @@ export default async function BlogPostPage({ params }: Props) {
                 const meta = CATEGORY_META[item.cat as CalculatorCategory];
                 return (
                   <Link key={item.id} href={`/${getSlugForId(item.id)}`} className="calc-widget-item">
-                    <div 
+                    <div
                       className="calc-widget-icon"
                       style={{ background: meta?.color || 'var(--p)' }}
                     >

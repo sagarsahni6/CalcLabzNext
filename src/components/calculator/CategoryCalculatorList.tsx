@@ -3,10 +3,17 @@
 import { useState, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import Icon from '@/components/ui/Icon';
-import { CalculatorDefinition } from '@/types/calculator';
+
+/** Only the serializable fields from CalculatorDefinition — no functions */
+interface CategoryCalcItem {
+  name: string;
+  desc: string;
+  icon: string;
+  badge?: string;
+}
 
 interface CategoryCalculatorListProps {
-  initialCalcs: { id: string; calc: CalculatorDefinition; slug: string }[];
+  initialCalcs: { id: string; calc: CategoryCalcItem; slug: string }[];
   categoryKey: string;
   categoryColor: string;
 }

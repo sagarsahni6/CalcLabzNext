@@ -1,12 +1,21 @@
-'use client';
-
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import Icon from '@/components/ui/Icon';
 import { CATEGORY_META, CalculatorCategory } from '@/types/calculator';
 
-export default function NotFound() {
-  const topCategories = (['finance', 'health', 'math', 'everyday'] as CalculatorCategory[]);
+// SEO metadata for the 404 page — best practice even though Google won't index it
+export const metadata: Metadata = {
+  title: '404 — Page Not Found | Calc Labz',
+  description: 'The calculator or page you are looking for does not exist. Browse our 300+ free online calculators by category.',
+  robots: {
+    index: false,
+    follow: true,
+  },
+};
 
+const topCategories = ['finance', 'health', 'math', 'everyday'] as CalculatorCategory[];
+
+export default function NotFound() {
   return (
     <div className="card" style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto' }}>
       {/* Animated 404 Hero */}
@@ -80,13 +89,6 @@ export default function NotFound() {
           <Link href="/" className="btn btn-p" style={{ padding: '12px 28px' }}>
             <Icon name="fa-house" /> Go Home
           </Link>
-          <button
-            className="btn btn-s"
-            style={{ padding: '12px 28px' }}
-            onClick={() => typeof window !== 'undefined' && window.dispatchEvent(new CustomEvent('open-cmd-palette'))}
-          >
-            <Icon name="fa-search" /> Search Calculators
-          </button>
         </div>
       </div>
 

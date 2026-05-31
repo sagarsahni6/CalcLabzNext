@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import Script from 'next/script';
 import { DB, findCalcBySlug, getAllCalculatorSlugs, getRegistryEntry, getSlugForId, getCalcsByCategory } from '@/data/calculator-db';
 import { CATEGORY_META, CalculatorCategory } from '@/types/calculator';
 import { BLOG_POSTS } from '@/data/blog-db';
@@ -9,18 +8,28 @@ import FavoriteToggle from '@/components/calculator/FavoriteToggle';
 import CalculatorTabs from '@/components/calculator/CalculatorTabs';
 import Link from 'next/link';
 import Icon from '@/components/ui/Icon';
-import { getSchemaCategory, generateSEOContent, generateHowToSteps, getCategorySEOIntro, generateCategoryFAQs } from '@/lib/seo-content-generator';
+import { getSchemaCategory, generateSEOContent, generateHowToSteps, getQuickAnswer, getGlossaryTerms } from '@/lib/seo-content-generator';
 import { getCrossCategoryLinks } from '@/lib/related-calculators';
+import QuickAnswer from '@/components/seo/QuickAnswer';
+import JsonLd from '@/components/seo/JsonLd';
+import { getCalculatorSchemas } from '@/lib/seo/schema';
+import { generateCalculatorMetadata } from '@/lib/seo/metadata';
 
 // ── STATIC GENERATION ─────────────────────────────
 export function generateStaticParams() {
+  // Calculator pages (e.g. /percentage-calculator)
   const calcSlugs = getAllCalculatorSlugs().map((slug) => ({
     calculator: slug,
   }));
-  const catSlugs = Object.keys(CATEGORY_META).map((cat) => ({
+
+  // Category pages (e.g. /finance-calculators)
+  // These are handled here because Next.js App Router does NOT support
+  // partial dynamic segments like [category]-calculators.
+  const categorySlugs = Object.keys(CATEGORY_META).map((cat) => ({
     calculator: `${cat}-calculators`,
   }));
-  return [...calcSlugs, ...catSlugs];
+
+  return [...calcSlugs, ...categorySlugs];
 }
 
 // ── DYNAMIC METADATA ──────────────────────────────
@@ -31,87 +40,38 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { calculator: slug } = await params;
 
-  if (slug.endsWith('-calculators')) {
-    const catKey = slug.replace('-calculators', '') as CalculatorCategory;
-    const catMeta = CATEGORY_META[catKey];
-    if (!catMeta) return {};
-
-    const title = `Best ${catMeta.name} Calculators Online (2026) — Free & Offline | Calc Labz`;
-    const description = `Access our complete suite of free online ${catMeta.name.toLowerCase()} calculators. ${catMeta.description}. All calculators are 100% free, run client-side for maximum privacy, and work offline as PWAs.`;
-    const keywords = `${catMeta.name.toLowerCase()} calculators, free online ${catMeta.name.toLowerCase()} calculator, best ${catMeta.name.toLowerCase()} tools, calc labz, offline calculators`;
-
-    return {
-      title,
-      description,
-      keywords,
-      openGraph: {
-        title,
-        description,
-        url: `https://calclabz.com/${slug}`,
-        type: 'website',
-        siteName: 'Calc Labz',
-      },
-      twitter: {
-        card: 'summary_large_image',
-        title,
-        description,
-      },
-      alternates: {
-        canonical: `https://calclabz.com/${slug}`,
-      },
-    };
-  }
+  // Category pages are handled by [category]-calculators/page.tsx
 
   const calcId = findCalcBySlug(slug);
+
+  // Handle category pages (e.g. /finance-calculators)
+  const categoryMatch = slug.match(/^(.+)-calculators$/);
+  if (categoryMatch) {
+    const catKey = categoryMatch[1] as CalculatorCategory;
+    const catMeta = CATEGORY_META[catKey];
+    if (catMeta) {
+      const { generateCategoryMetadata } = await import('@/lib/seo/metadata');
+      return generateCategoryMetadata(catMeta.name, catMeta.description, slug);
+    }
+  }
+
   if (!calcId || !DB[calcId]) return {};
 
   const calc = DB[calcId];
   const registry = getRegistryEntry(slug);
   const catMeta = CATEGORY_META[calc.cat];
 
-  // SEO-optimized title: includes year, "Online", category context
-  const title = registry?.title || `${calc.name} Online (2026) — Free ${catMeta.name} Calculator India | Calc Labz`;
-  const description = registry?.desc || `Free ${calc.name.toLowerCase()} — ${calc.desc}. Instant results, verified formulas, no signup. Try the best online ${calc.name.toLowerCase()} on Calc Labz.`;
-
-  // Build keyword list from calculator metadata
-  const keywords = [
-    calc.name.toLowerCase(),
-    `${calc.name.toLowerCase()} online`,
-    `free ${calc.name.toLowerCase()}`,
-    `${calc.name.toLowerCase()} india`,
-    `${calc.name.toLowerCase()} 2026`,
-    `${catMeta.name.toLowerCase()} calculator`,
-    'calc labz',
-    'online calculator',
-  ].join(', ');
-
-  return {
-    title,
-    description,
-    keywords,
-    authors: [{ name: 'Sagar Sahni', url: 'https://calclabz.com/author/sagar-sahni' }],
-    openGraph: {
-      title,
-      description,
-      url: `https://calclabz.com/${slug}`,
-      type: 'website',
-      siteName: 'Calc Labz',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      creator: '@calclabz',
-    },
-    alternates: {
-      canonical: `https://calclabz.com/${slug}`,
-    },
-    other: {
-      'article:author': 'https://calclabz.com/author/sagar-sahni',
-      'article:published_time': '2024-01-01T00:00:00Z',
-      'article:modified_time': '2026-05-22T00:00:00Z',
-    },
-  };
+  // Use metadata factory for consistent, SEO-optimized titles/descriptions.
+  // keywords field intentionally omitted — Google has ignored it since 2009
+  // and it exposes your keyword strategy to competitors.
+  return generateCalculatorMetadata(
+    calc.name,
+    calc.desc,
+    slug,
+    catMeta.name,
+    registry?.title,
+    registry?.desc,
+  );
 }
 
 // ── FORMULA & EXAMPLES DATA ───────────────────────
@@ -205,7 +165,7 @@ The formula uses standardized guidelines for high precision calculations.`,
   };
 }
 
-// ── DYNAMIC FAQs DATA ──────────────────────────────
+// ── DYNAMIC FAQs DATA (expanded to 5 per calculator) ──────────
 function getFAQData(id: string, name: string, category: string, desc: string, inputs: { label: string }[]) {
   const inputLabels = inputs.map(i => i.label).join(', ');
   if (id === 'emi') {
@@ -221,6 +181,14 @@ function getFAQData(id: string, name: string, category: string, desc: string, in
       {
         q: `Is the EMI calculator secure?`,
         a: `Yes. Calc Labz operates entirely client-side. All inputs and calculations stay on your local device. We never transmit or save any personal data on our servers, ensuring 100% data privacy.`
+      },
+      {
+        q: `What factors affect my loan EMI amount?`,
+        a: `Three factors determine your EMI: the principal loan amount, the interest rate, and the loan tenure. A higher principal or interest rate increases your EMI, while a longer tenure reduces it (but increases total interest paid).`
+      },
+      {
+        q: `Which EMI formula does this calculator use?`,
+        a: `This calculator uses the standard reducing balance formula: EMI = P × r × (1+r)^n / ((1+r)^n - 1), where P is the principal, r is the monthly interest rate, and n is the tenure in months. This is the same formula used by all Indian banks and NBFCs.`
       }
     ];
   }
@@ -237,6 +205,14 @@ function getFAQData(id: string, name: string, category: string, desc: string, in
       {
         q: `Is SIP better than Lump Sum investment?`,
         a: `SIP is generally better for salaried individuals as it helps establish financial discipline, does not require timing the market, and provides compound interest benefits. Lump sum is suitable if you have a windfall gain and the market valuations are low.`
+      },
+      {
+        q: `What is the minimum SIP amount in India?`,
+        a: `Most mutual fund houses in India allow SIPs starting from ₹500 per month. Some AMCs offer micro-SIPs starting at ₹100. You can increase your SIP amount over time using Step-Up SIP to match your growing income.`
+      },
+      {
+        q: `Are SIP returns guaranteed?`,
+        a: `No. SIP returns in mutual funds are subject to market risks and are not guaranteed. Historical equity mutual fund returns in India have averaged 12-15% CAGR over 10+ year periods, but past performance does not guarantee future results. Always invest based on your risk appetite and time horizon.`
       }
     ];
   }
@@ -252,6 +228,14 @@ function getFAQData(id: string, name: string, category: string, desc: string, in
     {
       q: `Is my personal data saved when using this calculator?`,
       a: `No. Calc Labz is a client-side progressive web application. All calculations are performed in your browser's runtime. We do not transmit or save any of your inputs on our servers, ensuring 100% data privacy.`
+    },
+    {
+      q: `Can I use the ${name} on my mobile phone?`,
+      a: `Yes. The ${name} is fully responsive and works on all devices — desktop, tablet, and mobile. You can also install Calc Labz as a Progressive Web App (PWA) for instant access and offline use, even without an internet connection.`
+    },
+    {
+      q: `How accurate is the ${name}?`,
+      a: `Our ${name} uses verified, standard ${category} formulas that are regularly reviewed and updated for accuracy. Results are intended for informational and planning purposes — for critical decisions, we recommend consulting a qualified professional.`
     }
   ];
 }
@@ -264,150 +248,69 @@ export default async function CalculatorPage({
 }) {
   const { calculator: slug } = await params;
 
-  if (slug.endsWith('-calculators')) {
-    const catKey = slug.replace('-calculators', '') as CalculatorCategory;
+  // Category pages (e.g. /finance-calculators) are handled by
+  // [category]-calculators/page.tsx was meant to handle these, but
+  // Next.js App Router does NOT support partial dynamic segments
+  // (e.g. [category]-calculators). The [calculator] catch-all route
+  // receives ALL single-segment URLs, so we handle categories here.
+  const categoryMatch = slug.match(/^(.+)-calculators$/);
+  if (categoryMatch) {
+    const catKey = categoryMatch[1] as CalculatorCategory;
     const catMeta = CATEGORY_META[catKey];
-    if (!catMeta) notFound();
+    if (catMeta) {
+      // Dynamically import category page dependencies
+      const CategoryCalculatorList = (await import('@/components/calculator/CategoryCalculatorList')).default;
+      const { getCategorySchemas } = await import('@/lib/seo/schema');
 
-    const calcs = getCalcsByCategory(catKey);
-
-    const breadcrumbJsonLd = {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://calclabz.com/' },
-        { '@type': 'ListItem', position: 2, name: `${catMeta.name} Calculators`, item: `https://calclabz.com/${slug}` },
-      ],
-    };
-
-    const itemListJsonLd = {
-      '@context': 'https://schema.org',
-      '@type': 'CollectionPage',
-      name: `${catMeta.name} Calculators - Calc Labz`,
-      description: catMeta.description,
-      url: `https://calclabz.com/${slug}`,
-      mainEntity: {
-        '@type': 'ItemList',
-        numberOfItems: calcs.length,
-        itemListElement: calcs.map((id, index) => ({
-          '@type': 'ListItem',
-          position: index + 1,
-          url: `https://calclabz.com/${getSlugForId(id)}`,
+      const calcs = getCalcsByCategory(catKey);
+      const categorySchemas = getCategorySchemas({
+        catName: catMeta.name,
+        catDesc: catMeta.description,
+        slug: `${categoryMatch[1]}-calculators`,
+        calcs: calcs.map((id) => ({
+          id,
           name: DB[id].name,
-          description: DB[id].desc,
+          desc: DB[id].desc,
+          url: `https://calclabz.com/${getSlugForId(id)}`,
         })),
-      },
-    };
+      });
 
-    const categoryFAQs = generateCategoryFAQs(catMeta.name, catKey, calcs.length);
-    const faqJsonLd = {
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: categoryFAQs.map((faq) => ({
-        '@type': 'Question',
-        name: faq.q,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: faq.a,
-        },
-      })),
-    };
-
-    return (
-      <>
-        {/* JSON-LD Category Schemas */}
-        <Script
-          id="cat-breadcrumb"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-        />
-        <Script
-          id="cat-itemlist"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
-        />
-        <Script
-          id="cat-faq"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-        />
-
+      return (
         <div className="card">
-          {/* Breadcrumb */}
+          <JsonLd id="category-schemas" data={categorySchemas} />
           <nav className="crumb" aria-label="Breadcrumb">
             <Link href="/">Home</Link>
             <span>›</span>
             <span>{catMeta.name} Calculators</span>
           </nav>
-
-          {/* Category Header */}
-          <div className="calc-hdr">
-            <div className="calc-title-row" style={{ alignItems: 'center' }}>
-              <div className="fc-ico" style={{ background: catMeta.color, width: '48px', height: '48px', marginRight: '16px', flexShrink: 0 }}>
+          <div className="calc-hdr" style={{ marginBottom: '24px' }}>
+            <div className="calc-title-row" style={{ display: 'flex', alignItems: 'center' }}>
+              <div className="fc-ico" style={{ background: catMeta.color, width: '48px', height: '48px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '24px', marginRight: '16px', flexShrink: 0 }}>
                 <Icon name={catMeta.icon} />
               </div>
               <div>
-                <h1>{catMeta.name} Calculators</h1>
-                <p>{catMeta.description}</p>
+                <h1 style={{ margin: 0, fontSize: '2rem', fontWeight: 700, color: 'var(--fg)' }}>{catMeta.name} Calculators</h1>
+                <p style={{ margin: '4px 0 0', color: 'var(--fg-muted)', fontSize: '1.1rem' }}>{catMeta.description}</p>
               </div>
             </div>
           </div>
-
-          {/* Category-Specific Unique SEO Intro Paragraph */}
-          <div className="cat-seo-intro">
-            {getCategorySEOIntro(catKey)}
-          </div>
-
-          {/* Calculators Grid */}
-          <div className="feat-grid">
-            {calcs.map((id) => {
-              const calc = DB[id];
-              return (
-                <Link
-                  key={id}
-                  href={`/${getSlugForId(id)}`}
-                  className="feat-card"
-                  aria-label={`Open ${calc.name}`}
-                >
-                  <div className="fc-ico" style={{ background: catMeta.color }}>
-                    <Icon name={calc.icon} />
-                  </div>
-                  <div className="fc-name">{calc.name}</div>
-                  <div className="fc-desc">{calc.desc}</div>
-                  {calc.badge && <span className="badge">{calc.badge}</span>}
-                </Link>
-              );
-            })}
-          </div>
-
-          {/* Category FAQs section */}
-          <div className="seo-content-sections" style={{ marginTop: '40px' }}>
-            <section className="seo-section">
-              <h2>
-                <Icon name="fa-circle-question" />
-                Frequently Asked Questions — {catMeta.name} Calculators
-              </h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '16px' }}>
-                {categoryFAQs.map((faq, idx) => (
-                  <details
-                    key={idx}
-                    className="res-card"
-                    style={{ textAlign: 'left', padding: '16px 20px', cursor: 'pointer' }}
-                  >
-                    <summary style={{ fontWeight: 600, color: 'var(--txt)', outline: 'none' }}>
-                      {faq.q}
-                    </summary>
-                    <p style={{ marginTop: '12px', fontSize: '0.88rem', color: 'var(--txt1)', lineHeight: 1.7 }}>
-                      {faq.a}
-                    </p>
-                  </details>
-                ))}
-              </div>
-            </section>
-          </div>
+          <CategoryCalculatorList
+            initialCalcs={calcs.map((id) => ({
+              id,
+              calc: {
+                name: DB[id].name,
+                desc: DB[id].desc,
+                icon: DB[id].icon,
+                badge: DB[id].badge,
+              },
+              slug: getSlugForId(id),
+            }))}
+            categoryKey={catKey}
+            categoryColor={catMeta.color}
+          />
         </div>
-      </>
-    );
+      );
+    }
   }
 
   const calcId = findCalcBySlug(slug);
@@ -431,16 +334,22 @@ export default async function CalculatorPage({
   const howToSteps = generateHowToSteps(calc.name, calc.inputs);
   const crossLinks = getCrossCategoryLinks(calcId);
 
+  // Quick Answer block for featured snippet targeting (Phase 6)
+  const quickAnswer = getQuickAnswer(calcId, calc.name, calc.desc, calc.cat);
+
+  // Glossary terms for topical depth (Phase 6)
+  const glossaryTerms = getGlossaryTerms(calc.cat);
+
   // Category → gradient + icon mapping for thumbnails
   const BLOG_CAT_THEME: Record<string, { gradient: string; icon: string }> = {
-    finance:   { gradient: 'linear-gradient(135deg, #1E3A5F, #2563EB)', icon: 'fa-landmark' },
-    tax:       { gradient: 'linear-gradient(135deg, #1E3A5F, #3B82F6)', icon: 'fa-file-invoice-dollar' },
-    health:    { gradient: 'linear-gradient(135deg, #7F1D1D, #DC2626)', icon: 'fa-heartbeat' },
+    finance: { gradient: 'linear-gradient(135deg, #1E3A5F, #2563EB)', icon: 'fa-landmark' },
+    tax: { gradient: 'linear-gradient(135deg, #1E3A5F, #3B82F6)', icon: 'fa-file-invoice-dollar' },
+    health: { gradient: 'linear-gradient(135deg, #7F1D1D, #DC2626)', icon: 'fa-heartbeat' },
     education: { gradient: 'linear-gradient(135deg, #1E3A5F, #60A5FA)', icon: 'fa-graduation-cap' },
     lifestyle: { gradient: 'linear-gradient(135deg, #713F12, #D97706)', icon: 'fa-lightbulb' },
-    everyday:  { gradient: 'linear-gradient(135deg, #78350F, #F59E0B)', icon: 'fa-calculator' },
-    math:      { gradient: 'linear-gradient(135deg, #312E81, #6366F1)', icon: 'fa-square-root-variable' },
-    science:   { gradient: 'linear-gradient(135deg, #4C1D95, #7C3AED)', icon: 'fa-flask' },
+    everyday: { gradient: 'linear-gradient(135deg, #78350F, #F59E0B)', icon: 'fa-calculator' },
+    math: { gradient: 'linear-gradient(135deg, #312E81, #6366F1)', icon: 'fa-square-root-variable' },
+    science: { gradient: 'linear-gradient(135deg, #4C1D95, #7C3AED)', icon: 'fa-flask' },
     engineering: { gradient: 'linear-gradient(135deg, #334155, #64748B)', icon: 'fa-gear' },
   };
 
@@ -453,7 +362,7 @@ export default async function CalculatorPage({
   const recommendedBlogs = (() => {
     // 1. First get any blogs directly linked to this calculator
     const directBlogs = BLOG_POSTS.filter((post) => post.calc === calcId);
-    
+
     // 2. Next get blogs from the same category
     const catMapping: Record<string, string[]> = {
       finance: ['Finance', 'Tax'],
@@ -480,7 +389,7 @@ export default async function CalculatorPage({
 
     // Combine them in order: direct first, then category, then fallbacks
     const combined = [...directBlogs, ...categoryBlogs, ...fallbacks];
-    
+
     // Remove duplicates and limit to 3 posts
     const seen = new Set<string>();
     const unique = combined.filter((post) => {
@@ -492,115 +401,28 @@ export default async function CalculatorPage({
     return unique.slice(0, 3);
   })();
 
-  // JSON-LD structured data — WebApplication (better than SoftwareApplication for interactive tools)
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'WebApplication',
-    name: `${calc.name} - Calc Labz`,
-    description: calc.desc,
-    url: `https://calclabz.com/${slug}`,
-    applicationCategory: getSchemaCategory(calc.cat),
-    operatingSystem: 'Web',
-    browserRequirements: 'Requires JavaScript',
-    softwareVersion: '2026',
-    inLanguage: 'en-IN',
-    isAccessibleForFree: true,
-    offers: {
-      '@type': 'Offer',
-      price: '0',
-      priceCurrency: 'INR',
-    },
-    featureList: [
-      'Instant calculation with real-time updates',
-      'No signup or registration required',
-      'Works offline as PWA',
-      'Data stays on your device — 100% private',
-      'Verified formulas updated for 2026',
+  // JSON-LD structured data — use centralized schema factory
+  // Generates WebApplication + BreadcrumbList + FAQPage + HowTo in one call.
+  const calcSchemas = getCalculatorSchemas({
+    name: calc.name,
+    desc: calc.desc,
+    slug,
+    category: getSchemaCategory(calc.cat),
+    faqs,
+    breadcrumbs: [
+      { name: 'Home', url: 'https://calclabz.com/' },
+      { name: catMeta.name, url: `https://calclabz.com/${calc.cat}-calculators` },
+      { name: calc.name, url: `https://calclabz.com/${slug}` },
     ],
-    author: {
-      '@type': 'Person',
-      name: 'Sagar Sahni',
-      url: 'https://calclabz.com/author/sagar-sahni',
-      jobTitle: 'Founder & Editor',
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'Calc Labz',
-      url: 'https://calclabz.com',
-      logo: {
-        '@type': 'ImageObject',
-        url: 'https://calclabz.com/calclabz-logo.png',
-      },
-    },
-    datePublished: '2024-01-01',
-    dateModified: '2026-05-22',
-    screenshot: 'https://calclabz.com/og-image.png',
-  };
-
-  const breadcrumbJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://calclabz.com/' },
-      { '@type': 'ListItem', position: 2, name: catMeta.name, item: `https://calclabz.com/${calc.cat}-calculators` },
-      { '@type': 'ListItem', position: 3, name: calc.name, item: `https://calclabz.com/${slug}` },
-    ],
-  };
-
-  const faqJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqs.map((faq) => ({
-      '@type': 'Question',
-      name: faq.q,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: faq.a,
-      },
-    })),
-  };
-
-  // HowTo schema — Google shows step-by-step rich results
-  const howToJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'HowTo',
-    name: `How to Use the ${calc.name}`,
-    description: `Step-by-step guide to using the free ${calc.name.toLowerCase()} on Calc Labz.`,
-    totalTime: 'PT1M',
-    tool: { '@type': 'HowToTool', name: 'Web browser' },
-    step: howToSteps.map((step, idx) => ({
-      '@type': 'HowToStep',
-      position: idx + 1,
-      name: step.name,
-      text: step.text,
-    })),
-  };
+    howToSteps,
+  });
 
   return (
     <>
-      {/* JSON-LD Schemas */}
-      <Script
-        id="calc-jsonld"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      <Script
-        id="calc-breadcrumb"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-      />
-      <Script
-        id="calc-faq"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
-      <Script
-        id="calc-howto"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
-      />
+      {/* JSON-LD Schemas — raw <script> tags for SSR HTML visibility to Googlebot */}
+      <JsonLd id="calc-schemas" data={calcSchemas} />
 
-      <div className="card">
+      <article className="card" itemScope itemType="https://schema.org/WebApplication">
         {/* Breadcrumb */}
         <nav className="crumb" aria-label="Breadcrumb">
           <Link href="/">Home</Link>
@@ -620,6 +442,13 @@ export default async function CalculatorPage({
             <FavoriteToggle slug={slug} name={calc.name} />
           </div>
         </div>
+
+        {/* Quick Answer — Featured Snippet Target (Phase 6 AI Search) */}
+        <QuickAnswer
+          question={quickAnswer.question}
+          answer={quickAnswer.answer}
+          calculatorName={calc.name}
+        />
 
         {/* Badges */}
         <div className="calc-badges">
@@ -648,7 +477,7 @@ export default async function CalculatorPage({
                     <Icon name="fa-square-root-variable" />
                     Mathematical Formula
                   </h3>
-                  
+
                   <div className="formula-display">
                     <code>{formulaInfo.formula}</code>
                   </div>
@@ -907,8 +736,26 @@ export default async function CalculatorPage({
             </h2>
             <p>{seoContent.whyUse}</p>
           </section>
+
+          {/* Glossary / Related Terms — Topical Depth (Phase 6) */}
+          {glossaryTerms.length > 0 && (
+            <section className="seo-section" id={`glossary-${calcId}`}>
+              <h2>
+                <Icon name="fa-book" />
+                Key Terms &amp; Glossary
+              </h2>
+              <dl className="glossary-grid">
+                {glossaryTerms.slice(0, 6).map((term, idx) => (
+                  <div key={idx} className="glossary-item">
+                    <dt>{term.term}</dt>
+                    <dd>{term.definition}</dd>
+                  </div>
+                ))}
+              </dl>
+            </section>
+          )}
         </div>
-      </div>
+      </article>
     </>
   );
 }

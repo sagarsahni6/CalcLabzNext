@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Script from 'next/script';
 import AboutContactCard from '@/components/ui/AboutContactCard';
+import JsonLd from '@/components/seo/JsonLd';
 
 export const metadata: Metadata = {
   title: 'About Calc Labz — Our Mission, Team & Methodology',
@@ -56,17 +56,8 @@ export default function AboutPage() {
 
   return (
     <div className="pulse">
-      {/* JSON-LD Structured Data */}
-      <Script
-        id="about-schema"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
-      />
-      <Script
-        id="about-breadcrumb"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
+      {/* JSON-LD — raw <script> tags for SSR HTML visibility to Googlebot */}
+      <JsonLd id="about-schemas" data={[aboutSchema, breadcrumbSchema]} />
       <nav className="crumb" aria-label="Breadcrumb">
         <Link href="/">Home</Link>
         <span>&rsaquo;</span>

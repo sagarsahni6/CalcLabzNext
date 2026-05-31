@@ -1,105 +1,136 @@
-/* Calc Labz Service Worker — Production Hardened (v17)
-   - HTML: Network-first with offline cache fallback
-   - Assets (JS/CSS/images): Cache-first with background revalidation
-   - Never cache error/non-ok responses
-   - Offline fallback to cached index.html for navigation requests
-*/
-const CACHE = 'calclabz-v26';
-const CACHE_VER = '26'; // Bump this on every deploy
-const ASSETS = [
-    './',
-    'index.html',
-    'calclabz-logo.png',
-    'manifest.json',
-    'assets/css/main.css?v=' + CACHE_VER,
-    // Core stubs
-    'assets/js/css-swap.js?v=' + CACHE_VER,
-    'assets/js/calculators-core.js?v=' + CACHE_VER,
-    'assets/js/blog-posts.js?v=' + CACHE_VER,
-    'assets/js/blog-content-finance.js?v=' + CACHE_VER,
-    'assets/js/blog-content-health.js?v=' + CACHE_VER,
-    'assets/js/blog-content-education.js?v=' + CACHE_VER,
-    'assets/js/blog-content-lifestyle.js?v=' + CACHE_VER,
-    'assets/js/faq-data.js?v=' + CACHE_VER,
-    'assets/js/formulas.js?v=' + CACHE_VER,
-    'assets/js/consent.js?v=' + CACHE_VER,
-    'assets/js/app.js?v=' + CACHE_VER,
-    // Lazy-loaded category files (pre-cached for offline-first)
-    'assets/js/calculators-finance.js?v=' + CACHE_VER,
-    'assets/js/calculators-health.js?v=' + CACHE_VER,
-    'assets/js/calculators-math.js?v=' + CACHE_VER,
-    'assets/js/calculators-unit.js?v=' + CACHE_VER,
-    'assets/js/calculators-everyday.js?v=' + CACHE_VER,
-    'assets/js/calculators-datetime.js?v=' + CACHE_VER,
-    'assets/js/calculators-engineering.js?v=' + CACHE_VER,
-    'assets/js/calculators-science.js?v=' + CACHE_VER,
-    'assets/js/calculators-construction.js?v=' + CACHE_VER,
-    'assets/js/calculators-education.js?v=' + CACHE_VER
-];
+/* ═══════════════════════════════════════════════════
+   Calc Labz Service Worker — Next.js Compatible (v2)
 
-self.addEventListener('install', e => {
-    e.waitUntil(
-        caches.open(CACHE)
-            .then(c => c.addAll(ASSETS))
-            .then(() => self.skipWaiting())
-    );
+   Strategy:
+   - Navigation (HTML): Network-first with offline fallback
+   - Next.js static assets (/_next/static/): Cache-first (immutable)
+   - Public assets (images, fonts): Stale-while-revalidate
+   - API routes: Network-only (never cache)
+   - Bypasses: localhost, hot-update, webpack HMR
+
+   Cache naming: calclabz-runtime-v1 (bump on breaking changes)
+   ═══════════════════════════════════════════════════ */
+
+const RUNTIME_CACHE = 'calclabz-runtime-v1';
+const STATIC_CACHE = 'calclabz-static-v1';
+const OFFLINE_URL = '/';
+
+// ── INSTALL ────────────────────────────────────────
+// Pre-cache only the offline fallback page
+self.addEventListener('install', (e) => {
+  e.waitUntil(
+    caches.open(RUNTIME_CACHE)
+      .then((cache) => cache.add(OFFLINE_URL))
+      .then(() => self.skipWaiting())
+  );
 });
 
-self.addEventListener('activate', e => {
-    e.waitUntil(
-        caches.keys().then(keys =>
-            Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
-        ).then(() => self.clients.claim())
-    );
+// ── ACTIVATE ───────────────────────────────────────
+// Clean up old caches from previous versions
+self.addEventListener('activate', (e) => {
+  const KEEP = new Set([RUNTIME_CACHE, STATIC_CACHE]);
+  e.waitUntil(
+    caches.keys()
+      .then((keys) => Promise.all(
+        keys.filter((k) => !KEEP.has(k)).map((k) => caches.delete(k))
+      ))
+      .then(() => self.clients.claim())
+  );
 });
 
-self.addEventListener('fetch', e => {
-    if (e.request.method !== 'GET') return;
-    const url = new URL(e.request.url);
-    if (url.origin !== self.location.origin) return;
+// ── FETCH ──────────────────────────────────────────
+self.addEventListener('fetch', (e) => {
+  const { request } = e;
 
-    // Bypass Next.js internal chunks, hot module updates, and localhost development
-    if (url.pathname.startsWith('/_next/') || url.pathname.includes('hot-update') || self.location.hostname === 'localhost' || self.location.hostname === '127.0.0.1') {
-        return;
-    }
+  // Only handle GET requests
+  if (request.method !== 'GET') return;
 
-    // HTML navigation requests: Network-first
-    // Ensures users always get fresh HTML after deploys
-    const isNavigation = e.request.mode === 'navigate';
-    const isHTML = (e.request.headers.get('accept') || '').includes('text/html');
+  const url = new URL(request.url);
 
-    if (isNavigation || isHTML) {
-        e.respondWith(
-            fetch(e.request)
-                .then(response => {
-                    // Only cache successful HTML responses
-                    if (response.ok) {
-                        const clone = response.clone();
-                        caches.open(CACHE).then(c => c.put(e.request, clone));
-                    }
-                    return response;
-                })
-                .catch(() =>
-                    // Offline: try cache, then fall back to index.html
-                    caches.match(e.request)
-                        .then(cached => cached || caches.match('index.html'))
-                )
-        );
-        return;
-    }
+  // Skip cross-origin requests
+  if (url.origin !== self.location.origin) return;
 
-    // Static assets (JS, CSS, images, fonts): Cache-first with background revalidation
+  // Skip development environment
+  if (url.hostname === 'localhost' || url.hostname === '127.0.0.1') return;
+
+  // Skip HMR and webpack dev assets
+  if (url.pathname.includes('hot-update') || url.pathname.includes('__webpack')) return;
+
+  // Skip API routes — always fetch fresh
+  if (url.pathname.startsWith('/api/')) return;
+
+  // ── Next.js immutable static assets ──────────────
+  // /_next/static/ files have content hashes — safe to cache forever
+  if (url.pathname.startsWith('/_next/static/')) {
     e.respondWith(
-        caches.match(e.request).then(cached => {
-            const fetchPromise = fetch(e.request).then(response => {
-                // Only cache successful responses
-                if (response.ok) {
-                    const clone = response.clone();
-                    caches.open(CACHE).then(c => c.put(e.request, clone));
-                }
-                return response;
-            }).catch(() => cached);
-            return cached || fetchPromise;
-        })
+      caches.match(request).then((cached) => {
+        if (cached) return cached;
+        return fetch(request).then((response) => {
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(STATIC_CACHE).then((c) => c.put(request, clone));
+          }
+          return response;
+        });
+      })
     );
+    return;
+  }
+
+  // ── Navigation requests (HTML pages) ─────────────
+  // Network-first: always try to get fresh HTML,
+  // fall back to cache for offline support
+  const isNavigation = request.mode === 'navigate';
+  const isHTML = (request.headers.get('accept') || '').includes('text/html');
+
+  if (isNavigation || isHTML) {
+    e.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(RUNTIME_CACHE).then((c) => c.put(request, clone));
+          }
+          return response;
+        })
+        .catch(() =>
+          caches.match(request)
+            .then((cached) => cached || caches.match(OFFLINE_URL))
+        )
+    );
+    return;
+  }
+
+  // ── Static public assets (images, icons, manifest) ─
+  // Stale-while-revalidate: serve from cache instantly,
+  // update cache in background
+  if (/\.(png|jpg|jpeg|webp|avif|svg|ico|woff2?|ttf|json)$/i.test(url.pathname)) {
+    e.respondWith(
+      caches.match(request).then((cached) => {
+        const fetchPromise = fetch(request).then((response) => {
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(RUNTIME_CACHE).then((c) => c.put(request, clone));
+          }
+          return response;
+        }).catch(() => cached);
+
+        return cached || fetchPromise;
+      })
+    );
+    return;
+  }
+
+  // ── Everything else: network-first ───────────────
+  e.respondWith(
+    fetch(request)
+      .then((response) => {
+        if (response.ok) {
+          const clone = response.clone();
+          caches.open(RUNTIME_CACHE).then((c) => c.put(request, clone));
+        }
+        return response;
+      })
+      .catch(() => caches.match(request))
+  );
 });

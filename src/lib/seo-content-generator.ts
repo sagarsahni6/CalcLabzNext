@@ -203,3 +203,171 @@ export function generateCategoryFAQs(
     },
   ];
 }
+
+// ── QUICK ANSWER GENERATOR (Phase 6 — AI Search) ─────
+// Returns a concise 2-3 sentence answer targeting featured snippets
+// and AI Overviews. Falls back to auto-generated content.
+
+const CUSTOM_QUICK_ANSWERS: Record<string, { question: string; answer: string }> = {
+  emi: {
+    question: 'Quick Answer — What is EMI?',
+    answer: 'The EMI for a <strong>₹10 Lakh home loan at 8.5% for 10 years is approximately ₹12,399/month</strong>. Total interest paid: ₹4,87,880. EMI (Equated Monthly Installment) is the fixed monthly payment that includes both principal and interest. Use the calculator below for your exact scenario.',
+  },
+  sip: {
+    question: 'Quick Answer — SIP Returns',
+    answer: 'A monthly SIP of <strong>₹5,000 for 15 years at 12% expected returns grows to approximately ₹25.2 Lakh</strong> — with only ₹9 Lakh invested. SIP leverages rupee cost averaging and compound interest for disciplined wealth creation.',
+  },
+  gst: {
+    question: 'Quick Answer — GST Calculation',
+    answer: 'To add 18% GST to ₹1,000: <strong>GST = ₹180, Total = ₹1,180</strong>. To remove GST: Original price = ₹1,180 ÷ 1.18 = ₹1,000. CGST and SGST are each 9% for intra-state transactions.',
+  },
+  bmi: {
+    question: 'Quick Answer — BMI Range',
+    answer: 'A person weighing <strong>70 kg at 175 cm height has a BMI of 22.9 — Normal weight</strong>. BMI under 18.5 is underweight, 18.5–24.9 is normal, 25–29.9 is overweight, and 30+ is obese. For Asians, health risks increase above 23.',
+  },
+  incometax: {
+    question: 'Quick Answer — Income Tax FY 2025-26',
+    answer: 'Under the New Tax Regime, income up to <strong>₹12 Lakh (₹12.75L for salaried with standard deduction) is effectively tax-free</strong> thanks to Section 87A rebate. Above that, rates are: 5% (3-7L), 10% (7-10L), 15% (10-12L), 20% (12-15L), and 30% (above 15L).',
+  },
+  compoundinterest: {
+    question: 'Quick Answer — Compound Interest',
+    answer: 'Investing <strong>₹1 Lakh at 8% compounded quarterly for 5 years yields ₹1,48,595</strong> — that\'s ₹48,595 in interest. Compound interest earns "interest on interest," making it far more powerful than simple interest over time.',
+  },
+  tdee: {
+    question: 'Quick Answer — Daily Calories',
+    answer: 'An average 30-year-old male (175 cm, 75 kg, moderately active) burns approximately <strong>2,500-2,700 calories per day</strong>. To lose weight, eat 300-500 calories below your TDEE. To gain muscle, eat 200-300 above.',
+  },
+  bodyfat: {
+    question: 'Quick Answer — Healthy Body Fat',
+    answer: 'Healthy body fat ranges: <strong>Men: 10-20%, Women: 18-28%</strong>. Athletes: Men 6-13%, Women 14-20%. Essential fat minimums: Men 2-5%, Women 10-13%. Body fat % is a better fitness indicator than BMI alone.',
+  },
+  percentage: {
+    question: 'Quick Answer — Percentage Formula',
+    answer: 'To find X% of a number: <strong>multiply the number by X and divide by 100</strong>. Example: 15% of ₹2,000 = (2000 × 15) ÷ 100 = ₹300. For percentage change: ((New - Old) ÷ Old) × 100.',
+  },
+  fd: {
+    question: 'Quick Answer — FD Returns',
+    answer: 'A <strong>₹5 Lakh FD at 7% for 5 years (quarterly compounding) matures to approximately ₹7,09,259</strong> — earning ₹2,09,259 as interest. Senior citizens typically get 0.5% higher rates from most Indian banks.',
+  },
+  ppf: {
+    question: 'Quick Answer — PPF Maturity',
+    answer: 'Investing <strong>₹1.5 Lakh/year in PPF at 7.1% for 15 years gives ₹40.68 Lakh</strong> — with ₹22.5 Lakh invested. PPF is tax-free under EEE status: investment (80C), interest, and maturity are all exempt.',
+  },
+  mortgage: {
+    question: 'Quick Answer — Home Loan EMI',
+    answer: 'For a <strong>₹50 Lakh home loan at 8.5% for 20 years, the monthly EMI is approximately ₹43,391</strong>. Total interest paid over the tenure: ₹54.14 Lakh. Prepaying even small amounts can save lakhs in interest.',
+  },
+  inhandsalary: {
+    question: 'Quick Answer — Take-Home Pay',
+    answer: 'For a <strong>₹12 LPA CTC, your approximate in-hand salary is ₹82,000-85,000/month</strong> after PF (12%), professional tax, and income tax deductions under the new regime. Actual amount varies by company structure.',
+  },
+};
+
+/**
+ * Returns a Quick Answer block for featured snippet targeting.
+ * Falls back to auto-generated content if no custom answer exists.
+ */
+export function getQuickAnswer(
+  calcId: string,
+  calcName: string,
+  calcDesc: string,
+  category: CalculatorCategory,
+): { question: string; answer: string } {
+  const custom = CUSTOM_QUICK_ANSWERS[calcId];
+  if (custom) return custom;
+
+  const catName = getCategoryName(category);
+  return {
+    question: `Quick Answer — ${calcName.replace(' Calculator', '')}`,
+    answer: `The <strong>${calcName}</strong> is a free online ${catName.toLowerCase()} tool that helps you ${calcDesc.toLowerCase()}. Enter your values above for <strong>instant, accurate results</strong> — no signup required. All calculations run privately in your browser.`,
+  };
+}
+
+// ── GLOSSARY TERMS GENERATOR (Phase 6 — Topical Depth) ────
+// Returns related terms/definitions for a calculator to increase
+// topical authority and help users understand key concepts.
+
+interface GlossaryTerm {
+  term: string;
+  definition: string;
+}
+
+const CATEGORY_GLOSSARY: Record<string, GlossaryTerm[]> = {
+  finance: [
+    { term: 'Principal', definition: 'The original amount of money borrowed or invested, before any interest is applied.' },
+    { term: 'Interest Rate', definition: 'The percentage charged on borrowed money or earned on invested money, usually expressed per annum.' },
+    { term: 'Compound Interest', definition: 'Interest calculated on both the initial principal and previously accumulated interest — "interest on interest."' },
+    { term: 'Amortization', definition: 'The process of spreading loan repayment into equal installments over a fixed period.' },
+    { term: 'Maturity', definition: 'The date on which a financial instrument (FD, bond, PPF) reaches its full term and the principal is returned.' },
+    { term: 'CAGR', definition: 'Compound Annual Growth Rate — the smoothed annual rate of return on an investment over a specified period.' },
+    { term: 'NAV', definition: 'Net Asset Value — the per-unit price of a mutual fund, calculated by dividing total assets minus liabilities by outstanding units.' },
+    { term: 'Tenure', definition: 'The total duration or time period of a loan, investment, or financial contract.' },
+  ],
+  health: [
+    { term: 'BMI', definition: 'Body Mass Index — a screening tool that estimates body fat using weight and height (kg/m²).' },
+    { term: 'BMR', definition: 'Basal Metabolic Rate — the number of calories your body burns at complete rest to maintain vital functions.' },
+    { term: 'TDEE', definition: 'Total Daily Energy Expenditure — total calories burned per day including BMR, activity, and thermic effect of food.' },
+    { term: 'Macros', definition: 'Macronutrients: protein, carbohydrates, and fats — the three main nutrients that provide energy (calories).' },
+    { term: 'Caloric Deficit', definition: 'Consuming fewer calories than your TDEE, causing your body to use stored fat for energy, leading to weight loss.' },
+    { term: 'Body Fat %', definition: 'The percentage of your total body weight that is composed of fat tissue, as opposed to lean mass.' },
+    { term: 'VO2 Max', definition: 'Maximum oxygen uptake — the highest rate at which your body can consume oxygen during intense exercise.' },
+    { term: 'Lean Body Mass', definition: 'Your total body weight minus fat mass — includes muscle, bone, organs, and water.' },
+  ],
+  math: [
+    { term: 'Percentage', definition: 'A fraction or ratio expressed as a part of 100, denoted by the % symbol.' },
+    { term: 'Mean (Average)', definition: 'The sum of all values divided by the count of values in a dataset.' },
+    { term: 'Standard Deviation', definition: 'A measure of how spread out numbers are from the mean — higher means more variability.' },
+    { term: 'Quadratic Equation', definition: 'A polynomial equation of degree 2, in the form ax² + bx + c = 0, solved using the quadratic formula.' },
+    { term: 'Square Root', definition: 'A number that, when multiplied by itself, gives the original number. √25 = 5.' },
+    { term: 'Factorial', definition: 'The product of all positive integers up to a given number. 5! = 5 × 4 × 3 × 2 × 1 = 120.' },
+  ],
+  everyday: [
+    { term: 'Tip', definition: 'A gratuity or extra payment given to service providers, usually calculated as a percentage of the bill.' },
+    { term: 'Discount', definition: 'A reduction from the original price, expressed as a percentage or absolute amount off.' },
+    { term: 'Fuel Efficiency', definition: 'How far a vehicle travels per unit of fuel, measured in km/L (kilometers per liter) in India.' },
+    { term: 'Unit Price', definition: 'The cost per single unit of measurement (per kg, per liter, per piece) — used to compare value.' },
+    { term: 'ROI', definition: 'Return on Investment — the gain or loss on an investment relative to its cost, expressed as a percentage.' },
+  ],
+  education: [
+    { term: 'CGPA', definition: 'Cumulative Grade Point Average — the weighted average of grade points across all semesters.' },
+    { term: 'GPA', definition: 'Grade Point Average — the average of grade points earned in a single semester or academic period.' },
+    { term: 'Percentile', definition: 'A score below which a given percentage of scores fall — 90th percentile means you scored higher than 90% of test-takers.' },
+    { term: 'Credit Hours', definition: 'The weightage assigned to a course based on lecture and lab hours per week.' },
+  ],
+  engineering: [
+    { term: 'Ohm\'s Law', definition: 'V = I × R — Voltage equals Current times Resistance. The fundamental law of electrical circuits.' },
+    { term: 'Power Factor', definition: 'The ratio of real power to apparent power in an AC circuit, ranging from 0 to 1.' },
+    { term: 'Torque', definition: 'A rotational force measured in Newton-meters (N·m) that causes an object to rotate about an axis.' },
+    { term: 'Reynolds Number', definition: 'A dimensionless quantity predicting whether fluid flow is laminar (smooth) or turbulent.' },
+  ],
+  construction: [
+    { term: 'Concrete Mix Ratio', definition: 'The proportion of cement, sand, and aggregate (e.g., M20 = 1:1.5:3) that determines concrete strength.' },
+    { term: 'Stamp Duty', definition: 'A state government tax levied on property registration, calculated as a percentage of property value.' },
+    { term: 'Carpet Area', definition: 'The usable floor area of a property, excluding walls, balcony, and common spaces.' },
+    { term: 'Built-up Area', definition: 'Carpet area plus the thickness of inner and outer walls — larger than carpet area.' },
+  ],
+  datetime: [
+    { term: 'Leap Year', definition: 'A year with 366 days (Feb 29). Occurs every 4 years, except centuries not divisible by 400.' },
+    { term: 'Working Days', definition: 'Business days excluding weekends and public holidays, used for project planning and payroll.' },
+    { term: 'IST', definition: 'Indian Standard Time — UTC+5:30, the single time zone used across India.' },
+  ],
+  science: [
+    { term: 'Acceleration', definition: 'The rate of change of velocity over time, measured in m/s² (meters per second squared).' },
+    { term: 'pH', definition: 'A scale from 0-14 measuring acidity/alkalinity: 7 is neutral, below 7 is acidic, above 7 is basic.' },
+    { term: 'Half-Life', definition: 'The time required for half of a radioactive substance to decay into another element.' },
+    { term: 'Kinetic Energy', definition: 'Energy possessed by a body due to its motion: KE = ½mv² (mass × velocity²).' },
+  ],
+  unit: [
+    { term: 'Metric System', definition: 'The decimal measuring system based on meters, kilograms, and seconds (MKS) — used globally.' },
+    { term: 'Imperial System', definition: 'The measuring system using feet, pounds, and Fahrenheit — primarily used in the US.' },
+    { term: 'SI Units', definition: 'International System of Units — the modern standard: meter, kilogram, second, ampere, kelvin, mole, candela.' },
+  ],
+};
+
+/**
+ * Returns glossary terms relevant to a calculator's category.
+ * These provide topical depth for SEO and help users understand key concepts.
+ */
+export function getGlossaryTerms(category: CalculatorCategory): GlossaryTerm[] {
+  return CATEGORY_GLOSSARY[category] || [];
+}

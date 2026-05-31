@@ -2,57 +2,53 @@ import { MetadataRoute } from 'next';
 import { getAllCalculatorSlugs } from '@/data/calculator-db';
 import { CATEGORY_META } from '@/types/calculator';
 import { BLOG_POSTS } from '@/data/blog-db';
+import { SEO } from '@/lib/seo/constants';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://calclabz.com';
+  const baseUrl = SEO.BASE_URL;
 
-  // Stable last-modified date — update this when calculators are genuinely changed.
+  // Stable last-modified date for calculators — update when content genuinely changes.
   // Using a fixed date prevents Google from seeing false "changed" signals every build.
-  const LAST_CONTENT_UPDATE = new Date('2026-05-22');
+  const CALC_LAST_MODIFIED = new Date(SEO.LAST_CONTENT_UPDATE);
 
-  // 1. Core static routes
-  const staticRoutes = [
-    '',
-    '/about',
-    '/contact',
-    '/privacy',
-    '/terms',
-    '/disclaimer',
-    '/editorial-policy',
-    '/dashboard',
-    '/blog',
-    '/author/sagar-sahni',
-  ].map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: LAST_CONTENT_UPDATE,
-    changeFrequency: 'weekly' as const,
-    priority: route === '' ? 1.0 : 0.7,
-  }));
+  // 1. Core static routes — with proper priorities per the SEO plan
+  const staticRoutes: MetadataRoute.Sitemap = [
+    { url: baseUrl, lastModified: CALC_LAST_MODIFIED, changeFrequency: 'weekly', priority: 1.0 },
+    { url: `${baseUrl}/blog`, lastModified: CALC_LAST_MODIFIED, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${baseUrl}/about`, lastModified: CALC_LAST_MODIFIED, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${baseUrl}/author/sagar-sahni`, lastModified: CALC_LAST_MODIFIED, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${baseUrl}/contact`, lastModified: CALC_LAST_MODIFIED, changeFrequency: 'yearly', priority: 0.5 },
+    { url: `${baseUrl}/privacy`, lastModified: CALC_LAST_MODIFIED, changeFrequency: 'yearly', priority: 0.4 },
+    { url: `${baseUrl}/terms`, lastModified: CALC_LAST_MODIFIED, changeFrequency: 'yearly', priority: 0.4 },
+    { url: `${baseUrl}/disclaimer`, lastModified: CALC_LAST_MODIFIED, changeFrequency: 'yearly', priority: 0.4 },
+    { url: `${baseUrl}/editorial-policy`, lastModified: CALC_LAST_MODIFIED, changeFrequency: 'yearly', priority: 0.5 },
+    // Dashboard excluded — user-specific content with no SEO value
+  ];
 
-  // 2. Category calculators list pages (e.g. /finance-calculators)
-  const categoryRoutes = Object.keys(CATEGORY_META).map((catKey) => ({
+  // 2. Category calculator list pages — high priority hub pages
+  const categoryRoutes: MetadataRoute.Sitemap = Object.keys(CATEGORY_META).map((catKey) => ({
     url: `${baseUrl}/${catKey}-calculators`,
-    lastModified: LAST_CONTENT_UPDATE,
+    lastModified: CALC_LAST_MODIFIED,
     changeFrequency: 'weekly' as const,
     priority: 0.85,
   }));
 
-  // 3. Dynamic calculator pages — these are our money pages, highest priority after home
-  const calcRoutes = getAllCalculatorSlugs().map((slug) => ({
+  // 3. Dynamic calculator pages — money pages, highest priority after home
+  const calcRoutes: MetadataRoute.Sitemap = getAllCalculatorSlugs().map((slug) => ({
     url: `${baseUrl}/${slug}`,
-    lastModified: LAST_CONTENT_UPDATE,
+    lastModified: CALC_LAST_MODIFIED,
     changeFrequency: 'weekly' as const,
     priority: 0.9,
   }));
 
-  // 4. Dynamic blog post pages (e.g. /blog/emi-calculator-guide-india-2026)
-  const blogPostRoutes = BLOG_POSTS.map((post) => ({
+  // 4. Dynamic blog post pages — use per-post isoDate as lastModified
+  const blogPostRoutes: MetadataRoute.Sitemap = BLOG_POSTS.map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: LAST_CONTENT_UPDATE,
+    // Use the actual post date for per-post freshness signals
+    lastModified: post.isoDate ? new Date(post.isoDate) : CALC_LAST_MODIFIED,
     changeFrequency: 'monthly' as const,
-    priority: 0.7,
+    priority: 0.8,
   }));
 
   return [...staticRoutes, ...categoryRoutes, ...calcRoutes, ...blogPostRoutes];
 }
-

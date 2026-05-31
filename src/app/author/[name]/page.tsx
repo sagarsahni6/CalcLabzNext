@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import Script from 'next/script';
 import { BLOG_POSTS } from '@/data/blog-db';
 import { Mail } from 'lucide-react';
+import JsonLd from '@/components/seo/JsonLd';
 
 interface PageProps {
   params: Promise<{ name: string }>;
@@ -83,17 +83,8 @@ export default async function AuthorPage({ params }: PageProps) {
 
   return (
     <div className="pulse">
-      {/* JSON-LD Structured Data */}
-      <Script
-        id="person-schema"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
-      />
-      <Script
-        id="author-breadcrumb"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
+      {/* JSON-LD — raw <script> tags for SSR HTML visibility to Googlebot */}
+      <JsonLd id="author-schemas" data={[personSchema, breadcrumbSchema]} />
       <nav className="crumb" aria-label="Breadcrumb">
         <Link href="/">Home</Link>
         <span>&rsaquo;</span>

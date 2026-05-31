@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
-import { DB, findCalcBySlug } from '@/data/calculator-db';
 import ThemeProvider from '@/components/layout/ThemeProvider';
 import Header from '@/components/layout/Header';
 import Sidebar from '@/components/layout/Sidebar';
@@ -11,8 +10,11 @@ import ConsentBanner from '@/components/layout/ConsentBanner';
 import BackToTop from '@/components/ui/BackToTop';
 import LoadingBar from '@/components/ui/LoadingBar';
 import dynamic from 'next/dynamic';
-const CommandPalette = dynamic(() => import('@/components/ui/CommandPalette'));
+import JsonLd from '@/components/seo/JsonLd';
+import { getGlobalSchemas } from '@/lib/seo/schema';
 import Script from 'next/script';
+
+const CommandPalette = dynamic(() => import('@/components/ui/CommandPalette'));
 
 const inter = Inter({
   subsets: ['latin'],
@@ -31,7 +33,7 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-mono',
-  weight: ['400', '500', '600', '700'],
+  weight: ['400', '500'], // Only regular + medium needed for inputs/code
 });
 
 
@@ -39,18 +41,27 @@ export const metadata: Metadata = {
   title: 'Calc Labz — 300+ Free Online Calculators | EMI, SIP, GST, BMI & More',
   description: 'Free online calculators for EMI, SIP, GST, BMI, income tax and 300+ more. Instant results, no signup, works offline as a PWA.',
   metadataBase: new URL('https://calclabz.com'),
+  robots: {
+    index: true,
+    follow: true,
+    'max-image-preview': 'large',
+    'max-snippet': -1,
+    'max-video-preview': -1,
+  },
   openGraph: {
     title: 'Calc Labz — 300+ Free Online Calculators',
     description: 'Free online calculators for EMI, SIP, GST, BMI, income tax and 300+ more. Instant results, no signup.',
     url: 'https://calclabz.com',
     siteName: 'Calc Labz',
     type: 'website',
-    images: [{ url: '/og-image.png', width: 1200, height: 630 }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Calc Labz — Free Online Calculators' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Calc Labz — 300+ Free Online Calculators',
     description: 'Free calculators for EMI, SIP, GST, BMI, income tax and 300+ more.',
+    site: '@calclabz',
+    creator: '@calclabz',
   },
   alternates: {
     canonical: 'https://calclabz.com',
@@ -64,46 +75,25 @@ export const metadata: Metadata = {
     icon: '/calclabz-logo.png',
     apple: '/icon-192.png',
   },
-  verification: {
-    google: 'google-site-verification-placeholder',
-    other: {
-      'msvalidate.01': 'bing-verification-placeholder',
-    },
-  },
+  // NOTE: Google verification intentionally omitted.
+  // Use DNS TXT record verification in Google Search Console instead
+  // (it's more reliable and doesn't pollute HTML metadata).
+  // Bing verification: add via BingSiteAuth.xml or DNS method.
 };
+
+// Global JSON-LD schemas — rendered once for every page via layout.
+const globalSchemas = getGlobalSchemas();
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const slugMap: Record<string, string | null> = {};
-  Object.keys(DB).forEach((id) => {
-    const slug = id.toLowerCase().replace(/_/g, '-') + '-calculator';
-    slugMap[slug] = id;
-  });
-  const legacyRedirects = [
-    'waisthip-calculator', 'lungcapacity-calculator', 'agenextbday-calculator', 'calories-food-calculator',
-    'car-loan-calculator', 'compound-interest-calculator', 'simple-interest-calculator', 'income-tax-calculator',
-    'capital-gains-calculator', 'credit-card-calculator', 'tax-regime-calculator', 'step-up-sip-calculator',
-    'savings-goal-calculator', 'gold-investment-calculator', 'dividend-yield-calculator', 'stock-return-calculator',
-    'loan-eligibility-calculator', 'advance-tax-calculator', 'balance-transfer-calculator', 'loan-affordability-calculator',
-    'body-fat-calculator', 'blood-pressure-calculator', 'protein-intake-calculator', 'smoking-cost-calculator',
-    'child-height-calculator', 'diabetes-risk-calculator', 'calorie-deficit-calculator', 'in-hand-salary-calculator',
-    'ctc-breakup-calculator', 'retirement-corpus-calculator', 'tax-saving-calculator', 'solar-panel-calculator',
-    'construction-cost-calculator', 'home-renovation-calculator', 'stamp-duty-calculator', 'professionaltax-calculator',
-    'sgb-calculator', 'fo-turnover-calculator', 'presumptive-tax-calculator', 'homeloan-taxbenefit-calculator',
-    'indexed-cost-calculator', 'gold-comparison-calculator', 'rent-yield-calculator', 'intermittent-fasting-calculator',
-    'waist-height-ratio-calculator', 'cgpa-to-percentage-calculator', 'retirement-date-calculator', 'age-units-calculator',
-    'data-usage-calculator'
-  ];
-  legacyRedirects.forEach((slug) => {
-    slugMap[slug] = findCalcBySlug(slug);
-  });
-
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} ${plusJakarta.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
+        {/* Global WebSite + Organization JSON-LD — renders in initial SSR HTML */}
+        <JsonLd id="global-schemas" data={globalSchemas} />
         <Script
           id="theme-init"
           strategy="beforeInteractive"
@@ -116,20 +106,6 @@ export default function RootLayout({
                   document.documentElement.setAttribute('data-theme', t);
                   if (document.body) document.body.classList.add(t);
                 } catch(e) {}
-              })();
-            `
-          }}
-        />
-        <Script
-          id="slug-map-init"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                var map = ${JSON.stringify(slugMap)};
-                window.findCalcBySlug = function(slug) {
-                  return map[slug] || null;
-                };
               })();
             `
           }}

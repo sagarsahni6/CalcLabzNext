@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { findCalcBySlug } from '@/data/calculator-db';
 import { CATEGORY_META, CalculatorCategory } from '@/types/calculator';
 import Icon from '@/components/ui/Icon';
 import { useTheme } from '@/components/layout/ThemeProvider';
@@ -43,11 +42,8 @@ export default function Header() {
   const [catOpen, setCatOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      (window as unknown as Record<string, unknown>).findCalcBySlug = findCalcBySlug;
-    }
-  }, []);
+
+
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);

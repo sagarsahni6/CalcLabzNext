@@ -4,13 +4,20 @@ export default function Footer() {
   return (
     <footer className="footer">
       <div className="footer-grid">
+        {/* Brand Column */}
         <div>
           <h4>Calc Labz</h4>
           <p className="footer-desc">
             300+ free online calculators for finance, health, math, education, engineering &amp; more.
-            Instant results, no signup, works offline.
+            Instant results, no signup, works offline as a PWA.
           </p>
+          <div className="footer-links" style={{ marginTop: '12px' }}>
+            <Link href="/author/sagar-sahni">By Sagar Sahni</Link>
+            <Link href="/editorial-policy">Editorial Policy</Link>
+          </div>
         </div>
+
+        {/* Popular Calculators */}
         <div>
           <h4>Popular</h4>
           <div className="footer-links">
@@ -19,21 +26,33 @@ export default function Footer() {
             <Link href="/gst-calculator">GST Calculator</Link>
             <Link href="/bmi-calculator">BMI Calculator</Link>
             <Link href="/incometax-calculator">Income Tax Calculator</Link>
+            <Link href="/compound-interest-calculator">Compound Interest</Link>
+            <Link href="/retirement-corpus-calculator">Retirement Corpus</Link>
+            <Link href="/cagr-calculator">CAGR Calculator</Link>
           </div>
         </div>
+
+        {/* Categories */}
         <div>
           <h4>Categories</h4>
           <div className="footer-links">
             <Link href="/finance-calculators">Finance</Link>
             <Link href="/health-calculators">Health &amp; Fitness</Link>
             <Link href="/math-calculators">Math</Link>
+            <Link href="/finance-calculators">Tax &amp; Finance</Link>
             <Link href="/engineering-calculators">Engineering</Link>
+            <Link href="/science-calculators">Science</Link>
+            <Link href="/education-calculators">Education</Link>
             <Link href="/construction-calculators">Construction</Link>
           </div>
         </div>
+
+        {/* Resources & Company */}
         <div>
-          <h4>Company</h4>
+          <h4>Resources</h4>
           <div className="footer-links">
+            <Link href="/blog">Financial Guides</Link>
+            <Link href="/dashboard">My Dashboard</Link>
             <Link href="/about">About</Link>
             <Link href="/contact">Contact</Link>
             <Link href="/privacy">Privacy Policy</Link>

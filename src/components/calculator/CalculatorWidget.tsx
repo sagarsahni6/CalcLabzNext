@@ -463,20 +463,8 @@ export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWid
       {/* ── Related Calculators ── */}
       <RelatedCalculators calcId={calcId} />
 
-      {/* ── Keyframe Animations ── */}
-      <style jsx>{`
-        @keyframes slideUp {
-          from { opacity: 0; transform: translateY(12px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes countUp {
-          from { opacity: 0; transform: translateY(6px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
+
+      {/* Keyframe animations moved to globals.css for CLS optimization */}
     </div>
     </CalculatorErrorBoundary>
   );

@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Script from 'next/script';
 import Icon from '@/components/ui/Icon';
 import FeedbackForm from '@/components/ui/FeedbackForm';
+import JsonLd from '@/components/seo/JsonLd';
 
 export const metadata: Metadata = {
   title: 'Contact Us — Calc Labz Support & Feedback',
@@ -50,17 +50,8 @@ export default function ContactPage() {
 
   return (
     <div className="pulse">
-      {/* JSON-LD Structured Data */}
-      <Script
-        id="contact-schema"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(contactSchema) }}
-      />
-      <Script
-        id="contact-breadcrumb"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
+      {/* JSON-LD — raw <script> tags for SSR HTML visibility to Googlebot */}
+      <JsonLd id="contact-schemas" data={[contactSchema, breadcrumbSchema]} />
       <nav className="crumb" aria-label="Breadcrumb">
         <Link href="/">Home</Link>
         <span>&rsaquo;</span>

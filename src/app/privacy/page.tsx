@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import JsonLd from '@/components/seo/JsonLd';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy — Calc Labz',
@@ -10,8 +11,18 @@ export const metadata: Metadata = {
 };
 
 export default function PrivacyPage() {
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://calclabz.com' },
+      { '@type': 'ListItem', position: 2, name: 'Privacy Policy', item: 'https://calclabz.com/privacy' },
+    ],
+  };
+
   return (
     <div className="pulse">
+      <JsonLd id="privacy-breadcrumb" data={breadcrumbSchema} />
       <nav className="crumb" aria-label="Breadcrumb">
         <Link href="/">Home</Link>
         <span>&rsaquo;</span>

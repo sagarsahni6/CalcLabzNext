@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import JsonLd from '@/components/seo/JsonLd';
 
 export const metadata: Metadata = {
   title: 'Terms of Service — Calc Labz',
@@ -10,8 +11,18 @@ export const metadata: Metadata = {
 };
 
 export default function TermsPage() {
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://calclabz.com' },
+      { '@type': 'ListItem', position: 2, name: 'Terms of Service', item: 'https://calclabz.com/terms' },
+    ],
+  };
+
   return (
     <div className="pulse">
+      <JsonLd id="terms-breadcrumb" data={breadcrumbSchema} />
       <nav className="crumb" aria-label="Breadcrumb">
         <Link href="/">Home</Link>
         <span>&rsaquo;</span>

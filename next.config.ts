@@ -105,6 +105,16 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      {
+        // Cache static HTML pages at CDN level for 1 day, serve stale for 7 days while revalidating
+        source: '/:path((?!api|_next|sw\\.js).*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, s-maxage=86400, stale-while-revalidate=604800',
+          },
+        ],
+      },
     ];
   },
 };

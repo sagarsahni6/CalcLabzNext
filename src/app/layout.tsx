@@ -33,7 +33,7 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-mono',
-  weight: ['400', '500'], // Only regular + medium needed for inputs/code
+  weight: ['400'], // Only regular needed for inputs/code — saves ~15KB
 });
 
 

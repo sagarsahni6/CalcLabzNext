@@ -127,6 +127,47 @@ export default async function AuthorPage({ params }: PageProps) {
           </div>
         </section>
 
+        {/* Credentials & Expertise — E-E-A-T Trust Signal */}
+        <section className="card" style={{ padding: '28px' }}>
+          <h2 style={{ fontSize: '1.35rem', fontWeight: 700, margin: '0 0 20px', color: 'var(--txt)' }}>Credentials &amp; Expertise</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '16px' }}>
+            <div style={{ padding: '16px', background: 'var(--bg3)', borderRadius: '12px', border: '1px solid var(--brd)' }}>
+              <div style={{ fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', color: 'var(--p)', letterSpacing: '0.05em', marginBottom: '8px' }}>Software Engineering</div>
+              <p style={{ color: 'var(--txt1)', fontSize: '0.9rem', lineHeight: 1.6, margin: 0 }}>Full-stack development with expertise in React, Next.js, TypeScript, and data-driven web applications. Architecture design for scalable, performant calculator platforms.</p>
+            </div>
+            <div style={{ padding: '16px', background: 'var(--bg3)', borderRadius: '12px', border: '1px solid var(--brd)' }}>
+              <div style={{ fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', color: 'var(--p)', letterSpacing: '0.05em', marginBottom: '8px' }}>Indian Personal Finance</div>
+              <p style={{ color: 'var(--txt1)', fontSize: '0.9rem', lineHeight: 1.6, margin: 0 }}>Deep knowledge of Indian tax regulations (Income Tax Act, GST), investment instruments (SIP, PPF, NPS, ELSS), and financial planning frameworks used by banks and NBFCs.</p>
+            </div>
+            <div style={{ padding: '16px', background: 'var(--bg3)', borderRadius: '12px', border: '1px solid var(--brd)' }}>
+              <div style={{ fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', color: 'var(--p)', letterSpacing: '0.05em', marginBottom: '8px' }}>Health & Fitness Formulas</div>
+              <p style={{ color: 'var(--txt1)', fontSize: '0.9rem', lineHeight: 1.6, margin: 0 }}>Research-backed implementation of WHO and peer-reviewed medical formulas including Mifflin-St Jeor (BMR), U.S. Navy body fat method, and Harris-Benedict equations.</p>
+            </div>
+            <div style={{ padding: '16px', background: 'var(--bg3)', borderRadius: '12px', border: '1px solid var(--brd)' }}>
+              <div style={{ fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', color: 'var(--p)', letterSpacing: '0.05em', marginBottom: '8px' }}>Editorial Standards</div>
+              <p style={{ color: 'var(--txt1)', fontSize: '0.9rem', lineHeight: 1.6, margin: 0 }}>All formulas cross-referenced against official sources (RBI, Income Tax Dept, SEBI, WHO). Periodic reviews ensure accuracy with current rates and regulations.</p>
+            </div>
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginTop: '20px', paddingTop: '16px', borderTop: '1px solid var(--brd)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem', color: 'var(--txt1)' }}>
+              <span style={{ fontWeight: 700, fontSize: '1.4rem', color: 'var(--p)' }}>{BLOG_POSTS.length}</span> articles published
+            </div>
+            <span style={{ color: 'var(--brd)' }}>|</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem', color: 'var(--txt1)' }}>
+              <span style={{ fontWeight: 700, fontSize: '1.4rem', color: 'var(--p)' }}>268+</span> calculators maintained
+            </div>
+            <span style={{ color: 'var(--brd)' }}>|</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem', color: 'var(--txt1)' }}>
+              <span style={{ fontWeight: 700, fontSize: '1.4rem', color: 'var(--p)' }}>10</span> calculator categories
+            </div>
+          </div>
+          <div style={{ marginTop: '16px' }}>
+            <Link href="/editorial-policy" style={{ fontSize: '0.9rem', color: 'var(--p2)', textDecoration: 'none', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+              Read our Editorial Policy &amp; Methodology &rsaquo;
+            </Link>
+          </div>
+        </section>
+
         {/* Authored Articles */}
         <section style={{ display: 'grid', gap: '16px' }}>
           <h2 style={{ fontSize: '1.5rem', fontWeight: 700, margin: '10px 0 0', color: 'var(--txt)' }}>Latest Articles on Calc Labz</h2>

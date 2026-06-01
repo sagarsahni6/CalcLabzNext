@@ -15,6 +15,7 @@ import JsonLd from '@/components/seo/JsonLd';
 import { getCalculatorSchemas } from '@/lib/seo/schema';
 import { generateCalculatorMetadata } from '@/lib/seo/metadata';
 import CalculatorGraphic from '@/components/calculator/CalculatorGraphic';
+import { getCustomFormula, getCustomFAQs, getCustomSources } from '@/data/calculator-content';
 
 // ── STATIC GENERATION ─────────────────────────────
 export function generateStaticParams() {
@@ -76,88 +77,12 @@ export async function generateMetadata({
 }
 
 // ── FORMULA & EXAMPLES DATA ───────────────────────
+// Delegates to calculator-content.ts for custom content (30+ calculators),
+// falls back to generic content for the rest.
 function getFormulaData(id: string) {
-  if (id === 'emi') {
-    return {
-      formula: `E = P \\cdot r \\cdot \\frac{(1+r)^n}{(1+r)^n - 1}`,
-      formulaDesc: `Where:
-- **E** is the monthly EMI (Equated Monthly Installment).
-- **P** is the Principal Loan Amount.
-- **r** is the Monthly Interest Rate (Annual Rate / 12 / 100).
-- **n** is the Loan Tenure in months.`,
-      example: `Suppose you borrow **₹10,00,000** (P) at an annual interest rate of **8.5%** for **10 years** (120 months).
-- Monthly interest rate (r) = 8.5 / 12 / 100 = 0.007083
-- EMI (E) = 10,00,000 × 0.007083 × (1.007083)^120 / ((1.007083)^120 - 1)
-- **E ≈ ₹12,399 per month**`
-    };
-  }
-  if (id === 'sip') {
-    return {
-      formula: `M = P \\cdot \\frac{(1+i)^n - 1}{i} \\cdot (1+i)`,
-      formulaDesc: `Where:
-- **M** is the Maturity Amount.
-- **P** is the Monthly SIP Amount.
-- **i** is the Monthly Interest Rate (Annual expected return / 12 / 100).
-- **n** is the Number of Monthly Payments.`,
-      example: `Suppose you invest **₹5,000 per month** (P) for **15 years** (180 months) with an expected annual return of **12%**.
-- Monthly return rate (i) = 12 / 12 / 100 = 0.01
-- Maturity Amount (M) = 5,000 × ((1.01)^180 - 1) / 0.01 × (1.01)
-- **M ≈ ₹25,22,880**`
-    };
-  }
-  if (id === 'gst') {
-    return {
-      formula: `GST = \\frac{Original \\; Price \\times GST \\; Rate}{100}`,
-      formulaDesc: `For adding GST:
-- **Total Price = Original Price + GST Amount**
+  const custom = getCustomFormula(id);
+  if (custom) return custom;
 
-For removing GST:
-- **Original Price = Total Price / (1 + Rate / 100)**
-- **GST Amount = Total Price - Original Price**`,
-      example: `Suppose the net price of an item is **₹1,000** and GST rate is **18%**.
-- GST Amount = (1,000 × 18) / 100 = **₹180**
-- Total Price including GST = 1,000 + 180 = **₹1,180**`
-    };
-  }
-  if (id === 'compoundinterest') {
-    return {
-      formula: `A = P \\cdot \\left(1 + \\frac{r}{n}\\right)^{nt}`,
-      formulaDesc: `Where:
-- **A** is the final maturity amount.
-- **P** is the principal balance.
-- **r** is the annual interest rate (decimal).
-- **n** is the number of times interest compounds per year.
-- **t** is the time in years.`,
-      example: `Suppose you invest **₹1,00,000** at **8%** interest compounded quarterly (n = 4) for **5 years**.
-- A = 1,00,000 × (1 + 0.08 / 4)^(4 × 5)
-- A = 1,00,000 × (1.02)^20
-- **A ≈ ₹1,48,595** (Interest earned: **₹48,595**)`
-    };
-  }
-  if (id === 'simpleinterest') {
-    return {
-      formula: `SI = \\frac{P \\cdot R \\cdot T}{100}`,
-      formulaDesc: `Where:
-- **SI** is the Simple Interest.
-- **P** is the Principal Amount.
-- **R** is the Rate of Interest per annum.
-- **T** is the Time/Tenure in years.`,
-      example: `Suppose you deposit **₹50,000** at an annual simple interest rate of **6%** for **3 years**.
-- SI = (50,000 × 6 × 3) / 100 = **₹9,000**
-- Total maturity amount = 50,000 + 9,000 = **₹59,000**`
-    };
-  }
-  if (id === 'bmi') {
-    return {
-      formula: `BMI = \\frac{Weight \\; (kg)}{Height^2 \\; (m^2)}`,
-      formulaDesc: `Where:
-- **Weight** is measured in kilograms.
-- **Height** is measured in meters.`,
-      example: `Suppose a person weighs **70 kg** and is **1.75 meters** (175 cm) tall.
-- BMI = 70 / (1.75 × 1.75) = 70 / 3.0625 = **22.86**
-- *Interpretation:* A BMI of 22.86 is within the **Normal** weight range (18.5 – 24.9).`
-    };
-  }
   return {
     formula: `Result = F(x_1, x_2, \\dots, x_n)`,
     formulaDesc: `Where inputs represent values entered in the form parameters.
@@ -167,56 +92,13 @@ The formula uses standardized guidelines for high precision calculations.`,
 }
 
 // ── DYNAMIC FAQs DATA (expanded to 5 per calculator) ──────────
+// Delegates to calculator-content.ts for custom FAQs (30+ calculators),
+// falls back to generic template-based FAQs for the rest.
 function getFAQData(id: string, name: string, category: string, desc: string, inputs: { label: string }[]) {
+  const custom = getCustomFAQs(id);
+  if (custom) return custom;
+
   const inputLabels = inputs.map(i => i.label).join(', ');
-  if (id === 'emi') {
-    return [
-      {
-        q: `What is a Loan EMI?`,
-        a: `EMI stands for Equated Monthly Installment. It is a fixed amount of money that a borrower pays back to a lender (bank or NBFC) every calendar month until the loan is fully repaid. It consists of both the interest component and the principal component.`
-      },
-      {
-        q: `How does loan prepayment affect my EMI?`,
-        a: `Making a principal prepayment reduces the outstanding balance of your loan. You can either choose to keep the tenure same and reduce your monthly EMI, or keep the EMI same and reduce your total loan tenure (which saves more interest over time).`
-      },
-      {
-        q: `Is the EMI calculator secure?`,
-        a: `Yes. Calc Labz operates entirely client-side. All inputs and calculations stay on your local device. We never transmit or save any personal data on our servers, ensuring 100% data privacy.`
-      },
-      {
-        q: `What factors affect my loan EMI amount?`,
-        a: `Three factors determine your EMI: the principal loan amount, the interest rate, and the loan tenure. A higher principal or interest rate increases your EMI, while a longer tenure reduces it (but increases total interest paid).`
-      },
-      {
-        q: `Which EMI formula does this calculator use?`,
-        a: `This calculator uses the standard reducing balance formula: EMI = P × r × (1+r)^n / ((1+r)^n - 1), where P is the principal, r is the monthly interest rate, and n is the tenure in months. This is the same formula used by all Indian banks and NBFCs.`
-      }
-    ];
-  }
-  if (id === 'sip') {
-    return [
-      {
-        q: `What is a SIP (Systematic Investment Plan)?`,
-        a: `A Systematic Investment Plan (SIP) is a method of investing a fixed sum of money regularly in mutual funds or stocks. Instead of investing a lump sum, a SIP allows you to invest weekly or monthly to benefit from compounding and rupee cost averaging.`
-      },
-      {
-        q: `What is rupee cost averaging in SIP?`,
-        a: `Rupee cost averaging means you buy more mutual fund units when market prices (NAV) are low, and fewer units when prices are high. Over the long term, this averages out the cost of your investments and reduces market volatility risks.`
-      },
-      {
-        q: `Is SIP better than Lump Sum investment?`,
-        a: `SIP is generally better for salaried individuals as it helps establish financial discipline, does not require timing the market, and provides compound interest benefits. Lump sum is suitable if you have a windfall gain and the market valuations are low.`
-      },
-      {
-        q: `What is the minimum SIP amount in India?`,
-        a: `Most mutual fund houses in India allow SIPs starting from ₹500 per month. Some AMCs offer micro-SIPs starting at ₹100. You can increase your SIP amount over time using Step-Up SIP to match your growing income.`
-      },
-      {
-        q: `Are SIP returns guaranteed?`,
-        a: `No. SIP returns in mutual funds are subject to market risks and are not guaranteed. Historical equity mutual fund returns in India have averaged 12-15% CAGR over 10+ year periods, but past performance does not guarantee future results. Always invest based on your risk appetite and time horizon.`
-      }
-    ];
-  }
   return [
     {
       q: `What is the ${name}?`,
@@ -340,6 +222,9 @@ export default async function CalculatorPage({
 
   // Glossary terms for topical depth (Phase 6)
   const glossaryTerms = getGlossaryTerms(calc.cat);
+
+  // Sources & References for E-E-A-T trust signals (Phase 4)
+  const sources = getCustomSources(calcId);
 
   // Category → gradient + icon mapping for thumbnails
   const BLOG_CAT_THEME: Record<string, { gradient: string; icon: string }> = {
@@ -777,6 +662,29 @@ export default async function CalculatorPage({
                   </div>
                 ))}
               </dl>
+            </section>
+          )}
+
+          {/* Sources & References — E-E-A-T Trust Signals (Phase 4) */}
+          {sources && sources.length > 0 && (
+            <section className="seo-section" id={`sources-${calcId}`}>
+              <h2>
+                <Icon name="fa-book-open" />
+                Sources &amp; References
+              </h2>
+              <p style={{ marginBottom: '12px', color: 'var(--txt2)', fontSize: '0.9rem' }}>
+                Our {calc.name} uses formulas and guidelines from the following authoritative sources:
+              </p>
+              <ul className="seo-features">
+                {sources.map((source, idx) => (
+                  <li key={idx}>
+                    <Icon name="fa-arrow-up-right-from-square" style={{ color: 'var(--p)', fontSize: '0.8rem', marginRight: '8px' }} />
+                    <a href={source.url} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--p)', textDecoration: 'underline' }}>
+                      {source.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </section>
           )}
         </div>

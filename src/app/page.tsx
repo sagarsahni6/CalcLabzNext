@@ -240,75 +240,63 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Testimonials / Social Proof ── */}
+      {/* ── Calc Labz by the Numbers — Factual Trust Signals ── */}
       <section className="testimonials-section">
-        <h2>What Our Users Say</h2>
+        <h2>Calc Labz by the Numbers</h2>
         <p className="testimonials-subtitle">
-          Trusted by students, engineers & professionals across India and beyond.
+          Built for accuracy, designed for privacy, trusted by students &amp; professionals across India.
         </p>
         <div className="testimonials-grid">
-          <div className="testimonial-card">
-            <div className="testimonial-stars">★★★★★</div>
-            <p className="testimonial-text">
-              &ldquo;I use the EMI Calculator almost daily for my banking work. The formula transparency and offline access are game-changers. Best calculator site I&apos;ve found.&rdquo;
-            </p>
-            <div className="testimonial-author">
-              <div className="testimonial-avatar" style={{ background: 'linear-gradient(135deg, #2563EB, #3B82F6)' }}>
-                R
-              </div>
-              <div>
-                <div className="testimonial-name">Rahul Verma</div>
-                <div className="testimonial-role">Banking Professional, Mumbai</div>
-              </div>
+          <div className="testimonial-card" style={{ textAlign: 'center' }}>
+            <div className="testimonial-avatar" style={{ background: 'linear-gradient(135deg, #2563EB, #3B82F6)', margin: '0 auto 12px', width: '56px', height: '56px', fontSize: '1.4rem' }}>
+              <Icon name="fa-calculator" style={{ width: '24px', height: '24px' }} />
             </div>
+            <div className="testimonial-name" style={{ fontSize: '2rem', fontWeight: 800 }}>
+              <CountUpValue value="268+" />
+            </div>
+            <div className="testimonial-role">Free Calculators</div>
+            <p className="testimonial-text" style={{ fontSize: '0.85rem', marginTop: '8px' }}>
+              Finance, health, math, engineering, science, education, and everyday tools — all free, forever.
+            </p>
           </div>
 
-          <div className="testimonial-card">
-            <div className="testimonial-stars">★★★★★</div>
-            <p className="testimonial-text">
-              &ldquo;As a CA student, the income tax and GST calculators save me hours every week. The fact that it works offline on my phone during commute is amazing.&rdquo;
-            </p>
-            <div className="testimonial-author">
-              <div className="testimonial-avatar" style={{ background: 'linear-gradient(135deg, #059669, #10B981)' }}>
-                P
-              </div>
-              <div>
-                <div className="testimonial-name">Priya Sharma</div>
-                <div className="testimonial-role">CA Student, Delhi</div>
-              </div>
+          <div className="testimonial-card" style={{ textAlign: 'center' }}>
+            <div className="testimonial-avatar" style={{ background: 'linear-gradient(135deg, #059669, #10B981)', margin: '0 auto 12px', width: '56px', height: '56px', fontSize: '1.4rem' }}>
+              <Icon name="fa-border-all" style={{ width: '24px', height: '24px' }} />
             </div>
+            <div className="testimonial-name" style={{ fontSize: '2rem', fontWeight: 800 }}>
+              <CountUpValue value={10} />
+            </div>
+            <div className="testimonial-role">Categories</div>
+            <p className="testimonial-text" style={{ fontSize: '0.85rem', marginTop: '8px' }}>
+              Organized across 10 well-defined categories with dedicated hub pages and easy navigation.
+            </p>
           </div>
 
-          <div className="testimonial-card">
-            <div className="testimonial-stars">★★★★★</div>
-            <p className="testimonial-text">
-              &ldquo;Love the privacy-first approach. No signup, no data collection. I recommend Calc Labz to all my engineering students for quick formula verifications.&rdquo;
-            </p>
-            <div className="testimonial-author">
-              <div className="testimonial-avatar" style={{ background: 'linear-gradient(135deg, #7C3AED, #8B5CF6)' }}>
-                A
-              </div>
-              <div>
-                <div className="testimonial-name">Prof. Amit Kumar</div>
-                <div className="testimonial-role">Engineering Faculty, IIT Roorkee</div>
-              </div>
+          <div className="testimonial-card" style={{ textAlign: 'center' }}>
+            <div className="testimonial-avatar" style={{ background: 'linear-gradient(135deg, #7C3AED, #8B5CF6)', margin: '0 auto 12px', width: '56px', height: '56px', fontSize: '1.4rem' }}>
+              <Icon name="fa-book-open" style={{ width: '24px', height: '24px' }} />
             </div>
+            <div className="testimonial-name" style={{ fontSize: '2rem', fontWeight: 800 }}>
+              <CountUpValue value="126+" />
+            </div>
+            <div className="testimonial-role">In-Depth Guides</div>
+            <p className="testimonial-text" style={{ fontSize: '0.85rem', marginTop: '8px' }}>
+              Detailed articles explaining formulas, use-cases, and practical examples for every major calculator.
+            </p>
           </div>
 
-          <div className="testimonial-card">
-            <div className="testimonial-stars">★★★★★</div>
-            <p className="testimonial-text">
-              &ldquo;The health calculators — BMI, BMR, TDEE — helped me plan my fitness routine. The blog guides explained the formulas in a way I could actually understand.&rdquo;
-            </p>
-            <div className="testimonial-author">
-              <div className="testimonial-avatar" style={{ background: 'linear-gradient(135deg, #DC2626, #EF4444)' }}>
-                S
-              </div>
-              <div>
-                <div className="testimonial-name">Sneha Patel</div>
-                <div className="testimonial-role">Fitness Enthusiast, Bengaluru</div>
-              </div>
+          <div className="testimonial-card" style={{ textAlign: 'center' }}>
+            <div className="testimonial-avatar" style={{ background: 'linear-gradient(135deg, #DC2626, #EF4444)', margin: '0 auto 12px', width: '56px', height: '56px', fontSize: '1.4rem' }}>
+              <Icon name="fa-shield-halved" style={{ width: '24px', height: '24px' }} />
             </div>
+            <div className="testimonial-name" style={{ fontSize: '2rem', fontWeight: 800 }}>
+              100%
+            </div>
+            <div className="testimonial-role">Client-Side Privacy</div>
+            <p className="testimonial-text" style={{ fontSize: '0.85rem', marginTop: '8px' }}>
+              All calculations run in your browser. Zero data sent to servers. No signups. Works offline as a PWA.
+            </p>
           </div>
         </div>
       </section>

@@ -932,7 +932,11 @@ export const DB: Record<string, CalculatorDefinition> = {
   vitamins: {
     name: 'Vitamin D Deficiency Check', desc: 'Estimated Vitamin D level & supplementation',
     icon: 'fa-sun', cat: 'health' as CalculatorCategory,
-    inputs: [],
+    inputs: [
+      { id: 'sunExposure', label: 'Daily Sun Exposure', type: 'select', options: ['None (<5 min)', 'Low (5-15 min)', 'Moderate (15-30 min)', 'Good (30+ min)'] },
+      { id: 'skinTone', label: 'Skin Tone', type: 'select', options: ['Very Fair', 'Fair', 'Medium', 'Dark', 'Very Dark'] },
+      { id: 'age', label: 'Age', default: 30, suffix: 'years' },
+    ],
     calc: calcVitamins,
   },
   lungcapacity: {
@@ -1191,7 +1195,12 @@ export const DB: Record<string, CalculatorDefinition> = {
   resistor: {
     name: 'Resistor Color Code', desc: 'Decode 4-band resistor colors',
     icon: 'fa-microchip', cat: 'engineering' as CalculatorCategory,
-    inputs: [],
+    inputs: [
+      { id: 'b1', label: 'Band 1 (1st digit)', type: 'select', options: ['Black', 'Brown', 'Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Violet', 'Grey', 'White'] },
+      { id: 'b2', label: 'Band 2 (2nd digit)', type: 'select', options: ['Black', 'Brown', 'Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Violet', 'Grey', 'White'] },
+      { id: 'mult', label: 'Band 3 (Multiplier)', type: 'select', options: ['×1', '×10', '×100', '×1K', '×10K', '×100K', '×1M', '×0.1', '×0.01'] },
+      { id: 'tol', label: 'Band 4 (Tolerance)', type: 'select', options: ['±1% (Brown)', '±2% (Red)', '±5% (Gold)', '±10% (Silver)', '±20% (None)'] },
+    ],
     calc: calcResistor,
   },
   power: {
@@ -2132,13 +2141,25 @@ export const DB: Record<string, CalculatorDefinition> = {
   optionprofit: {
     name: 'Option Profit Calculator', desc: 'Call & put option P&L with break-even and max loss',
     icon: 'fa-arrow-up-right-dots', cat: 'finance' as CalculatorCategory,
-    inputs: [],
+    inputs: [
+      { id: 'optType', label: 'Option Type', type: 'select', options: ['Buy Call', 'Buy Put', 'Sell Call', 'Sell Put'] },
+      { id: 'strikePrice', label: 'Strike Price', default: 20000, prefix: '₹' },
+      { id: 'premium', label: 'Premium Paid/Received', default: 200, prefix: '₹' },
+      { id: 'exitPrice', label: 'Underlying Price at Expiry', default: 20500, prefix: '₹' },
+      { id: 'lotSize', label: 'Lot Size', default: 50 },
+    ],
     calc: calcOptionProfit,
   },
   forexpip: {
     name: 'Forex Pip / Lot Size Calculator', desc: 'Calculate pip value and position size for forex trading',
     icon: 'fa-money-bill-trend-up', cat: 'finance' as CalculatorCategory,
-    inputs: [],
+    inputs: [
+      { id: 'pair', label: 'Currency Pair', type: 'select', options: ['USD/INR', 'EUR/USD', 'GBP/USD', 'USD/JPY', 'AUD/USD'] },
+      { id: 'accountBal', label: 'Account Balance', default: 100000, prefix: '₹' },
+      { id: 'riskPct', label: 'Risk per Trade', default: 1, suffix: '%' },
+      { id: 'stopLossPips', label: 'Stop Loss Distance', default: 30, suffix: 'pips' },
+      { id: 'pipValue_override', label: 'Custom Pip Value (0 = auto)', default: 0, prefix: '₹' },
+    ],
     calc: calcForexPip,
   },
   portfoliorebalance: {
@@ -2317,7 +2338,13 @@ export const DB: Record<string, CalculatorDefinition> = {
   vo2max: {
     name: 'VO2 Max Estimator', desc: 'Estimate cardiovascular fitness from run/walk data',
     icon: 'fa-lungs', cat: 'health' as CalculatorCategory,
-    inputs: [],
+    inputs: [
+      { id: 'method_vo2', label: 'Test Method', type: 'select', options: ['Cooper 12-min Run', '1.5 Mile Run', 'Resting HR (Fox formula)'] },
+      { id: 'distanceCovered', label: 'Distance Covered (Cooper test)', default: 2400, suffix: 'meters' },
+      { id: 'runTime15', label: '1.5 Mile Run Time', default: 12, suffix: 'minutes' },
+      { id: 'age_vo2', label: 'Age', default: 30, suffix: 'years' },
+      { id: 'restingHR', label: 'Resting Heart Rate', default: 70, suffix: 'bpm' },
+    ],
     calc: calcVO2Max,
   },
   leanbodymass: {
@@ -2522,7 +2549,13 @@ export const DB: Record<string, CalculatorDefinition> = {
   materialwaste: {
     name: 'Material Wastage Calculator', desc: 'Tile, paint, flooring material with wastage factor',
     icon: 'fa-recycle', cat: 'construction' as CalculatorCategory,
-    inputs: [],
+    inputs: [
+      { id: 'material_mw', label: 'Material Type', type: 'select', options: ['Tiles (floor/wall)', 'Paint (interior)', 'Paint (exterior)', 'Laminate Flooring', 'Wallpaper', 'Carpet'] },
+      { id: 'area_mw', label: 'Surface Area', default: 500, suffix: 'sq ft' },
+      { id: 'materialSize', label: 'Tile Size (if applicable)', type: 'select', options: ['2×2 ft', '1×2 ft', '1×1 ft', 'Custom'] },
+      { id: 'coats', label: 'Number of Coats (paint)', default: 2 },
+      { id: 'wastage_mw', label: 'Wastage Allowance', default: 10, suffix: '%' },
+    ],
     calc: calcMaterialWaste,
   },
   rainwater: {
@@ -2635,7 +2668,11 @@ export const DB: Record<string, CalculatorDefinition> = {
   presumptiveTax: {
     name: 'Presumptive Tax Calculator (44AD/44ADA)', desc: 'Presumptive income tax for small businesses & professionals without full books',
     icon: 'fa-file-invoice', cat: 'finance' as CalculatorCategory, badge: 'New',
-    inputs: [],
+    inputs: [
+      { id: 'pt_type', label: 'Business Type', type: 'select', options: ['Business (44AD)', 'Professional (44ADA)'] },
+      { id: 'pt_turnover', label: 'Annual Turnover / Gross Receipts', default: 5000000, prefix: '₹' },
+      { id: 'pt_cashPct', label: 'Cash Receipts Percentage', default: 20, suffix: '%' },
+    ],
     calc: calcPresumptiveTax,
   },
   homeloanTaxBenefit: {
@@ -2683,7 +2720,11 @@ export const DB: Record<string, CalculatorDefinition> = {
   intermittentFasting: {
     name: 'Intermittent Fasting Window Calculator', desc: 'Calculate eating & fasting windows for 16:8, 18:6, 20:4, OMAD protocols',
     icon: 'fa-clock', cat: 'health' as CalculatorCategory, badge: 'New',
-    inputs: [],
+    inputs: [
+      { id: 'if_protocol', label: 'Fasting Protocol', type: 'select', options: ['16:8', '18:6', '20:4', 'OMAD (23:1)'] },
+      { id: 'if_eatStart', label: 'First Meal Time', default: '12:00', type: 'time' },
+      { id: 'if_wakeTime', label: 'Wake-Up Time', default: '07:00', type: 'time' },
+    ],
     calc: calcIntermittentFasting,
   },
   waistHeightRatio: {

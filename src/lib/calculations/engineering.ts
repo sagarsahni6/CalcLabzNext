@@ -1,4 +1,4 @@
-﻿/* Calc Labz — Engineering Calculations
+/* Calc Labz — Engineering Calculations
    Ported from assets/js/calculators-engineering.js */
 import { CalcFunction } from '@/types/calculator';
 
@@ -183,4 +183,85 @@ export const calcTransformer: CalcFunction = (v) => {
   const wireGauge_p = primaryI < 0.5 ? '30 AWG' : primaryI < 1 ? '26 AWG' : primaryI < 2 ? '22 AWG' : primaryI < 5 ? '18 AWG' : '14 AWG';
   const wireGauge_s = secondaryI < 1 ? '26 AWG' : secondaryI < 3 ? '22 AWG' : secondaryI < 5 ? '18 AWG' : secondaryI < 10 ? '14 AWG' : '12 AWG';
   return { main: { label: 'Turns Ratio', value: turnsRatio.toFixed(2) + ':1' }, secondary: [{ label: 'Primary Current', value: primaryI.toFixed(3) + ' A' }, { label: 'Secondary Current', value: secondaryI.toFixed(2) + ' A' }, { label: 'Output Power (at ' + eff + '%)', value: outputPower.toFixed(1) + ' W' }, { label: 'Power Loss', value: losses.toFixed(1) + ' W' }, { label: 'Primary Wire (approx.)', value: wireGauge_p }, { label: 'Secondary Wire (approx.)', value: wireGauge_s }, { label: 'Type', value: turnsRatio > 1 ? 'Step-Down' : 'Step-Up' }] };
+};
+
+/* ── Electric Motor Sizing Calculator ────────────── */
+export const calcMotorSize: CalcFunction = (v) => {
+  const torque = Number(v.torque) || 10; // N-m
+  const speed = Number(v.speed) || 1500;  // RPM
+  const safety = Number(v.safety) || 1.2;
+
+  // Mechanical power (kW) = (Torque * Speed) / 9550
+  const basePowerKW = (torque * speed) / 9550;
+  const requiredPowerKW = basePowerKW * safety;
+  const requiredPowerHP = requiredPowerKW * 1.34102;
+
+  // Electrical current draw estimations
+  const currentSinglePhase = (requiredPowerKW * 1000) / (230 * 0.85 * 0.9); // 230V, pf=0.85, eff=0.9
+  const currentThreePhase = (requiredPowerKW * 1000) / (1.732 * 415 * 0.85 * 0.9); // 415V
+
+  return {
+    main: { label: 'Required Motor Power', value: requiredPowerKW.toFixed(2) + ' kW (' + requiredPowerHP.toFixed(2) + ' HP)' },
+    secondary: [
+      { label: 'Torque (N·m)', value: String(torque) },
+      { label: 'Rotational Speed (RPM)', value: String(speed) },
+      { label: 'Raw Mechanical Power', value: basePowerKW.toFixed(2) + ' kW' },
+      { label: 'Safety Factor Multiplier', value: safety + 'x' },
+      { label: 'Est. Current (230V 1Φ)', value: currentSinglePhase.toFixed(1) + ' Amps' },
+      { label: 'Est. Current (415V 3Φ)', value: currentThreePhase.toFixed(1) + ' Amps' },
+      { label: 'Formula', value: 'Power (kW) = (T × N) / 9550' }
+    ]
+  };
+};
+
+/* ── Resistor Color Code Decoder ──────────────────── */
+export const calcResistorDecode: CalcFunction = (v) => {
+  const band1 = String(v.band1 || 'Brown');
+  const band2 = String(v.band2 || 'Black');
+  const mult = String(v.multiplier_r || 'Red');
+  const tol = String(v.tolerance_r || 'Gold');
+
+  const digits: Record<string, number> = {
+    'Black': 0, 'Brown': 1, 'Red': 2, 'Orange': 3, 'Yellow': 4,
+    'Green': 5, 'Blue': 6, 'Violet': 7, 'Gray': 8, 'White': 9
+  };
+
+  const multipliers: Record<string, number> = {
+    'Black': 1, 'Brown': 10, 'Red': 100, 'Orange': 1000, 'Yellow': 10000,
+    'Green': 100000, 'Blue': 1000000, 'Violet': 10000000, 'Gold': 0.1, 'Silver': 0.01
+  };
+
+  const tolerances: Record<string, number> = {
+    'Brown': 1, 'Red': 2, 'Green': 0.5, 'Blue': 0.25, 'Violet': 0.1,
+    'Gold': 5, 'Silver': 10
+  };
+
+  const val1 = digits[band1] !== undefined ? digits[band1] : 1;
+  const val2 = digits[band2] !== undefined ? digits[band2] : 0;
+  const multiplier = multipliers[mult] !== undefined ? multipliers[mult] : 100;
+  const tolerance = tolerances[tol] !== undefined ? tolerances[tol] : 5;
+
+  const resistance = (val1 * 10 + val2) * multiplier;
+  const tolVal = (resistance * tolerance) / 100;
+  const minVal = resistance - tolVal;
+  const maxVal = resistance + tolVal;
+
+  let formattedVal = resistance + ' Ω';
+  if (resistance >= 1000000) {
+    formattedVal = (resistance / 1000000).toFixed(2) + ' MΩ';
+  } else if (resistance >= 1000) {
+    formattedVal = (resistance / 1000).toFixed(2) + ' kΩ';
+  }
+
+  return {
+    main: { label: 'Resistance Value', value: formattedVal + ' ±' + tolerance + '%' },
+    secondary: [
+      { label: 'Minimum Resistance', value: minVal.toLocaleString() + ' Ω' },
+      { label: 'Maximum Resistance', value: maxVal.toLocaleString() + ' Ω' },
+      { label: 'Band 1 Color', value: band1 + ` (${val1})` },
+      { label: 'Band 2 Color', value: band2 + ` (${val2})` },
+      { label: 'Multiplier Color', value: mult + ` (x${multiplier})` },
+      { label: 'Tolerance Color', value: tol + ` (±${tolerance}%)` }
+    ]
+  };
 };

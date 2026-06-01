@@ -202,3 +202,142 @@ export const calcAcceleration: CalcFunction = (v) => {
     ],
   };
 };
+
+/* ── Ideal Gas Law Calculator ─────────────────────── */
+export const calcIdealGas: CalcFunction = (v) => {
+  const P = Number(v.pressure) || 1;    // atm
+  const V = Number(v.volume_ig) || 22.4; // liters
+  const n = Number(v.moles_ig) || 1;     // moles
+  const T = Number(v.temp_ig) || 273.15; // Kelvin
+  const R = 0.08206; // L·atm/(mol·K)
+
+  // Solve for missing variable (whichever is set to 0)
+  const solveFor = String(v.solveFor || 'Temperature');
+  let result: number;
+  let label: string;
+  let unit: string;
+
+  if (solveFor === 'Pressure') {
+    result = n * R * T / V;
+    label = 'Pressure (P)';
+    unit = ' atm';
+  } else if (solveFor === 'Volume') {
+    result = n * R * T / P;
+    label = 'Volume (V)';
+    unit = ' L';
+  } else if (solveFor === 'Moles') {
+    result = P * V / (R * T);
+    label = 'Moles (n)';
+    unit = ' mol';
+  } else {
+    result = P * V / (n * R);
+    label = 'Temperature (T)';
+    unit = ' K';
+  }
+
+  const massAtAir = n * 29; // approximate for air
+  const celsius = T - 273.15;
+
+  return {
+    main: { label, value: result.toFixed(4) + unit },
+    secondary: [
+      { label: 'PV = nRT check', value: (P * V).toFixed(4) + ' = ' + (n * R * T).toFixed(4) + ' L·atm' },
+      { label: 'Pressure', value: P + ' atm (' + (P * 101.325).toFixed(1) + ' kPa)' },
+      { label: 'Volume', value: V + ' L (' + (V / 1000).toFixed(4) + ' m³)' },
+      { label: 'Temperature', value: T + ' K (' + celsius.toFixed(1) + ' °C)' },
+      { label: 'Moles', value: n + ' mol' },
+      { label: 'R constant', value: '0.08206 L·atm/(mol·K)' },
+      { label: 'Approx Mass (air)', value: massAtAir.toFixed(1) + ' g' },
+    ],
+  };
+};
+
+/* ── Coulomb's Law Calculator ─────────────────────── */
+export const calcCoulombsLaw: CalcFunction = (v) => {
+  const q1 = Number(v.charge1) || 1e-6;  // Coulombs
+  const q2 = Number(v.charge2) || 1e-6;
+  const r = Number(v.distance_c) || 0.1;  // meters
+  const k = 8.9875e9; // N·m²/C²
+
+  const F = k * Math.abs(q1 * q2) / (r * r);
+  const E1 = k * Math.abs(q1) / (r * r);
+  const E2 = k * Math.abs(q2) / (r * r);
+  const potential = k * q1 / r;
+  const attractive = (q1 > 0 && q2 < 0) || (q1 < 0 && q2 > 0);
+
+  return {
+    main: { label: 'Electrostatic Force', value: F.toExponential(4) + ' N' },
+    secondary: [
+      { label: 'Force Type', value: attractive ? 'Attractive (opposite charges)' : 'Repulsive (like charges)' },
+      { label: 'E-field from q₁ at r', value: E1.toExponential(3) + ' N/C' },
+      { label: 'E-field from q₂ at r', value: E2.toExponential(3) + ' N/C' },
+      { label: 'Potential from q₁ at r', value: potential.toExponential(3) + ' V' },
+      { label: 'Charge q₁', value: q1.toExponential(2) + ' C' },
+      { label: 'Charge q₂', value: q2.toExponential(2) + ' C' },
+      { label: 'Coulomb constant k', value: '8.9875 × 10⁹ N·m²/C²' },
+    ],
+  };
+};
+
+/* ── Escape Velocity Calculator ───────────────────── */
+export const calcEscapeVelocity: CalcFunction = (v) => {
+  const G = 6.674e-11;
+  const mass = Number(v.planetMass) || 5.972e24;   // kg (Earth default)
+  const radius = Number(v.planetRadius) || 6371000; // meters (Earth default)
+
+  const vEscape = Math.sqrt(2 * G * mass / radius);
+  const vOrbital = Math.sqrt(G * mass / radius);
+  const gSurface = G * mass / (radius * radius);
+
+  // Known bodies for comparison
+  const bodies = [
+    { name: 'Earth', v: 11186 },
+    { name: 'Moon', v: 2380 },
+    { name: 'Mars', v: 5030 },
+    { name: 'Jupiter', v: 59500 },
+  ];
+
+  return {
+    main: { label: 'Escape Velocity', value: vEscape.toFixed(1) + ' m/s (' + (vEscape / 1000).toFixed(2) + ' km/s)' },
+    secondary: [
+      { label: 'Orbital Velocity', value: vOrbital.toFixed(1) + ' m/s (' + (vOrbital / 1000).toFixed(2) + ' km/s)' },
+      { label: 'Surface Gravity', value: gSurface.toFixed(3) + ' m/s²' },
+      { label: 'In Mach (sea level)', value: (vEscape / 343).toFixed(1) + ' Mach' },
+      { label: 'Formula', value: 'v = √(2GM/R)' },
+      ...bodies.map(b => ({ label: `${b.name} escape velocity`, value: (b.v / 1000).toFixed(2) + ' km/s' })),
+    ],
+  };
+};
+
+/* ── Speed of Sound Calculator ────────────────────── */
+export const calcSoundSpeed: CalcFunction = (v) => {
+  const tempC = Number(v.temperature_ss) || 20;
+  const medium = String(v.medium || 'Air');
+
+  const mediumSpeeds: Record<string, number> = {
+    'Air': 331.3 + 0.606 * tempC,
+    'Water': 1482 + 4.8 * (tempC - 20), // approximate
+    'Steel': 5960,
+    'Glass': 5640,
+    'Wood': 3850,
+    'Concrete': 3400,
+    'Helium': 1012,
+  };
+
+  const speed = mediumSpeeds[medium] || mediumSpeeds['Air'];
+  const mach1 = mediumSpeeds['Air'];
+  const freqForWavelength1m = speed / 1;
+
+  return {
+    main: { label: `Speed of Sound in ${medium}`, value: speed.toFixed(1) + ' m/s' },
+    secondary: [
+      { label: 'In km/h', value: (speed * 3.6).toFixed(1) + ' km/h' },
+      { label: 'In mph', value: (speed * 2.237).toFixed(1) + ' mph' },
+      { label: 'Mach 1 (air at ' + tempC + '°C)', value: mach1.toFixed(1) + ' m/s' },
+      { label: 'Mach 2', value: (mach1 * 2).toFixed(1) + ' m/s' },
+      { label: 'Frequency for λ=1m', value: freqForWavelength1m.toFixed(1) + ' Hz' },
+      { label: 'Temperature', value: tempC + '°C (' + (tempC + 273.15) + ' K)' },
+      { label: 'Formula (air)', value: 'v = 331.3 + 0.606 × T(°C)' },
+    ],
+  };
+};

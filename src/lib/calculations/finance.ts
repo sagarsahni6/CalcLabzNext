@@ -2639,3 +2639,170 @@ export const calcRentYield: CalcFunction = (v) => {
     chart: { a: Math.round(netIncome), b: Math.round(annualCosts), lA: 'Net Rental Income', lB: 'Annual Costs' }
   };
 };
+
+/* ── EMI vs Tenure Trade-off ──────────────────────── */
+export const calcEmiVsTenure: CalcFunction = (v) => {
+  const P = Number(v.principal) || 1000000;
+  const rate = Number(v.rate) || 8.5;
+  const t1 = Number(v.tenure1) || 60;
+  const t2 = Number(v.tenure2) || 120;
+  const r = rate / 12 / 100;
+
+  const emi = (p: number, rm: number, n: number) => rm === 0 ? p / n : p * rm * Math.pow(1 + rm, n) / (Math.pow(1 + rm, n) - 1);
+
+  const emi1 = emi(P, r, t1), emi2 = emi(P, r, t2);
+  const total1 = emi1 * t1, total2 = emi2 * t2;
+  const interest1 = total1 - P, interest2 = total2 - P;
+  const emiDiff = emi1 - emi2;
+  const intDiff = interest2 - interest1;
+
+  return {
+    main: { label: 'EMI Difference', value: '₹' + Math.round(Math.abs(emiDiff)).toLocaleString() + '/mo' },
+    secondary: [
+      { label: `EMI (${t1} months)`, value: '₹' + Math.round(emi1).toLocaleString() },
+      { label: `EMI (${t2} months)`, value: '₹' + Math.round(emi2).toLocaleString() },
+      { label: `Total Interest (${t1}mo)`, value: '₹' + Math.round(interest1).toLocaleString() },
+      { label: `Total Interest (${t2}mo)`, value: '₹' + Math.round(interest2).toLocaleString() },
+      { label: 'Extra Interest (longer tenure)', value: '₹' + Math.round(intDiff).toLocaleString(), neg: intDiff > 0 },
+      { label: 'Recommendation', value: emiDiff > emi2 * 0.2 ? 'Longer tenure saves monthly cash flow' : 'Shorter tenure saves significant interest' },
+    ],
+    chart: { a: Math.round(interest1), b: Math.round(interest2), lA: `Interest (${t1}mo)`, lB: `Interest (${t2}mo)` }
+  };
+};
+
+/* ── Rule of 72 Calculator ────────────────────────── */
+export const calcRuleOf72: CalcFunction = (v) => {
+  const rate = Number(v.rate) || 12;
+  const approxYears = 72 / (rate || 1);
+  const exactYears = Math.log(2) / Math.log(1 + rate / 100);
+  const tripleYears = Math.log(3) / Math.log(1 + rate / 100);
+
+  // Comparison table
+  const rates = [6, 8, 10, 12, 15, 18, 20, 24];
+  const tableEntries = rates.map(r => ({
+    label: `${r}% → Double in`, value: (72 / r).toFixed(1) + ' years'
+  }));
+
+  return {
+    main: { label: 'Years to Double', value: approxYears.toFixed(1) + ' years (Rule of 72)' },
+    secondary: [
+      { label: 'Exact Doubling Time', value: exactYears.toFixed(2) + ' years' },
+      { label: 'Years to Triple (Rule of 115)', value: tripleYears.toFixed(1) + ' years' },
+      { label: 'Interest Rate', value: rate + '% p.a.' },
+      { label: 'Accuracy Error', value: Math.abs(((approxYears - exactYears) / exactYears) * 100).toFixed(2) + '%' },
+      ...tableEntries.slice(0, 4),
+    ],
+    chart: { a: Math.round(approxYears), b: Math.round(tripleYears - approxYears), lA: 'Double', lB: 'Triple (extra)' }
+  };
+};
+
+/* ── Post Office MIS Calculator ───────────────────── */
+export const calcPostOfficeMIS: CalcFunction = (v) => {
+  const amount = Number(v.amount) || 500000;
+  const rate = Number(v.rate) || 7.4;
+  const tenure = 5; // Fixed at 5 years
+
+  const monthlyIncome = Math.round(amount * rate / 100 / 12);
+  const annualIncome = monthlyIncome * 12;
+  const totalInterest = annualIncome * tenure;
+  const maturityAmount = amount; // Principal returned at maturity
+  const totalReceived = amount + totalInterest;
+
+  // Compare with FD
+  const fdReturn = amount * Math.pow(1 + 0.065 / 4, 4 * tenure) - amount;
+
+  return {
+    main: { label: 'Monthly Income', value: '₹' + monthlyIncome.toLocaleString() },
+    secondary: [
+      { label: 'Investment', value: '₹' + amount.toLocaleString() },
+      { label: 'Interest Rate', value: rate + '% p.a.' },
+      { label: 'Annual Income', value: '₹' + annualIncome.toLocaleString() },
+      { label: 'Total Interest (5 years)', value: '₹' + totalInterest.toLocaleString(), pos: true },
+      { label: 'Maturity Value (principal back)', value: '₹' + maturityAmount.toLocaleString() },
+      { label: 'Total Received', value: '₹' + totalReceived.toLocaleString() },
+      { label: 'vs FD (6.5%, quarterly)', value: totalInterest > fdReturn ? 'MIS earns more ✓' : 'FD earns ₹' + Math.round(fdReturn - totalInterest).toLocaleString() + ' more' },
+      { label: 'Max Investment', value: '₹9 Lakh (single) / ₹15 Lakh (joint)' },
+    ],
+    chart: { a: amount, b: totalInterest, lA: 'Principal', lB: 'Interest Earned' }
+  };
+};
+
+/* ── Crypto Profit/Loss Calculator ────────────────── */
+export const calcCryptoProfit: CalcFunction = (v) => {
+  const buyPrice = Number(v.buyPrice) || 0;
+  const sellPrice = Number(v.sellPrice) || 0;
+  const quantity = Number(v.quantity) || 1;
+  const fee = Number(v.fee) || 0.1;
+
+  const invested = buyPrice * quantity;
+  const buyFee = invested * fee / 100;
+  const totalCost = invested + buyFee;
+
+  const gross = sellPrice * quantity;
+  const sellFee = gross * fee / 100;
+  const netProceeds = gross - sellFee;
+
+  const profit = netProceeds - totalCost;
+  const roi = totalCost > 0 ? (profit / totalCost) * 100 : 0;
+  const breakEvenPrice = totalCost / quantity * (1 + fee / 100);
+  const totalFees = buyFee + sellFee;
+
+  // India: 30% flat tax on crypto gains + 1% TDS on sell
+  const taxIndia = profit > 0 ? profit * 0.30 : 0;
+  const tds = gross * 0.01;
+  const netAfterTax = profit - taxIndia;
+
+  return {
+    main: { label: profit >= 0 ? 'Net Profit' : 'Net Loss', value: '₹' + Math.round(Math.abs(profit)).toLocaleString() },
+    secondary: [
+      { label: 'ROI', value: roi.toFixed(2) + '%', pos: profit >= 0, neg: profit < 0 },
+      { label: 'Total Invested (with fee)', value: '₹' + Math.round(totalCost).toLocaleString() },
+      { label: 'Net Proceeds (after fee)', value: '₹' + Math.round(netProceeds).toLocaleString() },
+      { label: 'Total Exchange Fees', value: '₹' + Math.round(totalFees).toLocaleString() },
+      { label: 'Break-even Sell Price', value: '₹' + breakEvenPrice.toFixed(2) },
+      { label: 'India Tax (30% flat)', value: profit > 0 ? '₹' + Math.round(taxIndia).toLocaleString() : 'No loss offset allowed' },
+      { label: 'TDS (1% on sell)', value: '₹' + Math.round(tds).toLocaleString() },
+      { label: 'Net After Tax (India)', value: profit > 0 ? '₹' + Math.round(netAfterTax).toLocaleString() : '₹' + Math.round(profit).toLocaleString() },
+    ],
+    chart: { a: Math.round(Math.abs(profit > 0 ? profit : 0)), b: Math.round(totalFees + taxIndia), lA: 'Net Profit', lB: 'Fees + Tax' }
+  };
+};
+
+/* ── Flat vs Reducing Interest Rate ───────────────── */
+export const calcFlatVsReducing: CalcFunction = (v) => {
+  const P = Number(v.principal) || 1000000;
+  const flatRate = Number(v.flatRate) || 7;
+  const reducingRate = Number(v.reducingRate) || 12;
+  const tenureMonths = Number(v.tenure) || 60;
+
+  // Flat rate: Interest = P × Rate × Years / 100, EMI = (P + Interest) / months
+  const years = tenureMonths / 12;
+  const flatInterest = P * flatRate * years / 100;
+  const flatEmi = (P + flatInterest) / tenureMonths;
+  const flatTotal = P + flatInterest;
+
+  // Reducing rate: Standard EMI formula
+  const r = reducingRate / 12 / 100;
+  const reducingEmi = r === 0 ? P / tenureMonths : P * r * Math.pow(1 + r, tenureMonths) / (Math.pow(1 + r, tenureMonths) - 1);
+  const reducingTotal = reducingEmi * tenureMonths;
+  const reducingInterest = reducingTotal - P;
+
+  // Effective rate of flat = approximate
+  const effectiveFlat = flatRate * 1.8; // Rough conversion
+
+  const saving = flatTotal - reducingTotal;
+
+  return {
+    main: { label: 'EMI Comparison', value: saving > 0 ? 'Reducing rate saves ₹' + Math.round(saving).toLocaleString() : 'Flat rate saves ₹' + Math.round(-saving).toLocaleString() },
+    secondary: [
+      { label: 'Flat Rate EMI', value: '₹' + Math.round(flatEmi).toLocaleString() },
+      { label: 'Reducing Rate EMI', value: '₹' + Math.round(reducingEmi).toLocaleString() },
+      { label: 'Flat Rate Total Interest', value: '₹' + Math.round(flatInterest).toLocaleString() },
+      { label: 'Reducing Rate Total Interest', value: '₹' + Math.round(reducingInterest).toLocaleString() },
+      { label: `Flat ${flatRate}% ≈ Reducing ${effectiveFlat.toFixed(1)}%`, value: 'Flat rates are deceptively lower!' },
+      { label: 'Better Option', value: reducingInterest < flatInterest ? 'Reducing balance ✓' : 'Flat rate ✓', pos: true },
+      { label: 'Total Saved', value: '₹' + Math.round(Math.abs(saving)).toLocaleString(), pos: true },
+    ],
+    chart: { a: Math.round(flatInterest), b: Math.round(reducingInterest), lA: 'Flat Interest', lB: 'Reducing Interest' }
+  };
+};

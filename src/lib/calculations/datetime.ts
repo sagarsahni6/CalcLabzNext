@@ -1,4 +1,4 @@
-﻿/* ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════
    Calc Labz — DateTime Calculations
    Ported from assets/js/calculators-datetime.js
    ═══════════════════════════════════════════════════ */
@@ -163,6 +163,118 @@ export const calcAgeUnits: CalcFunction = (v) => {
       { label: 'Total Weeks', value: totalWeeks.toLocaleString() + ' weeks' },
       { label: 'Next Birthday In', value: daysToB === 0 ? '[*] Today!' : daysToB + ' days' },
       { label: 'Born On', value: dob.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) },
+    ],
+  };
+};
+
+/* ── Leap Year Checker ────────────────────────────── */
+export const calcLeapYear: CalcFunction = (v) => {
+  const yr = Number(v.year) || new Date().getFullYear();
+  const isLeap = (yr % 4 === 0 && yr % 100 !== 0) || (yr % 400 === 0);
+  
+  // Find next leap year
+  let nextLeap = yr + 1;
+  while (!((nextLeap % 4 === 0 && nextLeap % 100 !== 0) || (nextLeap % 400 === 0))) {
+    nextLeap++;
+  }
+
+  // Leap years in surrounding 20 year range
+  const startRange = yr - 10;
+  const endRange = yr + 10;
+  const leapYears: number[] = [];
+  for (let y = startRange; y <= endRange; y++) {
+    if ((y % 4 === 0 && y % 100 !== 0) || (y % 400 === 0)) {
+      leapYears.push(y);
+    }
+  }
+
+  return {
+    main: { label: `Year ${yr} Status`, value: isLeap ? 'Leap Year (366 Days)' : 'Common Year (365 Days)' },
+    secondary: [
+      { label: 'Days in February', value: isLeap ? '29 days' : '28 days' },
+      { label: 'Next Leap Year', value: String(nextLeap) },
+      { label: 'Rule', value: 'Divisible by 4, not 100, unless divisible by 400' },
+      { label: `Leap years [${startRange} - ${endRange}]`, value: leapYears.join(', ') },
+    ],
+  };
+};
+
+/* ── Week Number / Day of Year ────────────────────── */
+export const calcWeekNumber: CalcFunction = (v) => {
+  const inputDate = v.date ? new Date(v.date as string) : new Date();
+  if (isNaN(inputDate.getTime())) {
+    return { main: { label: 'Error', value: 'Invalid date' } };
+  }
+
+  // Calculate day of the year
+  const startOfYear = new Date(inputDate.getFullYear(), 0, 1);
+  const diffMs = inputDate.getTime() - startOfYear.getTime();
+  const dayOfYear = Math.floor(diffMs / 86400000) + 1;
+
+  // Calculate ISO week number
+  const d = new Date(Date.UTC(inputDate.getFullYear(), inputDate.getMonth(), inputDate.getDate()));
+  const dayNum = d.getUTCDay() || 7;
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const weekNo = Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
+
+  // Quarter
+  const quarter = Math.floor(inputDate.getMonth() / 3) + 1;
+
+  // Days remaining in year
+  const endOfYear = new Date(inputDate.getFullYear(), 11, 31);
+  const remaining = Math.ceil((endOfYear.getTime() - inputDate.getTime()) / 86400000);
+
+  return {
+    main: { label: 'Week Number (ISO)', value: 'Week ' + weekNo },
+    secondary: [
+      { label: 'Day of Year', value: dayOfYear + ' / ' + ((((inputDate.getFullYear() % 4 === 0 && inputDate.getFullYear() % 100 !== 0) || (inputDate.getFullYear() % 400 === 0)) ? 366 : 365)) },
+      { label: 'Quarter', value: 'Q' + quarter + ' (' + inputDate.toLocaleDateString('en-IN', { month: 'long' }) + ')' },
+      { label: 'Days Remaining in ' + inputDate.getFullYear(), value: remaining + ' days' },
+      { label: 'Day of Week', value: inputDate.toLocaleDateString('en-IN', { weekday: 'long' }) },
+      { label: 'Selected Date', value: inputDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) },
+    ],
+  };
+};
+
+/* ── Add/Subtract Days from Date ──────────────────── */
+export const calcDateAdd: CalcFunction = (v) => {
+  const startDate = v.startDate ? new Date(startDateVal(v.startDate)) : new Date();
+  if (isNaN(startDate.getTime())) {
+    return { main: { label: 'Error', value: 'Invalid start date' } };
+  }
+
+  const op = String(v.operation || 'add');
+  const days = Number(v.days) || 0;
+  const weeks = Number(v.weeks) || 0;
+  const months = Number(v.months) || 0;
+  const years = Number(v.years) || 0;
+
+  const mult = op === 'subtract' ? -1 : 1;
+  const resultDate = new Date(startDate);
+
+  // Apply additions/subtractions
+  resultDate.setDate(resultDate.getDate() + mult * days);
+  resultDate.setDate(resultDate.getDate() + mult * weeks * 7);
+  resultDate.setMonth(resultDate.getMonth() + mult * months);
+  resultDate.setFullYear(resultDate.getFullYear() + mult * years);
+
+  // Working days (approx) and calendar days difference
+  const diffDays = Math.round(Math.abs(resultDate.getTime() - startDate.getTime()) / 86400000);
+  const approxWorkDays = Math.round(diffDays * 5 / 7);
+
+  function startDateVal(val: any) {
+    return typeof val === 'string' ? val : new Date().toISOString();
+  }
+
+  return {
+    main: { label: 'Result Date', value: resultDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) },
+    secondary: [
+      { label: 'Day of Week', value: resultDate.toLocaleDateString('en-IN', { weekday: 'long' }) },
+      { label: 'Total Calendar Days Changed', value: (mult * diffDays) + ' days' },
+      { label: 'Approx. Business Days Changed', value: (mult * approxWorkDays) + ' days' },
+      { label: 'Start Date', value: startDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) },
+      { label: 'Operation', value: op.toUpperCase() + ' ' + (days ? `${days}d ` : '') + (weeks ? `${weeks}w ` : '') + (months ? `${months}m ` : '') + (years ? `${years}y ` : '') },
     ],
   };
 };

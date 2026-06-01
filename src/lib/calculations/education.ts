@@ -1,4 +1,4 @@
-﻿/* ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════
    Calc Labz — Education Calculation Functions
    Ported from calculators-education.js
    Pure functions — no DOM dependencies
@@ -415,5 +415,203 @@ export const calcCgpaToPercentage: CalcFunction = (v) => {
       { label: "Scale", value: scale.split("(")[0].trim() },
       { label: "Note", value: "Verify with your university's official formula" }
     ]
+  };
+};
+
+/* ── Marks to Percentage Calculator ───────────────── */
+export const calcMarksPercentage: CalcFunction = (v) => {
+  const obtained = Number(v.obtained) || 0;
+  const total = Number(v.total) || 100;
+  
+  if (total <= 0) return { main: { label: 'Error', value: 'Total marks must be greater than 0' } };
+  
+  const pct = (obtained / total) * 100;
+  const passed = pct >= 33;
+  const grade = pct >= 90 ? 'A+' : pct >= 80 ? 'A' : pct >= 70 ? 'B' : pct >= 60 ? 'C' : pct >= 50 ? 'D' : pct >= 33 ? 'E' : 'F';
+  const division = pct >= 60 ? 'First Division' : pct >= 50 ? 'Second Division' : pct >= 33 ? 'Third Division' : 'Failed';
+
+  return {
+    main: { label: 'Percentage', value: pct.toFixed(2) + '%' },
+    secondary: [
+      { label: 'Result Status', value: passed ? 'PASSED [OK]' : 'FAILED [X]' },
+      { label: 'Grade Awarded', value: grade },
+      { label: 'Division', value: division },
+      { label: 'Marks Obtained', value: obtained + ' / ' + total },
+      { label: 'Lost Marks', value: String(total - obtained) },
+      { label: 'CGPA (est.)', value: (pct / 9.5).toFixed(2) },
+    ],
+  };
+};
+
+/* ── Competitive Exam Predictor ────────────────────── */
+export const calcCompetitiveExam: CalcFunction = (v) => {
+  const exam = String(v.exam || 'JEE Main');
+  const correct = Number(v.correct) || 0;
+  const wrong = Number(v.wrong) || 0;
+  const unanswered = Number(v.unanswered) || 0;
+
+  let posMarks = 4;
+  let negMarks = 1;
+  let maxQuestions = 75;
+
+  if (exam === 'NEET') {
+    posMarks = 4;
+    negMarks = 1;
+    maxQuestions = 180;
+  } else if (exam === 'BITSAT') {
+    posMarks = 3;
+    negMarks = 1;
+    maxQuestions = 130;
+  }
+
+  const attempted = correct + wrong;
+  const score = correct * posMarks - wrong * negMarks;
+  const maxPossible = maxQuestions * posMarks;
+  
+  let estPercentile = 0;
+  if (exam === 'JEE Main') {
+    // Crude dynamic estimation
+    const pct = score / maxPossible;
+    estPercentile = pct > 0.8 ? 99.5 + (pct - 0.8) * 2.5 : pct > 0.5 ? 95 + (pct - 0.5) * 15 : pct > 0.2 ? 80 + (pct - 0.2) * 50 : Math.max(0, (pct + 0.1) * 200);
+    estPercentile = Math.min(99.99, Math.max(0, estPercentile));
+  } else {
+    estPercentile = Math.min(100, Math.max(0, (score / maxPossible) * 100));
+  }
+
+  return {
+    main: { label: 'Estimated Score', value: score + ' / ' + maxPossible },
+    secondary: [
+      { label: 'Attempted Questions', value: attempted + ' / ' + maxQuestions },
+      { label: 'Correct Answers', value: String(correct) },
+      { label: 'Wrong Answers', value: String(wrong) },
+      { label: 'Unanswered', value: String(unanswered) },
+      { label: 'Est. Percentile', value: estPercentile.toFixed(2) + '%' },
+      { label: 'Negative Marks Lost', value: '-' + (wrong * negMarks) },
+      { label: 'Accuracy Rate', value: (attempted > 0 ? (correct / attempted * 100).toFixed(1) : '0.0') + '%' },
+    ],
+  };
+};
+
+/* ── Backlog Recovery Planner ──────────────────────── */
+export const calcBacklogRecovery: CalcFunction = (v) => {
+  const backlogs = Number(v.backlogs) || 1;
+  const days = Number(v.days) || 30;
+  const hoursPerDayAvailable = Number(v.dailyHours) || 3;
+
+  const hrPerBacklog = 40; // Assume 40 hours needed to clear one subject backlog fully
+  const totalHoursNeeded = backlogs * hrPerBacklog;
+  const hoursPerDayNeeded = totalHoursNeeded / days;
+  const feasibility = hoursPerDayNeeded <= hoursPerDayAvailable;
+  
+  let stressIndex = 'Low';
+  if (hoursPerDayNeeded > 8) stressIndex = 'Extreme (Not Feasible!)';
+  else if (hoursPerDayNeeded > 5) stressIndex = 'High';
+  else if (hoursPerDayNeeded > 3) stressIndex = 'Moderate';
+
+  return {
+    main: { label: 'Daily Study Hours Needed', value: hoursPerDayNeeded.toFixed(1) + ' hrs/day' },
+    secondary: [
+      { label: 'Feasible with your schedule?', value: feasibility ? 'Yes [OK]' : 'No [X] (Need more daily hours or days)' },
+      { label: 'Total Study Hours Required', value: totalHoursNeeded + ' hrs' },
+      { label: 'Total Hours Available', value: (hoursPerDayAvailable * days) + ' hrs' },
+      { label: 'Stress Level Rating', value: stressIndex },
+      { label: 'Days Remaining', value: days + ' days' },
+      { label: 'Subjects to Clear', value: String(backlogs) },
+      { label: 'Suggested split', value: `Study ${(totalHoursNeeded / backlogs).toFixed(1)} hrs per backlog subject` },
+    ],
+  };
+};
+
+/* ── Research Paper Metrics ───────────────────────── */
+export const calcResearchMetrics: CalcFunction = (v) => {
+  const citString = String(v.citations || '10, 8, 5, 4, 3, 0');
+  
+  // Parse citations
+  const citations = citString.split(',')
+    .map(x => parseInt(x.trim()))
+    .filter(x => !isNaN(x))
+    .sort((a, b) => b - a);
+
+  if (citations.length === 0) {
+    return { main: { label: 'Error', value: 'Enter valid citation counts' } };
+  }
+
+  // Calculate h-index
+  let h = 0;
+  for (let i = 0; i < citations.length; i++) {
+    if (citations[i] >= i + 1) {
+      h = i + 1;
+    } else {
+      break;
+    }
+  }
+
+  // Calculate i10-index
+  const i10 = citations.filter(c => c >= 10).length;
+
+  // Total citations
+  const totalCites = citations.reduce((sum, val) => sum + val, 0);
+  const avgCites = totalCites / citations.length;
+
+  return {
+    main: { label: 'h-index', value: 'h = ' + h },
+    secondary: [
+      { label: 'i10-index', value: String(i10) },
+      { label: 'Total Papers Analyzed', value: String(citations.length) },
+      { label: 'Total Citations', value: String(totalCites) },
+      { label: 'Avg. Citations per Paper', value: avgCites.toFixed(2) },
+      { label: 'Max Citations on One Paper', value: String(citations[0] || 0) },
+      { label: 'h-index Definition', value: `${h} papers have at least ${h} citations each.` },
+    ],
+  };
+};
+
+/* ── Study Abroad Cost Estimator ──────────────────── */
+export const calcAbroadCost: CalcFunction = (v) => {
+  const country = String(v.country || 'USA');
+  const duration = Number(v.duration) || 2; // years
+  const tuitionPerYear = Number(v.tuition) || 30000; // in selected currency
+  const livingPerMonth = Number(v.living) || 1200; // in selected currency
+
+  // Exchange rates to INR
+  const rates: Record<string, number> = {
+    'USA': 83.5,
+    'UK': 105,
+    'Canada': 61,
+    'Australia': 54,
+    'Germany': 90,
+  };
+
+  const exchangeRate = rates[country] || 83.5;
+  const currencySymbol: Record<string, string> = {
+    'USA': '$',
+    'UK': '£',
+    'Canada': 'CA$',
+    'Australia': 'A$',
+    'Germany': '€',
+  };
+
+  const totalTuition = tuitionPerYear * duration;
+  const totalLiving = livingPerMonth * 12 * duration;
+  const grandTotalForeign = totalTuition + totalLiving;
+  const grandTotalINR = grandTotalForeign * exchangeRate;
+
+  // Assume loan with 9.5% interest, 10 years repayment
+  const loanINR = grandTotalINR * 0.8; // 80% loan
+  const r = 9.5 / 12 / 100;
+  const n = 120; // 10 years
+  const emiINR = loanINR * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+
+  return {
+    main: { label: 'Est. Total Cost (INR)', value: '₹' + Math.round(grandTotalINR).toLocaleString('en-IN') },
+    secondary: [
+      { label: `Total Cost (${country})`, value: (currencySymbol[country] || '$') + grandTotalForeign.toLocaleString() },
+      { label: 'Tuition Fees (Total)', value: (currencySymbol[country] || '$') + totalTuition.toLocaleString() },
+      { label: 'Living Expenses (Total)', value: (currencySymbol[country] || '$') + totalLiving.toLocaleString() },
+      { label: 'Est. Loan Required (80%)', value: '₹' + Math.round(loanINR).toLocaleString('en-IN') },
+      { label: 'Est. Loan EMI (10-yr at 9.5%)', value: '₹' + Math.round(emiINR).toLocaleString('en-IN') + ' / month' },
+      { label: 'Exchange Rate Used', value: `1 Unit = ₹${exchangeRate}` },
+      { label: 'Course Duration', value: duration + ' years' },
+    ],
   };
 };

@@ -152,3 +152,114 @@ export const calcRainwater: CalcFunction = (v) => {
   const tankSize = Math.ceil(monthlyAvg * 1.5 / 1000) * 1000;
   return { main: { label: 'Annual Collection', value: Math.round(annualCollection).toLocaleString() + ' litres' }, secondary: [{ label: 'Monthly Average', value: Math.round(monthlyAvg).toLocaleString() + ' litres' }, { label: 'Daily Average', value: Math.round(dailyAvg) + ' litres' }, { label: '% of Demand Met', value: pctDemandMet.toFixed(1) + '%' }, { label: 'Suggested Tank Size', value: tankSize.toLocaleString() + ' litres' }, { label: 'Runoff Coefficient', value: String(coeff) }] };
 };
+
+/* ── Staircase Calculator ─────────────────────────── */
+export const calcStaircase: CalcFunction = (v) => {
+  const rise = Number(v.totalRise) || 3000; // mm
+  const targetRiser = Number(v.targetRiser) || 175; // mm
+  const targetTread = Number(v.targetTread) || 275; // mm
+
+  const numRisers = Math.round(rise / targetRiser);
+  const exactRiser = rise / numRisers;
+  const numTreads = numRisers - 1;
+  const totalRun = numTreads * targetTread;
+
+  const angleRad = Math.atan(exactRiser / targetTread);
+  const angleDeg = angleRad * (180 / Math.PI);
+
+  let compliance = 'Standard Compliant [OK]';
+  if (exactRiser > 200 || exactRiser < 120) compliance = 'Riser out of standard range (120-200mm) [!]';
+  else if (targetTread < 220 || targetTread > 350) compliance = 'Tread depth out of standard range (220-350mm) [!]';
+
+  return {
+    main: { label: 'Number of Risers', value: numRisers + ' steps (Exact Riser: ' + exactRiser.toFixed(1) + ' mm)' },
+    secondary: [
+      { label: 'Number of Treads', value: numTreads + ' treads' },
+      { label: 'Tread Depth', value: targetTread + ' mm' },
+      { label: 'Total Staircase Run', value: (totalRun / 1000).toFixed(2) + ' m' },
+      { label: 'Staircase Angle', value: angleDeg.toFixed(1) + '°' },
+      { label: 'Safety Compliance', value: compliance },
+      { label: 'Riser + Tread Rule (2R + T)', value: Math.round(2 * exactRiser + targetTread) + ' mm (ideal is 600-640mm)' }
+    ]
+  };
+};
+
+/* ── Septic Tank Size Calculator ──────────────────── */
+export const calcSepticTank: CalcFunction = (v) => {
+  const users = Number(v.users) || 6;
+  const waterPerPerson = Number(v.waterPerPerson) || 150; // L/day
+  const interval = Number(v.interval) || 2; // years
+
+  // Septic volume (L) = A (users * water * days retention) + B (sludge storage)
+  // Standard retention is 1-3 days. Let's assume 2 days retention.
+  const sewageVolume = users * waterPerPerson * 2;
+  const sludgeVolume = users * 30 * interval; // ~30L sludge per person per year
+  const totalLiquidVolume = sewageVolume + sludgeVolume;
+  
+  // Total tank volume (including 0.3m freeboard, which adds approx 25% volume)
+  const totalVolumeLiters = totalLiquidVolume * 1.25;
+  const volM3 = totalVolumeLiters / 1000;
+
+  // Standard dimensions L:W is 2:1 to 4:1. Let's assume 3:1 ratio, depth = 1.5m
+  const depth = 1.5;
+  const area = volM3 / depth;
+  const width = Math.sqrt(area / 3);
+  const length = width * 3;
+
+  return {
+    main: { label: 'Recommended Capacity', value: Math.round(totalVolumeLiters).toLocaleString() + ' Liters (' + volM3.toFixed(2) + ' m³)' },
+    secondary: [
+      { label: 'Length (internal)', value: length.toFixed(2) + ' m' },
+      { label: 'Width (internal)', value: width.toFixed(2) + ' m' },
+      { label: 'Depth (including freeboard)', value: (depth + 0.3).toFixed(2) + ' m' },
+      { label: 'Number of Users', value: String(users) },
+      { label: 'Cleaning Frequency', value: `Every ${interval} years` },
+      { label: 'Daily Wastewater Flow', value: (users * waterPerPerson) + ' L/day' }
+    ]
+  };
+};
+
+/* ── Home Electrical Load Calculator ──────────────── */
+export const calcElectricalLoad: CalcFunction = (v) => {
+  const acCount = Number(v.acCount) || 1;      // ~1500W each
+  const fansCount = Number(v.fansCount) || 4;    // ~75W each
+  const lightsCount = Number(v.lightsCount) || 10; // ~15W each
+  const geyserCount = Number(v.geyserCount) || 0; // ~2000W each
+  const fridgeCount = Number(v.fridgeCount) || 1; // ~300W each
+  const tvCount = Number(v.tvCount) || 1;         // ~100W each
+  const ovenCount = Number(v.ovenCount) || 0;     // ~1500W each
+
+  const rawLoad = (acCount * 1500) + (fansCount * 75) + (lightsCount * 15) + (geyserCount * 2000) + (fridgeCount * 300) + (tvCount * 100) + (ovenCount * 1500);
+  
+  // Apply standard demand/diversity factor of 0.8 (not all appliances run simultaneously)
+  const connectedLoadW = rawLoad;
+  const runningLoadW = rawLoad * 0.8;
+
+  // Ampere calculation at 230V single phase
+  const runningCurrentAmps = runningLoadW / 230;
+
+  // Recommendations
+  let mcbSize = '16 A';
+  if (runningCurrentAmps > 40) mcbSize = '63 A';
+  else if (runningCurrentAmps > 25) mcbSize = '40 A';
+  else if (runningCurrentAmps > 16) mcbSize = '32 A';
+  else if (runningCurrentAmps > 10) mcbSize = '20 A';
+
+  let wireGauge = '4.0 sq mm';
+  if (runningCurrentAmps > 32) wireGauge = '10.0 sq mm';
+  else if (runningCurrentAmps > 20) wireGauge = '6.0 sq mm';
+  else if (runningCurrentAmps < 15) wireGauge = '2.5 sq mm';
+
+  return {
+    main: { label: 'Total Connected Load', value: (connectedLoadW / 1000).toFixed(2) + ' kW' },
+    secondary: [
+      { label: 'Estimated Running Load', value: (runningLoadW / 1000).toFixed(2) + ' kW (diversity factor applied)' },
+      { label: 'Peak Current Draw', value: runningCurrentAmps.toFixed(1) + ' Amps' },
+      { label: 'Recommended Main MCB', value: mcbSize },
+      { label: 'Recommended Service Cable', value: wireGauge },
+      { label: 'AC Units Load', value: (acCount * 1.5) + ' kW' },
+      { label: 'Geysers Load', value: (geyserCount * 2.0) + ' kW' },
+      { label: 'Other Appliances Load', value: ((fansCount * 75 + lightsCount * 15 + fridgeCount * 300 + tvCount * 100 + ovenCount * 1500) / 1000).toFixed(2) + ' kW' }
+    ]
+  };
+};

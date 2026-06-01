@@ -12,7 +12,8 @@ export type CalculatorCategory =
   | 'construction'
   | 'datetime'
   | 'science'
-  | 'unit';
+  | 'unit'
+  | 'tech';
 
 export interface CalculatorInput {
   id: string;
@@ -154,5 +155,11 @@ export const CATEGORY_META: Record<CalculatorCategory, CategoryMeta> = {
     icon: 'fa-right-left',
     color: 'linear-gradient(135deg, #DB2777, #EC4899)',
     description: 'Length, weight, temperature & unit converters',
+  },
+  tech: {
+    name: 'Tech & Developer',
+    icon: 'fa-code',
+    color: 'linear-gradient(135deg, #0D9488, #14B8A6)',
+    description: 'Password, subnet, bandwidth & developer tools',
   },
 };

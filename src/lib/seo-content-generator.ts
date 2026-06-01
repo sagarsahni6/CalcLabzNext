@@ -19,6 +19,7 @@ const SCHEMA_APP_CATEGORY: Record<CalculatorCategory, string> = {
   datetime: 'UtilitiesApplication',
   science: 'EducationalApplication',
   unit: 'UtilitiesApplication',
+  tech: 'DeveloperApplication',
 };
 
 export function getSchemaCategory(cat: CalculatorCategory): string {
@@ -37,6 +38,7 @@ const CATEGORY_SEO_INTROS: Record<CalculatorCategory, string> = {
   datetime: 'Calculate date differences, working days, countdown timers, and timezone conversions. Essential tools for project planning, age verification, and scheduling.',
   science: 'Physics, chemistry, and scientific calculators with step-by-step solutions. Speed-distance-time, Newton\'s laws, pH, half-life, kinematic equations, and more.',
   unit: 'Convert between units instantly — length, weight, temperature, area, speed, volume, data, pressure, energy, and angles. Supports metric, imperial, and Indian units.',
+  tech: 'Developer and IT tools for web professionals, programmers, and network admins. Password strength checking, subnet calculations, color code conversion, bandwidth estimation, and more — all running locally in your browser.',
 };
 
 export function getCategorySEOIntro(cat: CalculatorCategory): string {
@@ -80,7 +82,7 @@ function getCategoryName(cat: CalculatorCategory): string {
     finance: 'Financial', health: 'Health & Fitness', math: 'Mathematical',
     everyday: 'Everyday', education: 'Educational', engineering: 'Engineering',
     construction: 'Construction', datetime: 'Date & Time', science: 'Scientific',
-    unit: 'Unit Conversion',
+    unit: 'Unit Conversion', tech: 'Tech & Developer',
   };
   return names[cat] || 'Online';
 }
@@ -361,6 +363,13 @@ const CATEGORY_GLOSSARY: Record<string, GlossaryTerm[]> = {
     { term: 'Metric System', definition: 'The decimal measuring system based on meters, kilograms, and seconds (MKS) — used globally.' },
     { term: 'Imperial System', definition: 'The measuring system using feet, pounds, and Fahrenheit — primarily used in the US.' },
     { term: 'SI Units', definition: 'International System of Units — the modern standard: meter, kilogram, second, ampere, kelvin, mole, candela.' },
+  ],
+  tech: [
+    { term: 'Entropy (Password)', definition: 'A measure of password randomness in bits. Higher entropy = harder to crack. 80+ bits is considered strong.' },
+    { term: 'CIDR', definition: 'Classless Inter-Domain Routing — a notation for specifying IP address ranges (e.g., /24 = 256 addresses).' },
+    { term: 'Subnet Mask', definition: 'A 32-bit number that divides an IP address into network and host portions.' },
+    { term: 'HEX Color', definition: 'A 6-digit hexadecimal code representing a color (#RRGGBB), widely used in CSS and web design.' },
+    { term: 'Bandwidth', definition: 'The maximum data transfer rate of a network connection, measured in Mbps or Gbps.' },
   ],
 };
 

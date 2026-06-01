@@ -2338,5 +2338,392 @@
     "name": "Mobile Data Usage Calculator",
     "title": "Mobile Data Usage Calculator — Free Online Calculator | Calc Labz",
     "desc": "Calculate daily & monthly mobile data consumption by app — find the right Jio/Airtel plan"
+  },
+  {
+    "id": "emivstenure",
+    "slug": "emi-vs-tenure-calculator",
+    "cat": "finance",
+    "priority": "normal",
+    "name": "EMI vs Tenure Trade-off Calculator",
+    "title": "EMI vs Tenure Calculator — Compare Loan Tenure Options | Calc Labz",
+    "desc": "Compare EMIs and total interest for different loan tenure options. Find the optimal balance between lower EMI and less interest paid."
+  },
+  {
+    "id": "ruleof72",
+    "slug": "rule-of-72-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Rule of 72 Calculator",
+    "title": "Rule of 72 Calculator — How Long to Double Your Money | Calc Labz",
+    "desc": "Use the Rule of 72 to estimate how many years it takes to double your investment. Includes Rule of 115 for tripling."
+  },
+  {
+    "id": "postofficemis",
+    "slug": "post-office-mis-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Post Office MIS Calculator",
+    "title": "Post Office Monthly Income Scheme Calculator 2026 | Calc Labz",
+    "desc": "Calculate monthly income from Post Office MIS scheme at current rates. Compare with FD returns."
+  },
+  {
+    "id": "cryptoprofit",
+    "slug": "crypto-profit-calculator",
+    "cat": "finance",
+    "priority": "high",
+    "name": "Crypto Profit/Loss Calculator",
+    "title": "Crypto Profit Calculator — Bitcoin & Crypto Tax India | Calc Labz",
+    "desc": "Calculate crypto trading profit/loss with exchange fees, break-even price, and India 30% crypto tax calculation."
+  },
+  {
+    "id": "flatvsreducing",
+    "slug": "flat-vs-reducing-calculator",
+    "cat": "finance",
+    "priority": "normal",
+    "name": "Flat vs Reducing Rate Calculator",
+    "title": "Flat vs Reducing Interest Rate Calculator — True Cost Comparison | Calc Labz",
+    "desc": "Compare flat rate and reducing balance EMI on loans. See the true effective interest rate behind flat rate offers."
+  },
+  {
+    "id": "pregnancyweight",
+    "slug": "pregnancy-weight-calculator",
+    "cat": "health",
+    "priority": "high",
+    "name": "Pregnancy Weight Gain Calculator",
+    "title": "Pregnancy Weight Gain Calculator — IOM Guidelines Tracker | Calc Labz",
+    "desc": "Track pregnancy weight gain week-by-week against IOM recommended ranges based on pre-pregnancy BMI."
+  },
+  {
+    "id": "breastmilk",
+    "slug": "breastmilk-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "Breastmilk / Formula Calculator",
+    "title": "Baby Feeding Calculator — Breastmilk & Formula Guide | Calc Labz",
+    "desc": "Calculate daily milk intake, feeds per day, and feeding intervals for babies from newborn to 12 months."
+  },
+  {
+    "id": "stepcounter",
+    "slug": "steps-to-calories-calculator",
+    "cat": "health",
+    "priority": "high",
+    "name": "Steps to Calories Calculator",
+    "title": "Steps to Calories Calculator — Walking Distance & Burn | Calc Labz",
+    "desc": "Convert your daily steps to calories burned, distance covered, and track progress toward the 10K step goal."
+  },
+  {
+    "id": "bacdetailed",
+    "slug": "bac-calculator",
+    "cat": "health",
+    "priority": "normal",
+    "name": "BAC & Sober Time Calculator",
+    "title": "Blood Alcohol Calculator — BAC Level & Sober Time | Calc Labz",
+    "desc": "Calculate blood alcohol content by drink type, get sober time estimates, and check India & US legal driving limits."
+  },
+  {
+    "id": "menstrualcycle",
+    "slug": "period-calculator",
+    "cat": "health",
+    "priority": "high",
+    "name": "Period & Menstrual Cycle Calculator",
+    "title": "Period Calculator — Next 6 Periods, Fertile Window & PMS | Calc Labz",
+    "desc": "Predict your next 6 period dates, fertile windows, PMS start, and ovulation days based on your cycle length."
+  },
+  {
+    "id": "passwordstrength",
+    "slug": "password-strength-calculator",
+    "cat": "tech",
+    "priority": "high",
+    "name": "Password Strength Checker",
+    "title": "Password Strength Checker — Entropy & Crack Time Analyzer | Calc Labz",
+    "desc": "Check how strong your password is. Get entropy bits, estimated crack time, and improvement suggestions."
+  },
+  {
+    "id": "subnet",
+    "slug": "subnet-calculator",
+    "cat": "tech",
+    "priority": "high",
+    "name": "IP Subnet Calculator",
+    "title": "IP Subnet Calculator — CIDR, Network & Host Range | Calc Labz",
+    "desc": "Calculate subnet mask, network address, broadcast, usable host range, and wildcard mask from IP and CIDR."
+  },
+  {
+    "id": "bandwidth",
+    "slug": "bandwidth-calculator",
+    "cat": "tech",
+    "priority": "normal",
+    "name": "Bandwidth & Download Time Calculator",
+    "title": "Download Time Calculator — File Size & Internet Speed | Calc Labz",
+    "desc": "Estimate download and upload time for any file size at your internet speed. Get streaming quality recommendations."
+  },
+  {
+    "id": "colorconverter",
+    "slug": "color-converter-calculator",
+    "cat": "tech",
+    "priority": "high",
+    "name": "Color Code Converter",
+    "title": "Color Converter — HEX to RGB, HSL, CMYK | Calc Labz",
+    "desc": "Convert color codes between HEX, RGB, HSL, and CMYK. Get complementary colors and CSS variables."
+  },
+  {
+    "id": "wordcounter",
+    "slug": "word-counter-calculator",
+    "cat": "everyday",
+    "priority": "high",
+    "name": "Word & Character Counter",
+    "title": "Word Counter — Characters, Sentences & Reading Time | Calc Labz",
+    "desc": "Count words, characters, sentences, and paragraphs. Get estimated reading and speaking time for your text."
+  },
+  {
+    "id": "aspectratio",
+    "slug": "aspect-ratio-calculator",
+    "cat": "everyday",
+    "priority": "high",
+    "name": "Aspect Ratio Calculator",
+    "title": "Aspect Ratio Calculator — Image & Video Dimensions | Calc Labz",
+    "desc": "Calculate aspect ratio from width and height. Match social media dimension presets (16:9, 4:3, 1:1, etc.)."
+  },
+  {
+    "id": "socialmediaimage",
+    "slug": "social-media-image-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Social Media Image Size Calculator",
+    "title": "Social Media Image Size Guide 2026 — All Platforms | Calc Labz",
+    "desc": "Get recommended image dimensions for Instagram, YouTube, Twitter/X, LinkedIn, and Facebook profiles, covers, posts."
+  },
+  {
+    "id": "dogage",
+    "slug": "dog-age-calculator",
+    "cat": "everyday",
+    "priority": "high",
+    "name": "Dog Age Calculator",
+    "title": "Dog Age Calculator — Scientific Dog to Human Years | Calc Labz",
+    "desc": "Convert dog years to human years using the scientific AKC method. Varies by breed size (small, medium, large, giant)."
+  },
+  {
+    "id": "idealGas",
+    "slug": "ideal-gas-law-calculator",
+    "cat": "science",
+    "priority": "normal",
+    "name": "Ideal Gas Law Calculator",
+    "title": "Ideal Gas Law Calculator — PV = nRT Solver | Calc Labz",
+    "desc": "Solve for Pressure, Volume, Moles, or Temperature in the Ideal Gas Law equation. Supports multiple scientific units."
+  },
+  {
+    "id": "coulombsLaw",
+    "slug": "coulombs-law-calculator",
+    "cat": "science",
+    "priority": "normal",
+    "name": "Coulomb's Law Calculator",
+    "title": "Coulomb's Law Calculator — Electrostatic Force | Calc Labz",
+    "desc": "Calculate the electrostatic force of attraction or repulsion between two electric charges separated by a distance."
+  },
+  {
+    "id": "escapeVelocity",
+    "slug": "escape-velocity-calculator",
+    "cat": "science",
+    "priority": "normal",
+    "name": "Escape Velocity Calculator",
+    "title": "Escape Velocity & Orbital Velocity Calculator | Calc Labz",
+    "desc": "Calculate the escape velocity and orbital velocity for Earth, Moon, Mars, or any custom celestial body."
+  },
+  {
+    "id": "soundSpeed",
+    "slug": "speed-of-sound-calculator",
+    "cat": "science",
+    "priority": "normal",
+    "name": "Speed of Sound Calculator",
+    "title": "Speed of Sound Calculator — Medium & Temp | Calc Labz",
+    "desc": "Calculate the speed of sound in air, water, steel, helium, or concrete at different temperatures."
+  },
+  {
+    "id": "leapYear",
+    "slug": "leap-year-calculator",
+    "cat": "datetime",
+    "priority": "high",
+    "name": "Leap Year Checker",
+    "title": "Leap Year Checker — Free Online Calendar Tool | Calc Labz",
+    "desc": "Quickly check if any year is a leap year. View upcoming leap years and leap calendar history rules."
+  },
+  {
+    "id": "weekNumber",
+    "slug": "week-number-calculator",
+    "cat": "datetime",
+    "priority": "normal",
+    "name": "Week Number Calculator",
+    "title": "Week Number & Day of Year Calculator | Calc Labz",
+    "desc": "Find the current ISO week number, day of the year, quarter, and number of days remaining in the year."
+  },
+  {
+    "id": "dateAdd",
+    "slug": "date-add-calculator",
+    "cat": "datetime",
+    "priority": "high",
+    "name": "Add or Subtract Days",
+    "title": "Date Calculator — Add or Subtract Days & Months | Calc Labz",
+    "desc": "Easily add or subtract days, weeks, months, or years from any starting date to find the target date."
+  },
+  {
+    "id": "fuelEfficiency",
+    "slug": "fuel-efficiency-calculator",
+    "cat": "unit",
+    "priority": "normal",
+    "name": "Fuel Efficiency Converter",
+    "title": "Fuel Efficiency Converter — km/L, L/100km, MPG | Calc Labz",
+    "desc": "Convert fuel efficiency or mileage between km/L, Liters per 100 km, MPG (US), and MPG (UK) side-by-side."
+  },
+  {
+    "id": "numberWord",
+    "slug": "number-to-words-calculator",
+    "cat": "unit",
+    "priority": "high",
+    "name": "Number to Words Converter",
+    "title": "Number to Words Converter — Indian & Lakhs/Crores | Calc Labz",
+    "desc": "Convert any number into words in both the Indian system (Lakhs, Crores) and the International system (Millions, Billions)."
+  },
+  {
+    "id": "cookingConvert",
+    "slug": "cooking-measurement-calculator",
+    "cat": "unit",
+    "priority": "normal",
+    "name": "Cooking Measurement Converter",
+    "title": "Cooking Unit Converter — Cups, Spoons, ml, Grams | Calc Labz",
+    "desc": "Convert cooking recipe measurements between cups, tablespoons, teaspoons, milliliters, fluid ounces, and grams."
+  },
+  {
+    "id": "marksPercentage",
+    "slug": "marks-percentage-calculator",
+    "cat": "education",
+    "priority": "high",
+    "name": "Marks to Percentage",
+    "title": "Marks to Percentage Calculator — Grade & Division | Calc Labz",
+    "desc": "Calculate your exam percentage, grade, division, and estimated CGPA instantly from obtained and total marks."
+  },
+  {
+    "id": "competitiveExam",
+    "slug": "competitive-exam-calculator",
+    "cat": "education",
+    "priority": "high",
+    "name": "Competitive Exam Percentile Predictor",
+    "title": "JEE / NEET / BITSAT Marks & Percentile Predictor | Calc Labz",
+    "desc": "Predict your estimated competitive exam score, accuracy rate, and percentile rank based on correct and wrong attempts."
+  },
+  {
+    "id": "backlogRecovery",
+    "slug": "backlog-recovery-calculator",
+    "cat": "education",
+    "priority": "normal",
+    "name": "Backlog Recovery Planner",
+    "title": "Backlog Study Planner & Recovery Calculator | Calc Labz",
+    "desc": "Create a study plan to clear backlog subjects. Calculates required daily study hours and stress rating."
+  },
+  {
+    "id": "researchMetrics",
+    "slug": "research-metrics-calculator",
+    "cat": "education",
+    "priority": "normal",
+    "name": "Research Paper Metrics",
+    "title": "h-index & i10-index Calculator — Scholar Metrics | Calc Labz",
+    "desc": "Calculate your academic research h-index, i10-index, total citations, and average citations per paper."
+  },
+  {
+    "id": "abroadCost",
+    "slug": "study-abroad-cost-calculator",
+    "cat": "education",
+    "priority": "high",
+    "name": "Study Abroad Cost Estimator",
+    "title": "Study Abroad Cost Estimator & EMI Calculator | Calc Labz",
+    "desc": "Estimate total tuition and living costs abroad (USA, UK, Canada, Australia, Germany) in INR with loan EMI breakdown."
+  },
+  {
+    "id": "inflationBasket",
+    "slug": "grocery-inflation-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Grocery Inflation Calculator",
+    "title": "Grocery Inflation Calculator — Cost of Goods | Calc Labz",
+    "desc": "Calculate the future cost of your monthly grocery budget and see itemized price projections over time."
+  },
+  {
+    "id": "phonePlan",
+    "slug": "mobile-plan-comparator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Mobile Plan Comparator",
+    "title": "Mobile Plan Comparison Calculator | Calc Labz",
+    "desc": "Compare validity, data limits, and price between two phone plans. Find the absolute cheapest plan per day or per GB."
+  },
+  {
+    "id": "movingCost",
+    "slug": "house-relocation-cost-estimator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "House Relocation Cost Estimator",
+    "title": "House Shifting & Shifting Cost Estimator | Calc Labz",
+    "desc": "Calculate estimated packing, loading, transit, and insurance costs for relocating your home based on BHK and distance."
+  },
+  {
+    "id": "laundryLoad",
+    "slug": "washing-machine-load-calculator",
+    "cat": "everyday",
+    "priority": "normal",
+    "name": "Washing Machine Load Calculator",
+    "title": "Washing Machine Load & Laundry Calculator | Calc Labz",
+    "desc": "Check if your laundry pile matches your washing machine capacity. Estimates water and electricity consumption per wash cycle."
+  },
+  {
+    "id": "jsonFormatter",
+    "slug": "json-formatter-validator",
+    "cat": "tech",
+    "priority": "high",
+    "name": "JSON Formatter & Validator",
+    "title": "JSON Formatter, Validator & Prettifier | Calc Labz",
+    "desc": "Validate, prettify, format, and minify JSON inputs. Analyzes JSON structural depth and key counts."
+  },
+  {
+    "id": "motorSize",
+    "slug": "electric-motor-sizing-calculator",
+    "cat": "engineering",
+    "priority": "normal",
+    "name": "Electric Motor Sizing Calculator",
+    "title": "Electric Motor Sizing Calculator — HP & kW | Calc Labz",
+    "desc": "Determine required electric motor power in Horsepower (HP) and Kilowatts (kW) using load torque and rotational speed (RPM)."
+  },
+  {
+    "id": "resistorDecode",
+    "slug": "resistor-color-code-decoder",
+    "cat": "engineering",
+    "priority": "high",
+    "name": "Resistor Color Code Decoder",
+    "title": "Resistor Color Code Calculator — 4 Band Decoder | Calc Labz",
+    "desc": "Decode 4-band resistor color code bands to find resistance value in Ohms, along with tolerance limits and range."
+  },
+  {
+    "id": "staircase",
+    "slug": "staircase-calculator",
+    "cat": "construction",
+    "priority": "high",
+    "name": "Staircase Calculator",
+    "title": "Staircase Calculator — Rise, Tread & Step Count | Calc Labz",
+    "desc": "Calculate staircase step count, rise height, tread depth, and total run. Includes safety compliance angle checking."
+  },
+  {
+    "id": "septicTank",
+    "slug": "septic-tank-size-calculator",
+    "cat": "construction",
+    "priority": "normal",
+    "name": "Septic Tank Size Calculator",
+    "title": "Septic Tank Capacity & Dimension Calculator | Calc Labz",
+    "desc": "Estimate recommended septic tank volume in Liters, along with dimensions (length, width, depth) and desludging interval."
+  },
+  {
+    "id": "electricalLoad",
+    "slug": "home-electrical-load-calculator",
+    "cat": "construction",
+    "priority": "high",
+    "name": "Home Electrical Load Calculator",
+    "title": "Home Electrical Load & MCB Wire Sizer | Calc Labz",
+    "desc": "Calculate total connected electrical load in kW, peak current draw, and recommended main MCB and wire gauge sizes."
   }
 ]

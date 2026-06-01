@@ -1,4 +1,4 @@
-﻿/* ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════
    Calc Labz — Everyday Calculation Functions
    Ported from calculators-everyday.js
    Pure functions — no DOM dependencies
@@ -988,5 +988,137 @@ export const calcDataUsage: CalcFunction = (v) => {
       labels: ["YouTube", "Instagram", "Video Calls", "Music", "Browsing"],
       data: [Math.round(ytDaily), Math.round(instaDaily), Math.round(videoCallDaily), Math.round(musicDaily), Math.round(browsingDaily)]
     }
+  };
+};
+
+/* ── Inflation Grocery Basket ─────────────────────── */
+export const calcInflationBasket: CalcFunction = (v) => {
+  const budget = Number(v.budget) || 10000;
+  const inflation = Number(v.inflation) || 6;
+  const years = Number(v.years) || 5;
+
+  const infRate = inflation / 100;
+  const futureBudget = budget * Math.pow(1 + infRate, years);
+  const lossOfPurchasingPower = budget - (budget / Math.pow(1 + infRate, years));
+
+  // Item estimations
+  const items = [
+    { name: 'Milk (1L)', current: 66 },
+    { name: 'Rice (1kg)', current: 60 },
+    { name: 'Atta (1kg)', current: 45 },
+    { name: 'Cooking Oil (1L)', current: 140 },
+  ];
+
+  return {
+    main: { label: `Future Grocery Budget (${years} yrs)`, value: '₹' + Math.round(futureBudget).toLocaleString('en-IN') },
+    secondary: [
+      { label: 'Current Budget', value: '₹' + budget.toLocaleString('en-IN') },
+      { label: 'Loss of Purchasing Power', value: '₹' + Math.round(lossOfPurchasingPower).toLocaleString('en-IN') },
+      { label: 'Cumulative Inflation', value: ((Math.pow(1 + infRate, years) - 1) * 100).toFixed(1) + '%' },
+      ...items.map(item => ({
+        label: `${item.name} (future)`,
+        value: '₹' + Math.round(item.current * Math.pow(1 + infRate, years)) + ` (was ₹${item.current})`
+      }))
+    ]
+  };
+};
+
+/* ── Mobile Plan Comparator ───────────────────────── */
+export const calcPhonePlan: CalcFunction = (v) => {
+  const price1 = Number(v.price1) || 299;
+  const validity1 = Number(v.validity1) || 28;
+  const data1 = Number(v.data1) || 1.5; // GB/day
+
+  const price2 = Number(v.price2) || 749;
+  const validity2 = Number(v.validity2) || 84;
+  const data2 = Number(v.data2) || 2; // GB/day
+
+  const costPerDay1 = validity1 > 0 ? price1 / validity1 : 0;
+  const totalData1 = data1 * validity1;
+  const costPerGB1 = totalData1 > 0 ? price1 / totalData1 : 0;
+
+  const costPerDay2 = validity2 > 0 ? price2 / validity2 : 0;
+  const totalData2 = data2 * validity2;
+  const costPerGB2 = totalData2 > 0 ? price2 / totalData2 : 0;
+
+  const isBetterPlan2 = costPerDay2 < costPerDay1;
+  const recommend = isBetterPlan2 ? 'Plan 2 (Longer validity usually saves money)' : 'Plan 1 is cheaper per day!';
+
+  return {
+    main: { label: 'Best Value Recommendation', value: recommend },
+    secondary: [
+      { label: 'Plan 1: Cost/Day', value: '₹' + costPerDay1.toFixed(2) },
+      { label: 'Plan 1: Cost/GB', value: '₹' + costPerGB1.toFixed(2) },
+      { label: 'Plan 1: Total Data', value: totalData1.toFixed(1) + ' GB' },
+      { label: 'Plan 2: Cost/Day', value: '₹' + costPerDay2.toFixed(2) },
+      { label: 'Plan 2: Cost/GB', value: '₹' + costPerGB2.toFixed(2) },
+      { label: 'Plan 2: Total Data', value: totalData2.toFixed(1) + ' GB' },
+      { label: 'Daily Saving (Plan 2 vs 1)', value: '₹' + Math.abs(costPerDay2 - costPerDay1).toFixed(2) + '/day' }
+    ]
+  };
+};
+
+/* ── Moving/Relocation Cost ───────────────────────── */
+export const calcMovingCost: CalcFunction = (v) => {
+  const bhk = String(v.bhk || '2 BHK');
+  const distance = Number(v.distance) || 200;
+  const quality = String(v.quality || 'Premium');
+
+  let basePacking = 4000;
+  if (bhk === '1 BHK') basePacking = 3000;
+  else if (bhk === '3 BHK') basePacking = 7000;
+  else if (bhk === '4 BHK/Penthouse') basePacking = 11000;
+
+  let qualityMult = 1.0;
+  if (quality === 'Economy') qualityMult = 0.8;
+  else if (quality === 'Super Deluxe') qualityMult = 1.4;
+
+  const packingCost = basePacking * qualityMult;
+  const transportCost = distance * 28 + basePacking * 0.5; // ₹28/km base
+  const insuranceAndToll = (packingCost + transportCost) * 0.08 + 500; // 8% + toll
+  const total = packingCost + transportCost + insuranceAndToll;
+
+  return {
+    main: { label: 'Est. Total Relocation Cost', value: '₹' + Math.round(total).toLocaleString('en-IN') },
+    secondary: [
+      { label: 'Packing & Loading Cost', value: '₹' + Math.round(packingCost).toLocaleString('en-IN') },
+      { label: 'Transportation Cost', value: '₹' + Math.round(transportCost).toLocaleString('en-IN') },
+      { label: 'Tolls, Taxes & Insurance', value: '₹' + Math.round(insuranceAndToll).toLocaleString('en-IN') },
+      { label: 'Home Size Selected', value: bhk },
+      { label: 'Distance Covered', value: distance + ' km' },
+      { label: 'Service Quality Level', value: quality }
+    ]
+  };
+};
+
+/* ── Washing Machine Load ─────────────────────────── */
+export const calcLaundryLoad: CalcFunction = (v) => {
+  const capacity = Number(v.capacity) || 7; // kg
+  const shirts = Number(v.shirts) || 5;    // 0.2 kg each
+  const pants = Number(v.pants) || 3;      // 0.5 kg each
+  const towels = Number(v.towels) || 2;    // 0.4 kg each
+  const bedsheets = Number(v.bedsheets) || 1; // 0.8 kg each
+
+  const totalWeight = (shirts * 0.2) + (pants * 0.5) + (towels * 0.4) + (bedsheets * 0.8);
+  const pctUsed = (totalWeight / capacity) * 100;
+
+  let status = 'Perfect Load [OK]';
+  if (pctUsed > 90) status = 'Overloaded [X] (Might damage drum or leave stains)';
+  else if (pctUsed < 40) status = 'Underloaded [!] (Uneconomical water/power use)';
+
+  const estWater = totalWeight * 9; // ~9L water per kg of clothing
+  const estPower = 0.4 + (totalWeight * 0.05); // kWh
+
+  return {
+    main: { label: 'Estimated Weight', value: totalWeight.toFixed(2) + ' kg (' + Math.round(pctUsed) + '% capacity)' },
+    secondary: [
+      { label: 'Loading Verdict', value: status },
+      { label: 'Machine Capacity', value: capacity + ' kg' },
+      { label: 'Estimated Water Needed', value: Math.round(estWater) + ' Liters' },
+      { label: 'Estimated Power Usage', value: estPower.toFixed(2) + ' kWh' },
+      { label: 'Shirts Weight', value: (shirts * 0.2).toFixed(1) + ' kg' },
+      { label: 'Pants/Jeans Weight', value: (pants * 0.5).toFixed(1) + ' kg' },
+      { label: 'Bedsheets Weight', value: (bedsheets * 0.8).toFixed(1) + ' kg' }
+    ]
   };
 };

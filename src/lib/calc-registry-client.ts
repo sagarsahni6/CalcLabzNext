@@ -6,35 +6,49 @@
 
 import { CalcFunction } from '@/types/calculator';
 import {
-  calcEMI, calcSIP, calcGST, calcPreGST, calcCompoundInterest, calcSimpleInterest, calcIncomeTax, calcROI, calcPPF, calcFD, calcMortgage, calcCarLoan, calcBreakeven, calcInflation, calcSWP, calcLumpsum, calcNPS, calcGratuity, calcHRA, calcCAGR, calcCreditCard, calcNetWorth, calcTDS, calcEPF, calcProfitLoss, calcStockReturn, calcMutualFundReturns, calcTaxRegime, calcCapitalGains, calcPrepayment, calcStepUpSIP, calcSavingsGoal, calcDividendYield, calcGoldInvestment, calcRD, calcXIRR, calcLoanEligibility, calcBalanceTransfer, calcSSY, calcSCSS, calcAdvanceTax, calcInhandSalary, calcCtcBreakup, calcSalaryComparison, calcGoalSIP, calcElssReturns, calcNSC, calcAPY, calcBrokerage, calcTaxSaving, calcRetirementCorpus, calcSalaryHike, calcFIRE, calcDebtAvalanche, calcEmergencyFund, calcRentVsBuy, calcCarLeaseVsBuy, calcHomeDownPayment, calcLoanCompare, calcRefinance, calcCreditUtil, calcInsuranceNeed, calcNpvIrr, calcBondYield, calcOptionProfit, calcForexPip, calcPortfolioRebalance, calcAssetAllocation, calcMonteCarlo, calcInflationGoal, calcBusinessLoan, calcGstInvoice, calcEsopTax, calcFreelanceTax, calcTcsRemittance, calcSec80c, calcHraVsHomeLoan, calcProfTax, calcLeaveEncash, calcSGB, calcFoTurnover, calcPresumptiveTax, calcHomeLoanTaxBenefit, calcIndexedCost, calcGoldComparison, calcRentYield
+  calcEMI, calcSIP, calcGST, calcPreGST, calcCompoundInterest, calcSimpleInterest, calcIncomeTax, calcROI, calcPPF, calcFD, calcMortgage, calcCarLoan, calcBreakeven, calcInflation, calcSWP, calcLumpsum, calcNPS, calcGratuity, calcHRA, calcCAGR, calcCreditCard, calcNetWorth, calcTDS, calcEPF, calcProfitLoss, calcStockReturn, calcMutualFundReturns, calcTaxRegime, calcCapitalGains, calcPrepayment, calcStepUpSIP, calcSavingsGoal, calcDividendYield, calcGoldInvestment, calcRD, calcXIRR, calcLoanEligibility, calcBalanceTransfer, calcSSY, calcSCSS, calcAdvanceTax, calcInhandSalary, calcCtcBreakup, calcSalaryComparison, calcGoalSIP, calcElssReturns, calcNSC, calcAPY, calcBrokerage, calcTaxSaving, calcRetirementCorpus, calcSalaryHike, calcFIRE, calcDebtAvalanche, calcEmergencyFund, calcRentVsBuy, calcCarLeaseVsBuy, calcHomeDownPayment, calcLoanCompare, calcRefinance, calcCreditUtil, calcInsuranceNeed, calcNpvIrr, calcBondYield, calcOptionProfit, calcForexPip, calcPortfolioRebalance, calcAssetAllocation, calcMonteCarlo, calcInflationGoal, calcBusinessLoan, calcGstInvoice, calcEsopTax, calcFreelanceTax, calcTcsRemittance, calcSec80c, calcHraVsHomeLoan, calcProfTax, calcLeaveEncash, calcSGB, calcFoTurnover, calcPresumptiveTax, calcHomeLoanTaxBenefit, calcIndexedCost, calcGoldComparison, calcRentYield,
+  calcEmiVsTenure, calcRuleOf72, calcPostOfficeMIS, calcCryptoProfit, calcFlatVsReducing,
 } from '@/lib/calculations/finance';
 import {
   calcOhmsLaw, calcResistor, calcPower, calcPythagorean, calcLedResistor, calcVoltDivider, calcBatteryLife, calcPcbTrace, calcDecibel, calcAntennaLen, calcTorque, calcBeamLoad, calcHeatExchanger, calcFluidFlow, calcSpringForce, calcGearRatio, calcInverterBattery, calcAcBtu, calcPipeFlow, calcThreePhase, calcTransformer,
+  calcMotorSize, calcResistorDecode,
 } from '@/lib/calculations/engineering';
 import {
   calcConcrete, calcBricks, calcPaint, calcFlooring, calcSteel, calcRoofing, calcEarthwork, calcPlasterwork, calcWaterTank, calcLandArea, calcStampDuty, calcConstructionCost, calcSolarPanel, calcHomeRenovation, calcConcreteMix, calcMaterialWaste, calcRainwater,
+  calcStaircase, calcSepticTank, calcElectricalLoad,
 } from '@/lib/calculations/construction';
 import {
   calcSpeedDist, calcNewtons, calcOhmAdvanced, calcDensity, calcChemMolar, calcWavelength, calcGravitational, calcHalfLife, calcPH, calcKinematic, calcThermodynamics, calcAcceleration,
+  calcIdealGas, calcCoulombsLaw, calcEscapeVelocity, calcSoundSpeed,
 } from '@/lib/calculations/science';
 import {
   calcDateDiff, calcTimeConv, calcCountdown, calcTimezone, calcWorkingDays, calcAgeNextBday, calcRetirementDate, calcAgeUnits,
+  calcLeapYear, calcWeekNumber, calcDateAdd,
 } from '@/lib/calculations/datetime';
 import {
   calcLength, calcWeight, calcTemperature, calcArea, calcSpeed, calcCurrency, calcVolume, calcData, calcPressure, calcEnergy, calcAngle,
+  calcFuelEfficiency, calcNumberWord, calcCookingConvert,
 } from '@/lib/calculations/unit';
 import {
   calcBMI, calcBMR, calcTDEE, calcWater, calcHeartRate, calcAge, calcCalories, calcSleep, calcMacros, calcPregnancy, calcIdealWeight, calcOvulation, calcBloodPressure, calcAlcohol, calcWaistHip, calcIBW, calcVitamins, calcLungCapacity, calcBodyFat, calcProteinIntake, calcSmokingCost, calcChildHeight, calcDiabetesRisk, calcSleepDebt, calcAnemia, calcBSA, calcCholesterolRatio, calcCalorieDeficit, calcOneRepMax, calcRunningPace, calcBodyRecomp, calcVO2Max, calcLeanBodyMass, calcCalorieGoal, calcElectrolyte, calcIntermittentFasting, calcWaistHeightRatio,
+  calcPregnancyWeight, calcBreastmilk, calcStepCounter, calcBACDetailed, calcMenstrualCycle,
 } from '@/lib/calculations/health';
 import {
   calcPercentage, calcRatio, calcSquareRoot, calcLogarithm, calcFactorial, calcQuadratic, calcPrime, calcNumberSystem, calcAverage, calcStatistics, calcMatrix2x2, calcCombinations, calcLcmGcd, calcRomanNumeral, calcTriangleArea, calcScientific, calcFraction, calcStdDev, calcLinearEq, calcCircleCalc, calcDeterminant, calcComplexNum,
 } from '@/lib/calculations/math';
 import {
-  calcTip, calcDiscount, calcFuel, calcSalary, calcEmi2, calcGrade, calcElectricBill, calcLoanAffordability, calcCaloriesFood, calcWireSize, calcPixelResolution, calcTypingSpeed, calcEmiExtra, calcInvestVsRent, calcUnitPrice, calcPetrolParity, calcLaundry, calcWeddingBudget, calcRentAfford, calcFreelanceRate, calcCarbonFootprint, calcCarTco, calcTipSplit, calcPetAge, calcTravelBudget, calcMileage, calcCooking, calcShoeSize, calcStopwatch, calcRandomNum, calcEvPetrolSavings, calcEcomProfit, calcRestaurantCost, calcSubscriptionPricing, calcUnitEconomics, calcEventBudget, calcHouseholdBudget, calcDataUsage
+  calcTip, calcDiscount, calcFuel, calcSalary, calcEmi2, calcGrade, calcElectricBill, calcLoanAffordability, calcCaloriesFood, calcWireSize, calcPixelResolution, calcTypingSpeed, calcEmiExtra, calcInvestVsRent, calcUnitPrice, calcPetrolParity, calcLaundry, calcWeddingBudget, calcRentAfford, calcFreelanceRate, calcCarbonFootprint, calcCarTco, calcTipSplit, calcPetAge, calcTravelBudget, calcMileage, calcCooking, calcShoeSize, calcStopwatch, calcRandomNum, calcEvPetrolSavings, calcEcomProfit, calcRestaurantCost, calcSubscriptionPricing, calcUnitEconomics, calcEventBudget, calcHouseholdBudget, calcDataUsage,
+  calcInflationBasket, calcPhonePlan, calcMovingCost, calcLaundryLoad,
 } from '@/lib/calculations/everyday';
 import {
-  calcCgpa, calcExamNeeded, calcEduLoan, calcStudyHours, calcScholarship, calcPomodoro, calcGpaConverter, calcReadingTime, calcTypingTest, calcSpellingBee, calcAttendance, calcGpaPlanner, calcPercentile, calcCutoffPredictor, calcRevisionPlanner, calcCgpaToPercentage
+  calcCgpa, calcExamNeeded, calcEduLoan, calcStudyHours, calcScholarship, calcPomodoro, calcGpaConverter, calcReadingTime, calcTypingTest, calcSpellingBee, calcAttendance, calcGpaPlanner, calcPercentile, calcCutoffPredictor, calcRevisionPlanner, calcCgpaToPercentage,
+  calcMarksPercentage, calcCompetitiveExam, calcBacklogRecovery, calcResearchMetrics, calcAbroadCost,
 } from '@/lib/calculations/education';
+import {
+  calcPasswordStrength, calcWordCounter, calcAspectRatio, calcSocialMediaImage, calcDogAge,
+  calcSubnet, calcBandwidth, calcColorConverter,
+  calcJsonFormatter,
+} from '@/lib/calculations/tech';
 
 const calcRegistry: Record<string, CalcFunction> = {
   tip: calcTip,
@@ -305,6 +319,60 @@ const calcRegistry: Record<string, CalcFunction> = {
   circleCalc: calcCircleCalc,
   determinant: calcDeterminant,
   complexnum: calcComplexNum,
+  // Phase 1 — New Finance
+  emivstenure: calcEmiVsTenure,
+  ruleof72: calcRuleOf72,
+  postofficemis: calcPostOfficeMIS,
+  cryptoprofit: calcCryptoProfit,
+  flatvsreducing: calcFlatVsReducing,
+  // Phase 1 — New Health
+  pregnancyweight: calcPregnancyWeight,
+  breastmilk: calcBreastmilk,
+  stepcounter: calcStepCounter,
+  bacdetailed: calcBACDetailed,
+  menstrualcycle: calcMenstrualCycle,
+  // Phase 1 — New Tech & Everyday
+  passwordstrength: calcPasswordStrength,
+  wordcounter: calcWordCounter,
+  aspectratio: calcAspectRatio,
+  socialmediaimage: calcSocialMediaImage,
+  dogage: calcDogAge,
+  // Phase 1 — Tech category
+  subnet: calcSubnet,
+  bandwidth: calcBandwidth,
+  colorconverter: calcColorConverter,
+  // Phase 2 — Science
+  idealGas: calcIdealGas,
+  coulombsLaw: calcCoulombsLaw,
+  escapeVelocity: calcEscapeVelocity,
+  soundSpeed: calcSoundSpeed,
+  // Phase 2 — Date & Time
+  leapYear: calcLeapYear,
+  weekNumber: calcWeekNumber,
+  dateAdd: calcDateAdd,
+  // Phase 2 — Unit Conversion
+  fuelEfficiency: calcFuelEfficiency,
+  numberWord: calcNumberWord,
+  cookingConvert: calcCookingConvert,
+  // Phase 2 — Education
+  marksPercentage: calcMarksPercentage,
+  competitiveExam: calcCompetitiveExam,
+  backlogRecovery: calcBacklogRecovery,
+  researchMetrics: calcResearchMetrics,
+  abroadCost: calcAbroadCost,
+  // Phase 3 — Everyday
+  inflationBasket: calcInflationBasket,
+  phonePlan: calcPhonePlan,
+  movingCost: calcMovingCost,
+  laundryLoad: calcLaundryLoad,
+  // Phase 3 — Tech & Engineering
+  jsonFormatter: calcJsonFormatter,
+  motorSize: calcMotorSize,
+  resistorDecode: calcResistorDecode,
+  // Phase 3 — Construction
+  staircase: calcStaircase,
+  septicTank: calcSepticTank,
+  electricalLoad: calcElectricalLoad,
 };
 
 export function getCalcFunction(calcId: string): CalcFunction | null {

@@ -936,7 +936,198 @@ export const calcWaistHeightRatio: CalcFunction = (v) => {
       { label: "Your Height", value: height + " cm" },
       { label: "Ideal Waist (WHtR < 0.5)", value: idealWaist + " cm" },
       { label: "Waist to Reduce", value: waistToLose > 0 ? waistToLose + " cm" : "Already at healthy level [OK]" },
-      { label: "Universal Boundary", value: "Keep waist < half your height" }
+      { label: 'Universal Boundary', value: 'Keep waist < half your height' }
     ]
+  };
+};
+
+/* ── Pregnancy Weight Gain Tracker ────────────────── */
+export const calcPregnancyWeight: CalcFunction = (v) => {
+  const preWeight = Number(v.preWeight) || 60;
+  const currentWeight = Number(v.currentWeight) || 65;
+  const weeks = Number(v.weeks) || 20;
+  const twins = String(v.twins || 'Single');
+  const height = Number(v.height_pw) || 160;
+
+  const bmiPre = preWeight / Math.pow(height / 100, 2);
+  let recLow: number, recHigh: number;
+  if (twins === 'Twins') { recLow = 17; recHigh = 25; }
+  else if (bmiPre < 18.5) { recLow = 12.5; recHigh = 18; }
+  else if (bmiPre < 25) { recLow = 11.5; recHigh = 16; }
+  else if (bmiPre < 30) { recLow = 7; recHigh = 11.5; }
+  else { recLow = 5; recHigh = 9; }
+
+  const gained = currentWeight - preWeight;
+  const expectedAtWeek = weeks <= 13 ? recLow * weeks / 40 : recLow * 13 / 40 + (recLow + recHigh) / 2 * (weeks - 13) / 27;
+  const status = gained < expectedAtWeek * 0.8 ? 'Below range — eat more ⚠️' : gained > expectedAtWeek * 1.3 ? 'Above range — consult doctor ⚠️' : 'On track ✓';
+  const weeklyTarget = weeks > 13 ? ((recLow + recHigh) / 2 / 27).toFixed(2) : '0.5–1.0';
+
+  return {
+    main: { label: 'Weight Gained', value: gained.toFixed(1) + ' kg' },
+    secondary: [
+      { label: 'Status', value: status },
+      { label: 'Pre-pregnancy BMI', value: bmiPre.toFixed(1) },
+      { label: 'Recommended Total Gain', value: `${recLow}–${recHigh} kg` },
+      { label: 'Expected at Week ' + weeks, value: expectedAtWeek.toFixed(1) + ' kg' },
+      { label: 'Weekly Target (2nd/3rd tri)', value: weeklyTarget + ' kg/week' },
+      { label: 'Current Week', value: 'Week ' + weeks + ' of 40' },
+      { label: 'Trimester', value: weeks < 13 ? '1st' : weeks < 27 ? '2nd' : '3rd' },
+    ],
+    chart: { a: Math.round(gained * 10) / 10, b: Math.round(Math.max(0, (recLow + recHigh) / 2 - gained) * 10) / 10, lA: 'Gained', lB: 'Remaining (recommended)' }
+  };
+};
+
+/* ── Breastmilk / Formula Feeding Calculator ──────── */
+export const calcBreastmilk: CalcFunction = (v) => {
+  const babyWeight = Number(v.babyWeight) || 4;
+  const ageMonths = Number(v.ageMonths) || 3;
+  const feedingType = String(v.feedingType || 'Breastmilk');
+
+  // Average intake: 150 mL/kg/day for 0-6 months, reducing after
+  const mlPerKg = ageMonths <= 6 ? 150 : ageMonths <= 12 ? 120 : 100;
+  const dailyMl = Math.round(babyWeight * mlPerKg);
+  const feedsPerDay = ageMonths < 1 ? 10 : ageMonths < 3 ? 8 : ageMonths < 6 ? 7 : 5;
+  const mlPerFeed = Math.round(dailyMl / feedsPerDay);
+
+  const formulaScoops = feedingType === 'Formula' ? Math.round(dailyMl / 30) : 0;
+
+  return {
+    main: { label: 'Daily Intake Needed', value: dailyMl + ' mL' },
+    secondary: [
+      { label: 'Feeds Per Day', value: feedsPerDay + ' feeds' },
+      { label: 'Per Feed', value: mlPerFeed + ' mL (~' + Math.round(mlPerFeed / 30) + ' oz)' },
+      { label: 'Baby Weight', value: babyWeight + ' kg' },
+      { label: 'Feeding Type', value: feedingType },
+      ...(formulaScoops > 0 ? [{ label: 'Formula Scoops/Day', value: formulaScoops + ' scoops (1 scoop = 30 mL)' }] : []),
+      { label: 'Feed Interval', value: Math.round(24 / feedsPerDay * 10) / 10 + ' hours' },
+      { label: 'Note', value: 'Adjust based on baby\'s hunger cues' },
+    ],
+    chart: { a: dailyMl, b: mlPerFeed, lA: 'Daily Total (mL)', lB: 'Per Feed (mL)' }
+  };
+};
+
+/* ── Steps to Calories / Distance ─────────────────── */
+export const calcStepCounter: CalcFunction = (v) => {
+  const steps = Number(v.steps) || 10000;
+  const weight = Number(v.weight_sc) || 70;
+  const height = Number(v.height_sc) || 170;
+  const speed = String(v.speed_sc || 'Normal');
+
+  const strideM = height * 0.00415; // average stride
+  const distanceKm = (steps * strideM) / 1000;
+  const speedMult: Record<string, number> = { 'Slow': 0.035, 'Normal': 0.045, 'Brisk': 0.055, 'Running': 0.08 };
+  const caloriesPer = speedMult[speed] || 0.045;
+  const caloriesBurned = Math.round(steps * caloriesPer * weight / 70);
+  const activeMinutes = Math.round(steps / (speed === 'Running' ? 160 : speed === 'Brisk' ? 120 : 100));
+
+  return {
+    main: { label: 'Calories Burned', value: caloriesBurned + ' kcal' },
+    secondary: [
+      { label: 'Distance', value: distanceKm.toFixed(2) + ' km (' + (distanceKm * 0.6214).toFixed(2) + ' mi)' },
+      { label: 'Steps', value: steps.toLocaleString() },
+      { label: 'Active Minutes', value: activeMinutes + ' min' },
+      { label: 'Stride Length', value: (strideM * 100).toFixed(1) + ' cm' },
+      { label: 'Fat Burned', value: (caloriesBurned / 7700 * 1000).toFixed(1) + ' g' },
+      { label: 'Goal Progress', value: steps >= 10000 ? '✓ 10K steps reached!' : Math.round(steps / 100) + '% of 10K goal' },
+      { label: 'Steps/km', value: Math.round(1000 / strideM).toLocaleString() },
+    ],
+    chart: { a: caloriesBurned, b: Math.max(0, 300 - caloriesBurned), lA: 'Burned', lB: 'To 300 kcal target' }
+  };
+};
+
+/* ── Detailed BAC & Sober Time Calculator ─────────── */
+export const calcBACDetailed: CalcFunction = (v) => {
+  const drinkType = String(v.drinkType || 'Beer (330mL, 5%)');
+  const drinks = Number(v.numDrinks) || 2;
+  const weight = Number(v.weight_bac) || 70;
+  const gender = String(v.gender_bac || 'Male');
+  const hours = Number(v.hours_bac) || 1;
+
+  const drinkAlcohol: Record<string, number> = {
+    'Beer (330mL, 5%)': 13.2,
+    'Wine (150mL, 12%)': 14.4,
+    'Whisky (30mL, 40%)': 9.6,
+    'Vodka (30mL, 40%)': 9.6,
+    'Cocktail (200mL, ~15%)': 24.0,
+  };
+  const gramsPerDrink = drinkAlcohol[drinkType] || 14;
+  const totalGrams = gramsPerDrink * drinks;
+
+  const r = gender === 'Male' ? 0.68 : 0.55;
+  const peakBAC = (totalGrams / (weight * r * 10)) * 100;
+  const currentBAC = Math.max(0, peakBAC - 0.015 * hours);
+
+  const soberHours = currentBAC > 0 ? currentBAC / 0.015 : 0;
+  const soberTime = new Date(Date.now() + soberHours * 3600000);
+
+  let impairment: string;
+  if (currentBAC < 0.02) impairment = '✅ Sober / Minimal';
+  else if (currentBAC < 0.05) impairment = '🟡 Mild relaxation, slight impairment';
+  else if (currentBAC < 0.08) impairment = '🟠 Reduced coordination, judgment impaired';
+  else if (currentBAC < 0.15) impairment = '🔴 Significant impairment — DO NOT DRIVE';
+  else impairment = '🚨 Severe impairment — medical risk';
+
+  const legalDriving: Record<string, string> = { India: '0.03%', US: '0.08%', UK: '0.08%', EU: '0.05%' };
+
+  return {
+    main: { label: 'Current BAC', value: currentBAC.toFixed(3) + '%' },
+    secondary: [
+      { label: 'Peak BAC', value: peakBAC.toFixed(3) + '%' },
+      { label: 'Impairment Level', value: impairment },
+      { label: 'Sober in', value: soberHours > 0 ? soberHours.toFixed(1) + ' hours' : 'Already sober' },
+      { label: 'Estimated Sober Time', value: soberHours > 0 ? soberTime.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }) : 'Now' },
+      { label: 'Total Alcohol', value: totalGrams.toFixed(1) + ' grams' },
+      { label: 'Calories from Alcohol', value: Math.round(totalGrams * 7) + ' kcal' },
+      { label: 'India Legal Limit', value: '0.03% — ' + (currentBAC > 0.03 ? 'OVER LIMIT ❌' : 'Under limit ✓') },
+      { label: 'US Legal Limit', value: '0.08% — ' + (currentBAC > 0.08 ? 'OVER LIMIT ❌' : 'Under limit ✓') },
+    ],
+    chart: { a: Math.round(currentBAC * 1000), b: Math.round(Math.max(0, 80 - currentBAC * 1000)), lA: 'Current BAC (×1000)', lB: 'To US limit' }
+  };
+};
+
+/* ── Menstrual Cycle & Period Tracker ─────────────── */
+export const calcMenstrualCycle: CalcFunction = (v) => {
+  if (!v.lastPeriodDate) return { main: { label: 'Error', value: 'Enter last period date' } };
+  const lp = new Date(v.lastPeriodDate as string);
+  const cycleLength = Number(v.cycleLength) || 28;
+  const periodDuration = Number(v.periodDuration) || 5;
+
+  const fmt = (d: Date) => d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+  const periods: string[] = [];
+  const fertileWindows: string[] = [];
+
+  for (let i = 1; i <= 6; i++) {
+    const nextStart = new Date(lp);
+    nextStart.setDate(lp.getDate() + cycleLength * i);
+    const nextEnd = new Date(nextStart);
+    nextEnd.setDate(nextStart.getDate() + periodDuration - 1);
+    periods.push(fmt(nextStart) + ' – ' + fmt(nextEnd));
+
+    // Fertile window: ~5 days before ovulation + ovulation day
+    const ovulation = new Date(nextStart);
+    ovulation.setDate(nextStart.getDate() + cycleLength - 14);
+    const fertStart = new Date(ovulation);
+    fertStart.setDate(ovulation.getDate() - 5);
+    fertileWindows.push(fmt(fertStart) + ' – ' + fmt(ovulation));
+  }
+
+  const nextPeriod = new Date(lp);
+  nextPeriod.setDate(lp.getDate() + cycleLength);
+  const daysUntil = Math.ceil((nextPeriod.getTime() - Date.now()) / 86400000);
+  const pmsStart = new Date(nextPeriod);
+  pmsStart.setDate(nextPeriod.getDate() - 7);
+
+  return {
+    main: { label: 'Next Period', value: fmt(nextPeriod) + (daysUntil > 0 ? ' (' + daysUntil + ' days)' : ' (today!)') },
+    secondary: [
+      { label: 'Cycle Length', value: cycleLength + ' days' },
+      { label: 'Period Duration', value: periodDuration + ' days' },
+      { label: 'PMS Window', value: fmt(pmsStart) + ' – ' + fmt(nextPeriod) },
+      { label: 'Next Fertile Window', value: fertileWindows[0] },
+      { label: 'Period 2', value: periods[1] },
+      { label: 'Period 3', value: periods[2] },
+      { label: 'Period 4', value: periods[3] },
+      { label: 'Period 5', value: periods[4] },
+    ],
   };
 };

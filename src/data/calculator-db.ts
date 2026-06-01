@@ -1,40 +1,54 @@
 /* ═══════════════════════════════════════════════════
    Calc Labz — Calculator Database
    AUTO-GENERATED — Maps calculator IDs → metadata + inputs.
-   Contains 268 calculators across all categories.
+   Contains 311 calculators across all categories.
    ═══════════════════════════════════════════════════ */
 
 import { CalculatorDefinition, RegistryEntry, CalculatorCategory } from '@/types/calculator';
 import {
-  calcEMI, calcSIP, calcGST, calcPreGST, calcCompoundInterest, calcSimpleInterest, calcIncomeTax, calcROI, calcPPF, calcFD, calcMortgage, calcCarLoan, calcBreakeven, calcInflation, calcSWP, calcLumpsum, calcNPS, calcGratuity, calcHRA, calcCAGR, calcCreditCard, calcNetWorth, calcTDS, calcEPF, calcProfitLoss, calcStockReturn, calcMutualFundReturns, calcTaxRegime, calcCapitalGains, calcPrepayment, calcStepUpSIP, calcSavingsGoal, calcDividendYield, calcGoldInvestment, calcRD, calcXIRR, calcLoanEligibility, calcBalanceTransfer, calcSSY, calcSCSS, calcAdvanceTax, calcInhandSalary, calcCtcBreakup, calcSalaryComparison, calcGoalSIP, calcElssReturns, calcNSC, calcAPY, calcBrokerage, calcTaxSaving, calcRetirementCorpus, calcSalaryHike, calcFIRE, calcDebtAvalanche, calcEmergencyFund, calcRentVsBuy, calcCarLeaseVsBuy, calcHomeDownPayment, calcLoanCompare, calcRefinance, calcCreditUtil, calcInsuranceNeed, calcNpvIrr, calcBondYield, calcOptionProfit, calcForexPip, calcPortfolioRebalance, calcAssetAllocation, calcMonteCarlo, calcInflationGoal, calcBusinessLoan, calcGstInvoice, calcEsopTax, calcFreelanceTax, calcTcsRemittance, calcSec80c, calcHraVsHomeLoan, calcProfTax, calcLeaveEncash, calcSGB, calcFoTurnover, calcPresumptiveTax, calcHomeLoanTaxBenefit, calcIndexedCost, calcGoldComparison, calcRentYield
+  calcEMI, calcSIP, calcGST, calcPreGST, calcCompoundInterest, calcSimpleInterest, calcIncomeTax, calcROI, calcPPF, calcFD, calcMortgage, calcCarLoan, calcBreakeven, calcInflation, calcSWP, calcLumpsum, calcNPS, calcGratuity, calcHRA, calcCAGR, calcCreditCard, calcNetWorth, calcTDS, calcEPF, calcProfitLoss, calcStockReturn, calcMutualFundReturns, calcTaxRegime, calcCapitalGains, calcPrepayment, calcStepUpSIP, calcSavingsGoal, calcDividendYield, calcGoldInvestment, calcRD, calcXIRR, calcLoanEligibility, calcBalanceTransfer, calcSSY, calcSCSS, calcAdvanceTax, calcInhandSalary, calcCtcBreakup, calcSalaryComparison, calcGoalSIP, calcElssReturns, calcNSC, calcAPY, calcBrokerage, calcTaxSaving, calcRetirementCorpus, calcSalaryHike, calcFIRE, calcDebtAvalanche, calcEmergencyFund, calcRentVsBuy, calcCarLeaseVsBuy, calcHomeDownPayment, calcLoanCompare, calcRefinance, calcCreditUtil, calcInsuranceNeed, calcNpvIrr, calcBondYield, calcOptionProfit, calcForexPip, calcPortfolioRebalance, calcAssetAllocation, calcMonteCarlo, calcInflationGoal, calcBusinessLoan, calcGstInvoice, calcEsopTax, calcFreelanceTax, calcTcsRemittance, calcSec80c, calcHraVsHomeLoan, calcProfTax, calcLeaveEncash, calcSGB, calcFoTurnover, calcPresumptiveTax, calcHomeLoanTaxBenefit, calcIndexedCost, calcGoldComparison, calcRentYield,
+  calcEmiVsTenure, calcRuleOf72, calcPostOfficeMIS, calcCryptoProfit, calcFlatVsReducing,
 } from '@/lib/calculations/finance';
 import {
   calcOhmsLaw, calcResistor, calcPower, calcPythagorean, calcLedResistor, calcVoltDivider, calcBatteryLife, calcPcbTrace, calcDecibel, calcAntennaLen, calcTorque, calcBeamLoad, calcHeatExchanger, calcFluidFlow, calcSpringForce, calcGearRatio, calcInverterBattery, calcAcBtu, calcPipeFlow, calcThreePhase, calcTransformer,
+  calcMotorSize, calcResistorDecode,
 } from '@/lib/calculations/engineering';
 import {
   calcConcrete, calcBricks, calcPaint, calcFlooring, calcSteel, calcRoofing, calcEarthwork, calcPlasterwork, calcWaterTank, calcLandArea, calcStampDuty, calcConstructionCost, calcSolarPanel, calcHomeRenovation, calcConcreteMix, calcMaterialWaste, calcRainwater,
+  calcStaircase, calcSepticTank, calcElectricalLoad,
 } from '@/lib/calculations/construction';
 import {
   calcSpeedDist, calcNewtons, calcOhmAdvanced, calcDensity, calcChemMolar, calcWavelength, calcGravitational, calcHalfLife, calcPH, calcKinematic, calcThermodynamics, calcAcceleration,
+  calcIdealGas, calcCoulombsLaw, calcEscapeVelocity, calcSoundSpeed,
 } from '@/lib/calculations/science';
 import {
   calcDateDiff, calcTimeConv, calcCountdown, calcTimezone, calcWorkingDays, calcAgeNextBday, calcRetirementDate, calcAgeUnits,
+  calcLeapYear, calcWeekNumber, calcDateAdd,
 } from '@/lib/calculations/datetime';
 import {
   calcLength, calcWeight, calcTemperature, calcArea, calcSpeed, calcCurrency, calcVolume, calcData, calcPressure, calcEnergy, calcAngle,
+  calcFuelEfficiency, calcNumberWord, calcCookingConvert,
 } from '@/lib/calculations/unit';
 import {
   calcBMI, calcBMR, calcTDEE, calcWater, calcHeartRate, calcAge, calcCalories, calcSleep, calcMacros, calcPregnancy, calcIdealWeight, calcOvulation, calcBloodPressure, calcAlcohol, calcWaistHip, calcIBW, calcVitamins, calcLungCapacity, calcBodyFat, calcProteinIntake, calcSmokingCost, calcChildHeight, calcDiabetesRisk, calcSleepDebt, calcAnemia, calcBSA, calcCholesterolRatio, calcCalorieDeficit, calcOneRepMax, calcRunningPace, calcBodyRecomp, calcVO2Max, calcLeanBodyMass, calcCalorieGoal, calcElectrolyte, calcIntermittentFasting, calcWaistHeightRatio,
+  calcPregnancyWeight, calcBreastmilk, calcStepCounter, calcBACDetailed, calcMenstrualCycle,
 } from '@/lib/calculations/health';
 import {
   calcPercentage, calcRatio, calcSquareRoot, calcLogarithm, calcFactorial, calcQuadratic, calcPrime, calcNumberSystem, calcAverage, calcStatistics, calcMatrix2x2, calcCombinations, calcLcmGcd, calcRomanNumeral, calcTriangleArea, calcScientific, calcFraction, calcStdDev, calcLinearEq, calcCircleCalc, calcDeterminant, calcComplexNum,
 } from '@/lib/calculations/math';
 import {
-  calcTip, calcDiscount, calcFuel, calcSalary, calcEmi2, calcGrade, calcElectricBill, calcLoanAffordability, calcCaloriesFood, calcWireSize, calcPixelResolution, calcTypingSpeed, calcEmiExtra, calcInvestVsRent, calcUnitPrice, calcPetrolParity, calcLaundry, calcWeddingBudget, calcRentAfford, calcFreelanceRate, calcCarbonFootprint, calcCarTco, calcTipSplit, calcPetAge, calcTravelBudget, calcMileage, calcCooking, calcShoeSize, calcStopwatch, calcRandomNum, calcEvPetrolSavings, calcEcomProfit, calcRestaurantCost, calcSubscriptionPricing, calcUnitEconomics, calcEventBudget, calcHouseholdBudget, calcDataUsage
+  calcTip, calcDiscount, calcFuel, calcSalary, calcEmi2, calcGrade, calcElectricBill, calcLoanAffordability, calcCaloriesFood, calcWireSize, calcPixelResolution, calcTypingSpeed, calcEmiExtra, calcInvestVsRent, calcUnitPrice, calcPetrolParity, calcLaundry, calcWeddingBudget, calcRentAfford, calcFreelanceRate, calcCarbonFootprint, calcCarTco, calcTipSplit, calcPetAge, calcTravelBudget, calcMileage, calcCooking, calcShoeSize, calcStopwatch, calcRandomNum, calcEvPetrolSavings, calcEcomProfit, calcRestaurantCost, calcSubscriptionPricing, calcUnitEconomics, calcEventBudget, calcHouseholdBudget, calcDataUsage,
+  calcInflationBasket, calcPhonePlan, calcMovingCost, calcLaundryLoad,
 } from '@/lib/calculations/everyday';
 import {
-  calcCgpa, calcExamNeeded, calcEduLoan, calcStudyHours, calcScholarship, calcPomodoro, calcGpaConverter, calcReadingTime, calcTypingTest, calcSpellingBee, calcAttendance, calcGpaPlanner, calcPercentile, calcCutoffPredictor, calcRevisionPlanner, calcCgpaToPercentage
+  calcCgpa, calcExamNeeded, calcEduLoan, calcStudyHours, calcScholarship, calcPomodoro, calcGpaConverter, calcReadingTime, calcTypingTest, calcSpellingBee, calcAttendance, calcGpaPlanner, calcPercentile, calcCutoffPredictor, calcRevisionPlanner, calcCgpaToPercentage,
+  calcMarksPercentage, calcCompetitiveExam, calcBacklogRecovery, calcResearchMetrics, calcAbroadCost,
 } from '@/lib/calculations/education';
+import {
+  calcPasswordStrength, calcWordCounter, calcAspectRatio, calcSocialMediaImage, calcDogAge,
+  calcSubnet, calcBandwidth, calcColorConverter,
+  calcJsonFormatter,
+} from '@/lib/calculations/tech';
 
 export const DB: Record<string, CalculatorDefinition> = {
   percentage: {
@@ -2769,6 +2783,455 @@ export const DB: Record<string, CalculatorDefinition> = {
     ],
     calc: calcDataUsage,
   },
+
+  // ═══ PHASE 1: NEW CALCULATORS ═══════════════════════
+
+  // ── Finance (5 new) ────────────────────────────────
+  emivstenure: {
+    name: 'EMI vs Tenure Trade-off Calculator', desc: 'Compare EMI and total interest for different loan tenures',
+    icon: 'fa-scale-balanced', cat: 'finance' as CalculatorCategory,
+    inputs: [
+      { id: 'principal', label: 'Loan Amount (₹)', default: 1000000 },
+      { id: 'rate', label: 'Interest Rate (%)', default: 8.5, suffix: '%' },
+      { id: 'tenure1', label: 'Tenure Option 1 (months)', default: 60 },
+      { id: 'tenure2', label: 'Tenure Option 2 (months)', default: 120 },
+    ],
+    calc: calcEmiVsTenure,
+  },
+  ruleof72: {
+    name: 'Rule of 72 Calculator', desc: 'How long to double your investment at a given return rate',
+    icon: 'fa-arrows-rotate', cat: 'finance' as CalculatorCategory,
+    inputs: [
+      { id: 'rate', label: 'Annual Interest Rate (%)', default: 12, suffix: '%' },
+    ],
+    calc: calcRuleOf72,
+  },
+  postofficemis: {
+    name: 'Post Office MIS Calculator', desc: 'Monthly Income Scheme returns and comparison with FD',
+    icon: 'fa-building-columns', cat: 'finance' as CalculatorCategory,
+    inputs: [
+      { id: 'amount', label: 'Investment Amount (₹)', default: 500000 },
+      { id: 'rate', label: 'MIS Interest Rate (%)', default: 7.4, suffix: '%' },
+    ],
+    calc: calcPostOfficeMIS,
+  },
+  cryptoprofit: {
+    name: 'Crypto Profit/Loss Calculator', desc: 'Calculate crypto trading profit, fees, and India tax',
+    icon: 'fa-bitcoin-sign', cat: 'finance' as CalculatorCategory,
+    inputs: [
+      { id: 'buyPrice', label: 'Buy Price (₹)', default: 50000 },
+      { id: 'sellPrice', label: 'Sell Price (₹)', default: 65000 },
+      { id: 'quantity', label: 'Quantity (coins)', default: 0.5 },
+      { id: 'fee', label: 'Exchange Fee (%)', default: 0.1, suffix: '%' },
+    ],
+    calc: calcCryptoProfit,
+  },
+  flatvsreducing: {
+    name: 'Flat vs Reducing Rate Calculator', desc: 'Compare flat rate and reducing balance interest on loans',
+    icon: 'fa-arrows-left-right', cat: 'finance' as CalculatorCategory,
+    inputs: [
+      { id: 'principal', label: 'Loan Amount (₹)', default: 1000000 },
+      { id: 'flatRate', label: 'Flat Interest Rate (%)', default: 7, suffix: '%' },
+      { id: 'reducingRate', label: 'Reducing Balance Rate (%)', default: 12, suffix: '%' },
+      { id: 'tenure', label: 'Tenure (months)', default: 60 },
+    ],
+    calc: calcFlatVsReducing,
+  },
+
+  // ── Health (5 new) ─────────────────────────────────
+  pregnancyweight: {
+    name: 'Pregnancy Weight Gain Calculator', desc: 'Track pregnancy weight gain against IOM guidelines',
+    icon: 'fa-baby', cat: 'health' as CalculatorCategory,
+    inputs: [
+      { id: 'preWeight', label: 'Pre-pregnancy Weight (kg)', default: 60 },
+      { id: 'currentWeight', label: 'Current Weight (kg)', default: 65 },
+      { id: 'height_pw', label: 'Height (cm)', default: 160 },
+      { id: 'weeks', label: 'Weeks Pregnant', default: 20 },
+      { id: 'twins', label: 'Pregnancy Type', default: 'Single', options: ['Single', 'Twins'] },
+    ],
+    calc: calcPregnancyWeight,
+  },
+  breastmilk: {
+    name: 'Breastmilk / Formula Calculator', desc: 'Calculate daily milk intake and feeding schedule for babies',
+    icon: 'fa-bottle-water', cat: 'health' as CalculatorCategory,
+    inputs: [
+      { id: 'babyWeight', label: 'Baby Weight (kg)', default: 4 },
+      { id: 'ageMonths', label: 'Age (months)', default: 3 },
+      { id: 'feedingType', label: 'Feeding Type', default: 'Breastmilk', options: ['Breastmilk', 'Formula', 'Mixed'] },
+    ],
+    calc: calcBreastmilk,
+  },
+  stepcounter: {
+    name: 'Steps to Calories Calculator', desc: 'Convert daily steps to calories burned and distance',
+    icon: 'fa-shoe-prints', cat: 'health' as CalculatorCategory,
+    inputs: [
+      { id: 'steps', label: 'Steps Taken', default: 10000 },
+      { id: 'weight_sc', label: 'Your Weight (kg)', default: 70 },
+      { id: 'height_sc', label: 'Your Height (cm)', default: 170 },
+      { id: 'speed_sc', label: 'Walking Speed', default: 'Normal', options: ['Slow', 'Normal', 'Brisk', 'Running'] },
+    ],
+    calc: calcStepCounter,
+  },
+  bacdetailed: {
+    name: 'BAC & Sober Time Calculator', desc: 'Detailed blood alcohol content with drink types and legal limits',
+    icon: 'fa-wine-glass', cat: 'health' as CalculatorCategory,
+    inputs: [
+      { id: 'drinkType', label: 'Drink Type', default: 'Beer (330mL, 5%)', options: ['Beer (330mL, 5%)', 'Wine (150mL, 12%)', 'Whisky (30mL, 40%)', 'Vodka (30mL, 40%)', 'Cocktail (200mL, ~15%)'] },
+      { id: 'numDrinks', label: 'Number of Drinks', default: 2 },
+      { id: 'weight_bac', label: 'Body Weight (kg)', default: 70 },
+      { id: 'gender_bac', label: 'Gender', default: 'Male', options: ['Male', 'Female'] },
+      { id: 'hours_bac', label: 'Hours Since First Drink', default: 1 },
+    ],
+    calc: calcBACDetailed,
+  },
+  menstrualcycle: {
+    name: 'Period & Menstrual Cycle Calculator', desc: 'Predict next 6 periods, fertile windows, and PMS dates',
+    icon: 'fa-calendar-days', cat: 'health' as CalculatorCategory,
+    inputs: [
+      { id: 'lastPeriodDate', label: 'Last Period Start Date', type: 'date' as const },
+      { id: 'cycleLength', label: 'Average Cycle Length (days)', default: 28 },
+      { id: 'periodDuration', label: 'Period Duration (days)', default: 5 },
+    ],
+    calc: calcMenstrualCycle,
+  },
+
+  // ── Tech & Developer (3 new) ──────────────────────
+  passwordstrength: {
+    name: 'Password Strength Checker', desc: 'Analyze password entropy, crack time, and get suggestions',
+    icon: 'fa-lock', cat: 'tech' as CalculatorCategory,
+    inputs: [
+      { id: 'password', label: 'Enter Password', type: 'text' as const },
+    ],
+    calc: calcPasswordStrength,
+  },
+  subnet: {
+    name: 'IP Subnet Calculator', desc: 'Calculate network address, host range, and subnet details',
+    icon: 'fa-network-wired', cat: 'tech' as CalculatorCategory,
+    inputs: [
+      { id: 'ip', label: 'IP Address', default: '192.168.1.0', type: 'text' as const },
+      { id: 'cidr', label: 'CIDR / Prefix Length', default: 24 },
+    ],
+    calc: calcSubnet,
+  },
+  bandwidth: {
+    name: 'Bandwidth & Download Time Calculator', desc: 'Estimate download time and streaming quality',
+    icon: 'fa-gauge-high', cat: 'tech' as CalculatorCategory,
+    inputs: [
+      { id: 'fileSize', label: 'File Size (MB)', default: 1000 },
+      { id: 'speed', label: 'Internet Speed (Mbps)', default: 100 },
+    ],
+    calc: calcBandwidth,
+  },
+  colorconverter: {
+    name: 'Color Code Converter', desc: 'Convert between HEX, RGB, HSL, and CMYK color codes',
+    icon: 'fa-palette', cat: 'tech' as CalculatorCategory,
+    inputs: [
+      { id: 'colorInput', label: 'Color (HEX or RGB)', default: '#3B82F6', type: 'text' as const },
+    ],
+    calc: calcColorConverter,
+  },
+
+  // ── Everyday (3 new) ──────────────────────────────
+  wordcounter: {
+    name: 'Word & Character Counter', desc: 'Count words, characters, sentences, and reading time',
+    icon: 'fa-spell-check', cat: 'everyday' as CalculatorCategory,
+    inputs: [
+      { id: 'text', label: 'Paste your text here', type: 'text' as const },
+    ],
+    calc: calcWordCounter,
+  },
+  aspectratio: {
+    name: 'Aspect Ratio Calculator', desc: 'Calculate aspect ratio, match social media presets',
+    icon: 'fa-expand', cat: 'everyday' as CalculatorCategory,
+    inputs: [
+      { id: 'width', label: 'Width (px)', default: 1920 },
+      { id: 'height', label: 'Height (px)', default: 1080 },
+    ],
+    calc: calcAspectRatio,
+  },
+  socialmediaimage: {
+    name: 'Social Media Image Size Calculator', desc: 'Get recommended image sizes for all social platforms',
+    icon: 'fa-image', cat: 'everyday' as CalculatorCategory,
+    inputs: [
+      { id: 'platform', label: 'Platform', default: 'Instagram', options: ['Instagram', 'YouTube', 'Twitter / X', 'LinkedIn', 'Facebook'] },
+    ],
+    calc: calcSocialMediaImage,
+  },
+  dogage: {
+    name: 'Dog Age Calculator', desc: 'Scientific dog-to-human age converter by breed size',
+    icon: 'fa-dog', cat: 'everyday' as CalculatorCategory,
+    inputs: [
+      { id: 'dogAge', label: 'Dog Age (years)', default: 5 },
+      { id: 'breedSize', label: 'Breed Size', default: 'Medium', options: ['Small', 'Medium', 'Large', 'Giant'] },
+    ],
+    calc: calcDogAge,
+  },
+
+  // ── Science (4 new) ───────────────────────────────
+  idealGas: {
+    name: 'Ideal Gas Law Calculator', desc: 'Solve PV = nRT for pressure, volume, moles, or temperature',
+    icon: 'fa-wind', cat: 'science' as CalculatorCategory,
+    inputs: [
+      { id: 'solveFor', label: 'Solve For', default: 'Temperature', options: ['Temperature', 'Pressure', 'Volume', 'Moles'] },
+      { id: 'pressure', label: 'Pressure (P)', default: 1, suffix: 'atm' },
+      { id: 'volume_ig', label: 'Volume (V)', default: 22.4, suffix: 'L' },
+      { id: 'moles_ig', label: 'Moles (n)', default: 1, suffix: 'mol' },
+      { id: 'temp_ig', label: 'Temperature (T)', default: 273.15, suffix: 'K' },
+    ],
+    calc: calcIdealGas,
+  },
+  coulombsLaw: {
+    name: "Coulomb's Law Calculator", desc: 'Calculate electrostatic force between two charges',
+    icon: 'fa-bolt', cat: 'science' as CalculatorCategory,
+    inputs: [
+      { id: 'charge1', label: 'Charge q₁', default: 1e-6, suffix: 'C' },
+      { id: 'charge2', label: 'Charge q₂', default: -1e-6, suffix: 'C' },
+      { id: 'distance_c', label: 'Distance (r)', default: 0.1, suffix: 'm' },
+    ],
+    calc: calcCoulombsLaw,
+  },
+  escapeVelocity: {
+    name: 'Escape Velocity Calculator', desc: 'Calculate the escape velocity and orbital velocity of a celestial body',
+    icon: 'fa-rocket', cat: 'science' as CalculatorCategory,
+    inputs: [
+      { id: 'planetMass', label: 'Mass of Planet/Body', default: 5.972e24, suffix: 'kg' },
+      { id: 'planetRadius', label: 'Radius of Planet/Body', default: 6371000, suffix: 'm' },
+    ],
+    calc: calcEscapeVelocity,
+  },
+  soundSpeed: {
+    name: 'Speed of Sound Calculator', desc: 'Calculate speed of sound in various media and temperatures',
+    icon: 'fa-volume-high', cat: 'science' as CalculatorCategory,
+    inputs: [
+      { id: 'medium', label: 'Medium', default: 'Air', options: ['Air', 'Water', 'Steel', 'Glass', 'Wood', 'Concrete', 'Helium'] },
+      { id: 'temperature_ss', label: 'Temperature', default: 20, suffix: '°C' },
+    ],
+    calc: calcSoundSpeed,
+  },
+
+  // ── Date & Time (3 new) ───────────────────────────
+  leapYear: {
+    name: 'Leap Year Checker', desc: 'Determine if a year is a leap year and view leap calendar details',
+    icon: 'fa-calendar-check', cat: 'datetime' as CalculatorCategory,
+    inputs: [
+      { id: 'year', label: 'Year', default: 2024 },
+    ],
+    calc: calcLeapYear,
+  },
+  weekNumber: {
+    name: 'Week Number & Day of Year', desc: 'Get ISO week number, day of year, and remaining days',
+    icon: 'fa-calendar-days', cat: 'datetime' as CalculatorCategory,
+    inputs: [
+      { id: 'date', label: 'Select Date', default: '', type: 'text' as const },
+    ],
+    calc: calcWeekNumber,
+  },
+  dateAdd: {
+    name: 'Add or Subtract Days', desc: 'Add or subtract days, weeks, months, or years from any date',
+    icon: 'fa-calendar-plus', cat: 'datetime' as CalculatorCategory,
+    inputs: [
+      { id: 'startDate', label: 'Start Date', default: '', type: 'text' as const },
+      { id: 'operation', label: 'Operation', default: 'add', options: ['add', 'subtract'] },
+      { id: 'days', label: 'Days', default: 0 },
+      { id: 'weeks', label: 'Weeks', default: 0 },
+      { id: 'months', label: 'Months', default: 0 },
+      { id: 'years', label: 'Years', default: 0 },
+    ],
+    calc: calcDateAdd,
+  },
+
+  // ── Unit Conversion (3 new) ───────────────────────
+  fuelEfficiency: {
+    name: 'Fuel Efficiency Converter', desc: 'Convert fuel efficiency between km/L, L/100km, and MPG',
+    icon: 'fa-gas-pump', cat: 'unit' as CalculatorCategory,
+    inputs: [
+      { id: 'val', label: 'Efficiency Value', default: 15 },
+      { id: 'from', label: 'Convert From', default: 'km/L', options: ['km/L', 'L/100km', 'MPG US', 'MPG UK'] },
+    ],
+    calc: calcFuelEfficiency,
+  },
+  numberWord: {
+    name: 'Number to Words Converter', desc: 'Convert any numeric value to Indian and International words',
+    icon: 'fa-file-invoice', cat: 'unit' as CalculatorCategory,
+    inputs: [
+      { id: 'val', label: 'Enter Number', default: 123456 },
+    ],
+    calc: calcNumberWord,
+  },
+  cookingConvert: {
+    name: 'Cooking Measurement Converter', desc: 'Convert recipe units (cups, spoons, ml, grams, and ounces)',
+    icon: 'fa-utensils', cat: 'unit' as CalculatorCategory,
+    inputs: [
+      { id: 'val', label: 'Quantity', default: 1 },
+      { id: 'from', label: 'From Unit', default: 'Cups (US)', options: ['Cups (US)', 'Cups (Metric)', 'Tablespoons (US)', 'Teaspoons (US)', 'Milliliters', 'Fluid Ounces (US)', 'Liters', 'Grams (Water)'] },
+    ],
+    calc: calcCookingConvert,
+  },
+
+  // ── Education (5 new) ─────────────────────────────
+  marksPercentage: {
+    name: 'Marks to Percentage', desc: 'Calculate percentage, grade, and division from exam marks',
+    icon: 'fa-square-poll-vertical', cat: 'education' as CalculatorCategory,
+    inputs: [
+      { id: 'obtained', label: 'Marks Obtained', default: 82 },
+      { id: 'total', label: 'Out of Total Marks', default: 100 },
+    ],
+    calc: calcMarksPercentage,
+  },
+  competitiveExam: {
+    name: 'Competitive Exam Percentile Predictor', desc: 'Predict exam scores and percentiles based on correct/incorrect attempts',
+    icon: 'fa-award', cat: 'education' as CalculatorCategory,
+    inputs: [
+      { id: 'exam', label: 'Target Exam', default: 'JEE Main', options: ['JEE Main', 'NEET', 'BITSAT'] },
+      { id: 'correct', label: 'Correct Answers', default: 50 },
+      { id: 'wrong', label: 'Incorrect Answers (Negative Marks)', default: 10 },
+      { id: 'unanswered', label: 'Unattempted Questions', default: 15 },
+    ],
+    calc: calcCompetitiveExam,
+  },
+  backlogRecovery: {
+    name: 'Backlog Recovery Planner', desc: 'Calculate daily study hours and stress level to clear academic backlogs',
+    icon: 'fa-business-time', cat: 'education' as CalculatorCategory,
+    inputs: [
+      { id: 'backlogs', label: 'Backlog Subjects', default: 3 },
+      { id: 'days', label: 'Days Until Exam', default: 45 },
+      { id: 'dailyHours', label: 'Daily Study Hours Limit', default: 4 },
+    ],
+    calc: calcBacklogRecovery,
+  },
+  researchMetrics: {
+    name: 'Research Paper Metrics', desc: 'Calculate h-index, i10-index, and citation stats for academic profiles',
+    icon: 'fa-chart-line', cat: 'education' as CalculatorCategory,
+    inputs: [
+      { id: 'citations', label: 'Citation Counts (comma-separated)', default: '24, 18, 11, 7, 5, 2, 0', type: 'text' as const },
+    ],
+    calc: calcResearchMetrics,
+  },
+  abroadCost: {
+    name: 'Study Abroad Cost Estimator', desc: 'Estimate total study and living costs abroad in INR with EMI breakdown',
+    icon: 'fa-plane-departure', cat: 'education' as CalculatorCategory,
+    inputs: [
+      { id: 'country', label: 'Destination Country', default: 'USA', options: ['USA', 'UK', 'Canada', 'Australia', 'Germany'] },
+      { id: 'duration', label: 'Course Duration (years)', default: 2 },
+      { id: 'tuition', label: 'Tuition Fees (per year in target currency)', default: 35000 },
+      { id: 'living', label: 'Living Costs (per month in target currency)', default: 1500 },
+    ],
+    calc: calcAbroadCost,
+  },
+
+  // ── Phase 3: Everyday (4 new) ──────────────────────
+  inflationBasket: {
+    name: 'Grocery Inflation Calculator', desc: 'Calculate the future cost of your grocery basket and purchasing power loss',
+    icon: 'fa-basket-shopping', cat: 'everyday' as CalculatorCategory,
+    inputs: [
+      { id: 'budget', label: 'Current Monthly Grocery Budget', default: 10000, suffix: '₹' },
+      { id: 'inflation', label: 'Expected Annual Inflation Rate', default: 6, suffix: '%' },
+      { id: 'years', label: 'Years into Future', default: 5, suffix: 'years' },
+    ],
+    calc: calcInflationBasket,
+  },
+  phonePlan: {
+    name: 'Mobile Plan Comparator', desc: 'Compare daily data limits, validity, and total cost of two mobile plans',
+    icon: 'fa-mobile-screen-button', cat: 'everyday' as CalculatorCategory,
+    inputs: [
+      { id: 'price1', label: 'Plan 1: Price', default: 299, suffix: '₹' },
+      { id: 'validity1', label: 'Plan 1: Validity', default: 28, suffix: 'days' },
+      { id: 'data1', label: 'Plan 1: Data Limit', default: 1.5, suffix: 'GB/day' },
+      { id: 'price2', label: 'Plan 2: Price', default: 749, suffix: '₹' },
+      { id: 'validity2', label: 'Plan 2: Validity', default: 84, suffix: 'days' },
+      { id: 'data2', label: 'Plan 2: Data Limit', default: 2, suffix: 'GB/day' },
+    ],
+    calc: calcPhonePlan,
+  },
+  movingCost: {
+    name: 'House Relocation Cost Estimator', desc: 'Estimate packing, transporting, and insurance costs for home shifting',
+    icon: 'fa-truck-ramp-box', cat: 'everyday' as CalculatorCategory,
+    inputs: [
+      { id: 'bhk', label: 'Home Size', default: '2 BHK', options: ['1 BHK', '2 BHK', '3 BHK', '4 BHK/Penthouse'] },
+      { id: 'distance', label: 'Moving Distance', default: 250, suffix: 'km' },
+      { id: 'quality', label: 'Packing Quality', default: 'Premium', options: ['Economy', 'Premium', 'Super Deluxe'] },
+    ],
+    calc: calcMovingCost,
+  },
+  laundryLoad: {
+    name: 'Washing Machine Load Calculator', desc: 'Determine perfect laundry load weight and estimate water and power use',
+    icon: 'fa-soap', cat: 'everyday' as CalculatorCategory,
+    inputs: [
+      { id: 'capacity', label: 'Washing Machine Capacity', default: 7, suffix: 'kg' },
+      { id: 'shirts', label: 'Number of Shirts/T-shirts', default: 6 },
+      { id: 'pants', label: 'Number of Jeans/Pants', default: 4 },
+      { id: 'towels', label: 'Number of Bath Towels', default: 2 },
+      { id: 'bedsheets', label: 'Number of Bedsheets', default: 1 },
+    ],
+    calc: calcLaundryLoad,
+  },
+
+  // ── Phase 3: Tech & Engineering (3 new) ────────────
+  jsonFormatter: {
+    name: 'JSON Formatter & Validator', desc: 'Prettify, validate, minify, and analyze JSON structure',
+    icon: 'fa-code', cat: 'tech' as CalculatorCategory,
+    inputs: [
+      { id: 'jsonInput', label: 'Paste JSON Input here', default: '{"name": "CalcLabz", "type": "Utility", "features": ["Speed", "SEO"]}', type: 'text' as const },
+    ],
+    calc: calcJsonFormatter,
+  },
+  motorSize: {
+    name: 'Electric Motor Sizing Calculator', desc: 'Calculate the required electric motor horsepower and kW from load torque and speed',
+    icon: 'fa-engine', cat: 'engineering' as CalculatorCategory,
+    inputs: [
+      { id: 'torque', label: 'Load Torque', default: 15, suffix: 'N-m' },
+      { id: 'speed', label: 'Rotational Speed', default: 1440, suffix: 'RPM' },
+      { id: 'safety', label: 'Safety Factor', default: 1.25 },
+    ],
+    calc: calcMotorSize,
+  },
+  resistorDecode: {
+    name: 'Resistor Color Code Decoder', desc: 'Decode 4-band resistor color bands into Ohm value and tolerance percentage',
+    icon: 'fa-barcode', cat: 'engineering' as CalculatorCategory,
+    inputs: [
+      { id: 'band1', label: 'Band 1 Color (1st digit)', default: 'Brown', options: ['Black', 'Brown', 'Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Violet', 'Gray', 'White'] },
+      { id: 'band2', label: 'Band 2 Color (2nd digit)', default: 'Black', options: ['Black', 'Brown', 'Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Violet', 'Gray', 'White'] },
+      { id: 'multiplier_r', label: 'Multiplier Color', default: 'Red', options: ['Black', 'Brown', 'Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Violet', 'Gold', 'Silver'] },
+      { id: 'tolerance_r', label: 'Tolerance Color', default: 'Gold', options: ['Brown', 'Red', 'Green', 'Blue', 'Violet', 'Gold', 'Silver'] },
+    ],
+    calc: calcResistorDecode,
+  },
+
+  // ── Phase 3: Construction (3 new) ──────────────────
+  staircase: {
+    name: 'Staircase Calculator', desc: 'Calculate the number of steps, rise height, tread depth, and compliance angle',
+    icon: 'fa-stairs', cat: 'construction' as CalculatorCategory,
+    inputs: [
+      { id: 'totalRise', label: 'Total Rise (Floor to Floor height)', default: 3000, suffix: 'mm' },
+      { id: 'targetRiser', label: 'Target Riser Height', default: 175, suffix: 'mm' },
+      { id: 'targetTread', label: 'Target Tread Depth', default: 275, suffix: 'mm' },
+    ],
+    calc: calcStaircase,
+  },
+  septicTank: {
+    name: 'Septic Tank Size Calculator', desc: 'Estimate required septic tank capacity and dimensions based on family size',
+    icon: 'fa-arrows-down-to-people', cat: 'construction' as CalculatorCategory,
+    inputs: [
+      { id: 'users', label: 'Number of Active Users', default: 6 },
+      { id: 'waterPerPerson', label: 'Daily Water Consumption', default: 135, suffix: 'L/day' },
+      { id: 'interval', label: 'Desludging Interval', default: 3, suffix: 'years' },
+    ],
+    calc: calcSepticTank,
+  },
+  electricalLoad: {
+    name: 'Home Electrical Load Calculator', desc: 'Calculate connected load kW, peak current, MCB, and wire size for home appliances',
+    icon: 'fa-plug', cat: 'construction' as CalculatorCategory,
+    inputs: [
+      { id: 'acCount', label: '1.5 Ton ACs (1500W each)', default: 2 },
+      { id: 'fansCount', label: 'Ceiling Fans (75W each)', default: 5 },
+      { id: 'lightsCount', label: 'LED Lights (15W each)', default: 12 },
+      { id: 'geyserCount', label: 'Water Geysers (2000W each)', default: 1 },
+      { id: 'fridgeCount', label: 'Refrigerators (300W each)', default: 1 },
+      { id: 'tvCount', label: 'LED TVs (100W each)', default: 2 },
+      { id: 'ovenCount', label: 'Microwaves/Ovens (1500W each)', default: 1 },
+    ],
+    calc: calcElectricalLoad,
+  },
 };
 
 // ── SLUG RESOLUTION ─────────────────────────────────
@@ -2834,6 +3297,62 @@ const slugRedirects: Record<string, string> = {
   'retirement-date-calculator': 'retirementDate',
   'age-units-calculator': 'ageUnits',
   'data-usage-calculator': 'dataUsage',
+  // Phase 1 new calculators
+  'emi-vs-tenure-calculator': 'emivstenure',
+  'rule-of-72-calculator': 'ruleof72',
+  'post-office-mis-calculator': 'postofficemis',
+  'crypto-profit-calculator': 'cryptoprofit',
+  'flat-vs-reducing-calculator': 'flatvsreducing',
+  'pregnancy-weight-calculator': 'pregnancyweight',
+  'breastmilk-calculator': 'breastmilk',
+  'step-counter-calculator': 'stepcounter',
+  'steps-to-calories-calculator': 'stepcounter',
+  'bac-calculator': 'bacdetailed',
+  'menstrual-cycle-calculator': 'menstrualcycle',
+  'period-calculator': 'menstrualcycle',
+  'password-strength-calculator': 'passwordstrength',
+  'word-counter-calculator': 'wordcounter',
+  'aspect-ratio-calculator': 'aspectratio',
+  'social-media-image-calculator': 'socialmediaimage',
+  'dog-age-calculator': 'dogage',
+  'subnet-calculator': 'subnet',
+  'ip-subnet-calculator': 'subnet',
+  'bandwidth-calculator': 'bandwidth',
+  'download-time-calculator': 'bandwidth',
+  'color-converter-calculator': 'colorconverter',
+  'hex-to-rgb-calculator': 'colorconverter',
+  // Phase 2 — Science
+  'ideal-gas-law-calculator': 'idealGas',
+  'coulombs-law-calculator': 'coulombsLaw',
+  'escape-velocity-calculator': 'escapeVelocity',
+  'speed-of-sound-calculator': 'soundSpeed',
+  // Phase 2 — Date & Time
+  'leap-year-calculator': 'leapYear',
+  'week-number-calculator': 'weekNumber',
+  'date-add-calculator': 'dateAdd',
+  // Phase 2 — Unit Conversion
+  'fuel-efficiency-calculator': 'fuelEfficiency',
+  'number-to-words-calculator': 'numberWord',
+  'cooking-measurement-calculator': 'cookingConvert',
+  // Phase 2 — Education
+  'marks-percentage-calculator': 'marksPercentage',
+  'competitive-exam-calculator': 'competitiveExam',
+  'backlog-recovery-calculator': 'backlogRecovery',
+  'research-metrics-calculator': 'researchMetrics',
+  'study-abroad-cost-calculator': 'abroadCost',
+  // Phase 3 — Everyday
+  'grocery-inflation-calculator': 'inflationBasket',
+  'mobile-plan-comparator': 'phonePlan',
+  'house-relocation-cost-estimator': 'movingCost',
+  'washing-machine-load-calculator': 'laundryLoad',
+  // Phase 3 — Tech & Engineering
+  'json-formatter-validator': 'jsonFormatter',
+  'electric-motor-sizing-calculator': 'motorSize',
+  'resistor-color-code-decoder': 'resistorDecode',
+  // Phase 3 — Construction
+  'staircase-calculator': 'staircase',
+  'septic-tank-size-calculator': 'septicTank',
+  'home-electrical-load-calculator': 'electricalLoad',
 };
 
 Object.entries(slugRedirects).forEach(([slug, id]) => {

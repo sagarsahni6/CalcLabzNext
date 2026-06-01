@@ -112,3 +112,168 @@ export const calcAngle: CalcFunction = (v) => {
     secondary: Object.entries(toDeg).filter(([k]) => k !== v.from && k !== 'Degrees').map(([k, f]) => ({ label: k, value: (deg / f).toFixed(6) })),
   };
 };
+
+/* ── Fuel Efficiency Converter ────────────────────── */
+export const calcFuelEfficiency: CalcFunction = (v) => {
+  const val = Number(v.val) || 10;
+  const from = String(v.from || 'km/L');
+
+  // Convert everything to L/100km first
+  let l100: number;
+  if (from === 'km/L') {
+    l100 = val > 0 ? 100 / val : 0;
+  } else if (from === 'L/100km') {
+    l100 = val;
+  } else if (from === 'MPG US') {
+    l100 = val > 0 ? 235.215 / val : 0;
+  } else if (from === 'MPG UK') {
+    l100 = val > 0 ? 282.481 / val : 0;
+  } else {
+    l100 = val;
+  }
+
+  // Convert from L/100km to others
+  const kmL = l100 > 0 ? 100 / l100 : 0;
+  const mpgUS = l100 > 0 ? 235.215 / l100 : 0;
+  const mpgUK = l100 > 0 ? 282.481 / l100 : 0;
+
+  // Assuming average fuel price is ₹104 per Liter (Indian context)
+  const pricePerL = 104;
+  const costPerKm = kmL > 0 ? pricePerL / kmL : 0;
+
+  return {
+    main: { label: 'Efficiency in km/L', value: kmL.toFixed(2) + ' km/L' },
+    secondary: [
+      { label: 'Liters per 100 km', value: l100.toFixed(2) + ' L/100km' },
+      { label: 'Miles per Gallon (US)', value: mpgUS.toFixed(2) + ' MPG (US)' },
+      { label: 'Miles per Gallon (UK)', value: mpgUK.toFixed(2) + ' MPG (UK)' },
+      { label: 'Est. Cost per km (at ₹104/L)', value: '₹' + costPerKm.toFixed(2) },
+      { label: 'Est. Cost per 100 km', value: '₹' + (costPerKm * 100).toFixed(2) },
+    ],
+  };
+};
+
+/* ── Number to Words Converter ────────────────────── */
+export const calcNumberWord: CalcFunction = (v) => {
+  const num = Math.floor(Number(v.val)) || 0;
+  if (num < 0 || num > 999999999999) {
+    return { main: { label: 'Error', value: 'Please enter a number between 0 and 999,999,999,999' } };
+  }
+
+  const ones = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+  const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+  function convertLessThanThousand(n: number): string {
+    if (n === 0) return '';
+    let str = '';
+    if (n >= 100) {
+      str += ones[Math.floor(n / 100)] + ' Hundred ';
+      n %= 100;
+    }
+    if (n >= 20) {
+      str += tens[Math.floor(n / 10)] + ' ';
+      n %= 10;
+    }
+    if (n > 0) {
+      str += ones[n] + ' ';
+    }
+    return str.trim();
+  }
+
+  // Indian numbering system (Lakhs, Crores)
+  function toIndianSystem(n: number): string {
+    if (n === 0) return 'Zero';
+    let str = '';
+    
+    // Crores (10,00,00,00)
+    if (n >= 10000000) {
+      str += toIndianSystem(Math.floor(n / 10000000)) + ' Crore ';
+      n %= 10000000;
+    }
+    // Lakhs (1,00,000)
+    if (n >= 100000) {
+      str += convertLessThanThousand(Math.floor(n / 100000)) + ' Lakh ';
+      n %= 100000;
+    }
+    // Thousands (1,000)
+    if (n >= 1000) {
+      str += convertLessThanThousand(Math.floor(n / 1000)) + ' Thousand ';
+      n %= 1000;
+    }
+    // Remainder
+    if (n > 0) {
+      str += convertLessThanThousand(n);
+    }
+    return str.trim();
+  }
+
+  // International System (Millions, Billions)
+  function toInternationalSystem(n: number): string {
+    if (n === 0) return 'Zero';
+    let str = '';
+    
+    // Billions
+    if (n >= 1000000000) {
+      str += convertLessThanThousand(Math.floor(n / 1000000000)) + ' Billion ';
+      n %= 1000000000;
+    }
+    // Millions
+    if (n >= 1000000) {
+      str += convertLessThanThousand(Math.floor(n / 1000000)) + ' Million ';
+      n %= 1000000;
+    }
+    // Thousands
+    if (n >= 1000) {
+      str += convertLessThanThousand(Math.floor(n / 1000)) + ' Thousand ';
+      n %= 1000;
+    }
+    // Remainder
+    if (n > 0) {
+      str += convertLessThanThousand(n);
+    }
+    return str.trim();
+  }
+
+  const indian = toIndianSystem(num);
+  const international = toInternationalSystem(num);
+
+  return {
+    main: { label: 'Indian Format', value: indian },
+    secondary: [
+      { label: 'International Format', value: international },
+      { label: 'Check-Writing Format', value: `Rupees ${indian} Only` },
+      { label: 'Number', value: num.toLocaleString('en-IN') },
+      { label: 'Digit Count', value: String(String(num).length) + ' digits' },
+    ],
+  };
+};
+
+/* ── Cooking Measurement Converter ────────────────── */
+export const calcCookingConvert: CalcFunction = (v) => {
+  const val = Number(v.val) || 1;
+  const from = String(v.from || 'Cups (US)');
+
+  // Conversion factors to Milliliters (ml)
+  const toMl: Record<string, number> = {
+    'Cups (US)': 236.588,
+    'Cups (Metric)': 250,
+    'Tablespoons (US)': 14.7868,
+    'Teaspoons (US)': 4.92892,
+    'Milliliters': 1,
+    'Fluid Ounces (US)': 29.5735,
+    'Liters': 1000,
+    'Grams (Water)': 1,
+  };
+
+  const baseMl = val * (toMl[from] || 1);
+
+  return {
+    main: { label: 'Milliliters (ml)', value: baseMl.toFixed(2) + ' ml' },
+    secondary: Object.entries(toMl)
+      .filter(([k]) => k !== from && k !== 'Milliliters')
+      .map(([k, f]) => ({
+        label: k,
+        value: (baseMl / f).toFixed(2) + (k === 'Liters' ? ' L' : k === 'Grams (Water)' ? ' g' : ''),
+      })),
+  };
+};

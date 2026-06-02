@@ -29,6 +29,18 @@ const ResultChart = dynamic(() => import('@/components/calculator/ResultChart'),
   ),
 });
 
+// Lazy-load AmortizationTable (only loads when table data exists)
+const AmortizationTable = dynamic(() => import('@/components/calculator/AmortizationTable'), {
+  ssr: false,
+  loading: () => null,
+});
+
+// Lazy-load SensitivityAnalysis (only loads when sensitivity data exists)
+const SensitivityAnalysis = dynamic(() => import('@/components/calculator/SensitivityAnalysis'), {
+  ssr: false,
+  loading: () => null,
+});
+
 interface CalculatorWidgetProps {
   calcId: string;
   inputs: CalculatorInput[];
@@ -442,6 +454,16 @@ export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWid
             {/* Interactive Recharts Chart */}
             {result.chart && (
               <ResultChart chart={result.chart} calcId={calcId} />
+            )}
+
+            {/* Amortization / Breakdown Table */}
+            {result.table && (
+              <AmortizationTable table={result.table} />
+            )}
+
+            {/* Sensitivity / What-If Analysis */}
+            {result.sensitivity && result.sensitivity.length > 0 && (
+              <SensitivityAnalysis sensitivity={result.sensitivity} />
             )}
           </div>
         </div>

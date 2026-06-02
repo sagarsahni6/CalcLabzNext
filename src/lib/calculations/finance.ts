@@ -165,25 +165,49 @@ export const calcIncomeTax: CalcFunction = (v) => {
   let tax = 0;
   let taxable = 0;
   let surcharge = 0;
+  const tableRows: (string | number)[][] = [];
 
   if (regime === 'New Regime') {
     // Budget 2025-26: Standard deduction ₹75,000, rebate up to ₹12L taxable
-    const slabs: [number, number][] = [[400000, 0], [400000, 0.05], [400000, 0.10], [400000, 0.15], [400000, 0.20], [400000, 0.25], [Infinity, 0.30]];
+    const slabs = [
+      { label: '₹0 - ₹4,0,000', limit: 400000, rate: 0 },
+      { label: '₹4,00,001 - ₹8,00,000', limit: 400000, rate: 0.05 },
+      { label: '₹8,00,001 - ₹12,00,000', limit: 400000, rate: 0.10 },
+      { label: '₹12,00,001 - ₹16,00,000', limit: 400000, rate: 0.15 },
+      { label: '₹16,00,001 - ₹20,00,000', limit: 400000, rate: 0.20 },
+      { label: '₹20,00,001 - ₹24,00,000', limit: 400000, rate: 0.25 },
+      { label: 'Above ₹24,00,000', limit: Infinity, rate: 0.30 }
+    ];
     taxable = Math.max(0, income - 75000);
     let rem = taxable;
-    for (const [lim, rate] of slabs) {
-      if (rem <= 0) break;
-      const chunk = Math.min(rem, lim);
-      tax += chunk * rate; rem -= chunk;
+    for (const slab of slabs) {
+      if (rem <= 0) {
+        tableRows.push([slab.label, (slab.rate * 100) + '%', '₹0', '₹0']);
+        continue;
+      }
+      const chunk = Math.min(rem, slab.limit);
+      const chunkTax = chunk * slab.rate;
+      tax += chunkTax;
+      rem -= chunk;
+      tableRows.push([
+        slab.label,
+        (slab.rate * 100) + '%',
+        '₹' + Math.round(chunk).toLocaleString('en-IN'),
+        '₹' + Math.round(chunkTax).toLocaleString('en-IN')
+      ]);
     }
-    // Rebate u/s 87A: No tax if taxable income <= ₹12,00,000
+    // Rebate u/s 87A: No tax if taxable income <= ₹12,0,000
     if (taxable <= 1200000) {
       tax = 0;
+      tableRows.push(['Rebate u/s 87A', '100%', '—', '-₹' + Math.round(tax).toLocaleString('en-IN')]);
     } else {
-      // Marginal relief: tax payable cannot exceed (taxable income - 12,00,000)
-      // This prevents a sudden cliff where ₹12,00,001 taxable income triggers full tax
+      // Marginal relief: tax payable cannot exceed (taxable income - 12,0,000)
       const marginalRelief = taxable - 1200000;
-      if (tax > marginalRelief) tax = marginalRelief;
+      if (tax > marginalRelief) {
+        const relief = tax - marginalRelief;
+        tax = marginalRelief;
+        tableRows.push(['Marginal Relief', '—', '—', '-₹' + Math.round(relief).toLocaleString('en-IN')]);
+      }
     }
     // Surcharge for new regime (Budget 2025-26)
     if (income > 50000000) surcharge = tax * 0.25;       // >5Cr: 25% (capped at 25% for new regime)
@@ -194,15 +218,34 @@ export const calcIncomeTax: CalcFunction = (v) => {
     const exempt = age === 'Below 60' ? 250000 : age === '60-80 years' ? 300000 : 500000;
     taxable = Math.max(0, income - 50000 - exempt);
     let rem = taxable;
-    const slabs: [number, number][] = [[250000, 0.05], [500000, 0.20], [Infinity, 0.30]];
-    for (const [lim, rate] of slabs) {
-      if (rem <= 0) break;
-      const chunk = Math.min(rem, lim);
-      tax += chunk * rate; rem -= chunk;
+    const slabs = [
+      { label: '₹0 - ₹2,50,000', limit: 250000, rate: 0.05 },
+      { label: '₹2,50,001 - ₹5,00,000', limit: 500000, rate: 0.20 },
+      { label: 'Above ₹5,00,000', limit: Infinity, rate: 0.30 }
+    ];
+    tableRows.push([`Basic Exemption (${age})`, '0%', '₹' + exempt.toLocaleString('en-IN'), '₹0']);
+    for (const slab of slabs) {
+      if (rem <= 0) {
+        tableRows.push([slab.label, (slab.rate * 100) + '%', '₹0', '₹0']);
+        continue;
+      }
+      const chunk = Math.min(rem, slab.limit);
+      const chunkTax = chunk * slab.rate;
+      tax += chunkTax;
+      rem -= chunk;
+      tableRows.push([
+        slab.label,
+        (slab.rate * 100) + '%',
+        '₹' + Math.round(chunk).toLocaleString('en-IN'),
+        '₹' + Math.round(chunkTax).toLocaleString('en-IN')
+      ]);
     }
     // Old regime rebate u/s 87A: applies when TOTAL INCOME (not taxable) is up to ₹5L
-    if (income <= 500000) tax = 0;
-    // FIX: Surcharge for old regime
+    if (income <= 500000) {
+      tax = 0;
+      tableRows.push(['Rebate u/s 87A', '100%', '—', '-₹' + Math.round(tax).toLocaleString('en-IN')]);
+    }
+    // Surcharge for old regime
     if (income > 50000000) surcharge = tax * 0.37;       // >5Cr: 37%
     else if (income > 20000000) surcharge = tax * 0.25;  // >2Cr: 25%
     else if (income > 10000000) surcharge = tax * 0.15;  // >1Cr: 15%
@@ -211,19 +254,31 @@ export const calcIncomeTax: CalcFunction = (v) => {
   const taxAfterSurcharge = Math.round(tax + surcharge);
   const cess = Math.round(taxAfterSurcharge * 0.04);
   const total = taxAfterSurcharge + cess;
+  const takeHome = Math.max(0, income - total);
+
   return {
-    main: { label: 'Total Tax Payable', value: '₹' + total.toLocaleString() },
+    main: { label: 'Total Tax Payable', value: '₹' + total.toLocaleString('en-IN') },
     secondary: [
-      { label: 'Taxable Income', value: '₹' + Math.round(taxable).toLocaleString() },
-      { label: 'Base Tax', value: '₹' + Math.round(tax).toLocaleString() },
-      { label: 'Surcharge', value: surcharge > 0 ? '₹' + Math.round(surcharge).toLocaleString() : 'Nil' },
-      { label: 'Health & Education Cess (4%)', value: '₹' + cess.toLocaleString() },
-      { label: 'Effective Rate', value: (total / (income || 1) * 100).toFixed(2) + '%' },
-      { label: 'Monthly Tax', value: '₹' + Math.round(total / 12).toLocaleString() },
-    ]
+      { label: 'Taxable Income', value: '₹' + Math.round(taxable).toLocaleString('en-IN') },
+      { label: 'Base Tax', value: '₹' + Math.round(tax).toLocaleString('en-IN') },
+      { label: 'Surcharge', value: surcharge > 0 ? '₹' + Math.round(surcharge).toLocaleString('en-IN') : 'Nil' },
+      { label: 'Health & Education Cess (4%)', value: '₹' + cess.toLocaleString('en-IN') },
+      { label: 'Effective Tax Rate', value: (total / (income || 1) * 100).toFixed(2) + '%' },
+      { label: 'Monthly Tax Outflow', value: '₹' + Math.round(total / 12).toLocaleString('en-IN') },
+      { label: 'Net Monthly Take-Home', value: '₹' + Math.round(takeHome / 12).toLocaleString('en-IN'), pos: true },
+    ],
+    chart: {
+      labels: ['Net Take-Home', 'Income Tax Paid'],
+      data: [Math.round(takeHome), Math.round(total)],
+    },
+    table: {
+      title: 'Slab-wise Tax Calculation Breakdown',
+      headers: ['Tax Slab', 'Rate', 'Income in Slab', 'Tax Paid'],
+      rows: tableRows,
+      collapsible: false
+    }
   };
 };
-
 export const calcROI: CalcFunction = (v) => {
   const final = Number(v.final) || 0;
   const initial = Number(v.initial) || 1;
@@ -285,7 +340,6 @@ export const calcFD: CalcFunction = (v) => {
   const principal = Number(v.principal) || 0;
   const rate = Number(v.rate) || 0;
   const years = Number(v.years) || 1;
-  // FIX: Support selectable compounding frequency (was hardcoded to quarterly)
   const freqMap: Record<string, number> = {
     'Monthly': 12, 'Quarterly': 4, 'Half-Yearly': 2, 'Annually': 1
   };
@@ -293,24 +347,76 @@ export const calcFD: CalcFunction = (v) => {
   const freq = freqMap[compFreq] || 4;
   const P = principal, r = rate / 100 / freq, n = years * freq;
   const amount = P * Math.pow(1 + r, n), interest = amount - P;
-  // Effective annual rate
   const ear = (Math.pow(1 + rate / 100 / freq, freq) - 1) * 100;
+  // TDS applicability
+  const tdsApplicable = interest > 40000;
+  const tdsAmount = tdsApplicable ? interest * 0.10 : 0;
+  const postTaxReturn = interest - tdsAmount;
+  const postTaxRate = (postTaxReturn / (P || 1) / (years || 1)) * 100;
+  // Senior citizen comparison (+0.5%)
+  const seniorAmount = P * Math.pow(1 + (rate + 0.5) / 100 / freq, n);
+  const seniorExtra = seniorAmount - amount;
+
+  // Year-by-year timeline + table
+  const labels = [], amountArr = [], principalArr = [];
+  const tableRows = [];
+  for (let yr = 1; yr <= years; yr++) {
+    const amt = P * Math.pow(1 + r, yr * freq);
+    const intYr = amt - P;
+    labels.push('Yr ' + yr);
+    amountArr.push(Math.round(amt));
+    principalArr.push(P);
+    tableRows.push([
+      'Year ' + yr,
+      '₹' + Math.round(amt).toLocaleString('en-IN'),
+      '₹' + Math.round(intYr).toLocaleString('en-IN'),
+      ear.toFixed(2) + '%',
+    ]);
+  }
+
+  // Sensitivity analysis: Maturity vs Rate
+  const rateRange = [];
+  const rateValues = [];
+  const baseRate = rate;
+  for (let rt = Math.max(1, baseRate - 3); rt <= baseRate + 3; rt += 0.5) {
+    rateRange.push(rt);
+    const tempR = rt / 100 / freq;
+    rateValues.push(Math.round(P * Math.pow(1 + tempR, n)));
+  }
+  const rateCurrentIdx = rateRange.findIndex(x => Math.abs(x - baseRate) < 0.01);
+
   return {
-    main: { label: 'Maturity Amount', value: '₹' + Math.round(amount).toLocaleString() },
+    main: { label: 'Maturity Amount', value: '₹' + Math.round(amount).toLocaleString('en-IN') },
     secondary: [
-      { label: 'Total Interest', value: '₹' + Math.round(interest).toLocaleString(), pos: true },
-      { label: 'Principal', value: '₹' + P.toLocaleString() },
+      { label: 'Total Interest', value: '₹' + Math.round(interest).toLocaleString('en-IN'), pos: true },
+      { label: 'Principal', value: '₹' + P.toLocaleString('en-IN') },
       { label: 'Effective Annual Rate', value: ear.toFixed(2) + '%' },
       { label: 'Compounding', value: compFreq + ' (' + freq + '×/yr)' },
-      { label: 'Monthly Income (avg)', value: '₹' + Math.round(interest / ((years * 12) || 1)).toLocaleString() },
+      { label: 'Monthly Income (avg)', value: '₹' + Math.round(interest / ((years * 12) || 1)).toLocaleString('en-IN') },
+      { label: 'TDS (10%)', value: tdsApplicable ? '₹' + Math.round(tdsAmount).toLocaleString('en-IN') + ' — interest exceeds ₹40K [!]' : 'Not applicable (interest < ₹40K) [OK]' },
+      { label: 'Post-Tax Effective Return', value: postTaxRate.toFixed(2) + '% p.a.' },
+      { label: 'Senior Citizen (+0.5%)', value: '₹' + Math.round(seniorExtra).toLocaleString('en-IN') + ' extra', pos: true },
     ],
     chart: {
-      a: P, b: Math.round(interest),
-      lA: 'Principal', lB: 'Interest Earned',
-    }
+      a: P, b: Math.round(interest), lA: 'Principal', lB: 'Interest Earned',
+      timeline: {
+        labels, datasets: [
+          { label: 'Principal', data: principalArr, fill: false },
+          { label: 'Total Amount', data: amountArr, fill: true },
+        ]
+      }
+    },
+    table: {
+      title: 'FD Year-by-Year Growth',
+      headers: ['Year', 'Amount', 'Interest Earned', 'EAR'],
+      rows: tableRows,
+      collapsible: true,
+    },
+    sensitivity: [
+      { variable: 'rate', label: 'Interest Rate', range: rateRange, values: rateValues, currentIdx: rateCurrentIdx >= 0 ? rateCurrentIdx : 0, resultLabel: 'Maturity Amount' }
+    ]
   };
 };
-
 export const calcMortgage: CalcFunction = (v) => {
   const amount = Number(v.amount) || 0;
   const rate = Number(v.rate) || 0;
@@ -826,46 +932,150 @@ export const calcCapitalGains: CalcFunction = (v) => {
   }
   const postTaxProfit = gain - tax;
   return {
-    main: { label: taxLabel + ' Tax', value: '₹' + Math.round(tax).toLocaleString() },
+    main: { label: taxLabel + ' Tax', value: '₹' + Math.round(tax).toLocaleString('en-IN') },
     secondary: [
-      { label: 'Capital Gain', value: '₹' + gain.toLocaleString(), pos: gain > 0, neg: gain < 0 },
+      { label: 'Capital Gain', value: '₹' + gain.toLocaleString('en-IN'), pos: gain > 0, neg: gain < 0 },
       { label: 'Tax Rate', value: taxRate + '%' + (isDebt ? ' (slab — no LTCG for debt post-2023)' : '') },
-      { label: 'Post-Tax Profit', value: '₹' + Math.round(postTaxProfit).toLocaleString(), pos: postTaxProfit > 0, neg: postTaxProfit < 0 },
+      { label: 'Post-Tax Profit', value: '₹' + Math.round(postTaxProfit).toLocaleString('en-IN'), pos: postTaxProfit > 0, neg: postTaxProfit < 0 },
       { label: 'Effective Return', value: ((postTaxProfit) / (buyPrice || 1) * 100).toFixed(2) + '%' },
       { label: 'Holding Period', value: holdMonths + ' months (' + (holdMonths / 12).toFixed(1) + ' years)' },
     ],
-    chart: { a: Math.round(buyPrice), b: Math.round(Math.max(0, gain)), lA: 'Cost', lB: 'Gain' }
+    chart: {
+      labels: ['Purchase Price', 'Tax Paid', 'Net Post-Tax Profit'],
+      data: [Math.round(buyPrice), Math.round(tax), Math.max(0, Math.round(postTaxProfit))]
+    },
+    table: {
+      title: 'Capital Gains Details',
+      headers: ['Component', 'Value', '% of Selling Price'],
+      rows: [
+        ['Purchase Price', '₹' + buyPrice.toLocaleString('en-IN'), ((buyPrice / (sellPrice || 1)) * 100).toFixed(1) + '%'],
+        ['Selling Price', '₹' + sellPrice.toLocaleString('en-IN'), '100.0%'],
+        ['Gross Capital Gain', '₹' + gain.toLocaleString('en-IN'), ((gain / (sellPrice || 1)) * 100).toFixed(1) + '%'],
+        ['Tax Liability (' + taxLabel + ')', '₹' + Math.round(tax).toLocaleString('en-IN'), ((tax / (sellPrice || 1)) * 100).toFixed(1) + '%'],
+        ['Net Post-Tax Profit', '₹' + Math.round(postTaxProfit).toLocaleString('en-IN'), ((postTaxProfit / (sellPrice || 1)) * 100).toFixed(1) + '%'],
+      ],
+      collapsible: false
+    }
   };
 };
-
 export const calcPrepayment: CalcFunction = (v) => {
   const outstanding = Number(v.outstanding) || 0;
   const rate = Number(v.rate) || 8.5;
   const rem = Number(v.rem) || 120;
   const lump = Number(v.lump) || 0;
   const r = rate / 12 / 100;
-  const totalInterest = (P: number, n: number) => {
-    const emi = r === 0 ? P / n : P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
-    return emi * n - P;
+
+  const baseEmi = r === 0 ? outstanding / rem : outstanding * r * Math.pow(1 + r, rem) / (Math.pow(1 + r, rem) - 1);
+
+  // Simulation function
+  const runSim = (startP: number, monthlyPayment: number, maxMonths: number) => {
+    let balance = startP;
+    let interestPaid = 0;
+    let months = 0;
+    const balanceProgression = [];
+    
+    for (let m = 1; m <= maxMonths; m++) {
+      if (balance <= 0) {
+        balanceProgression.push(0);
+        continue;
+      }
+      const interestMo = balance * r;
+      const principalMo = Math.min(balance, monthlyPayment - interestMo);
+      interestPaid += interestMo;
+      balance -= principalMo;
+      months = m;
+      balanceProgression.push(Math.round(balance));
+    }
+    return { interestPaid, months, balanceProgression };
   };
-  const intBefore = totalInterest(outstanding, rem);
-  const newP = Math.max(0, outstanding - lump);
-  const intAfter = totalInterest(newP, rem);
-  const saved = intBefore - intAfter;
-  const emi = r === 0 ? outstanding / rem : outstanding * r * Math.pow(1 + r, rem) / (Math.pow(1 + r, rem) - 1);
-  const newN = emi === newP * r ? Infinity : Math.log(emi / (emi - newP * r)) / Math.log(1 + r);
-  const monthsSaved = isFinite(newN) ? rem - Math.ceil(newN) : 0;
+
+  // 1. No Prepayment
+  const simNoPrep = runSim(outstanding, baseEmi, rem);
+
+  // 2. Option A: Reduce Tenure (Keep EMI same)
+  const pA = Math.max(0, outstanding - lump);
+  const simTenure = runSim(pA, baseEmi, rem);
+  const interestSavedTenure = Math.max(0, simNoPrep.interestPaid - simTenure.interestPaid);
+  const monthsSaved = rem - simTenure.months;
+
+  // 3. Option B: Reduce EMI (Keep Tenure same)
+  const newEmi = r === 0 ? pA / rem : pA * r * Math.pow(1 + r, rem) / (Math.pow(1 + r, rem) - 1);
+  const simEmi = runSim(pA, newEmi, rem);
+  const interestSavedEmi = Math.max(0, simNoPrep.interestPaid - simEmi.interestPaid);
+
+  // Group year-by-year for chart and table
+  const years = Math.ceil(rem / 12);
+  const timelineLabels = [];
+  const balNoPrepData = [];
+  const balTenureData = [];
+  const balEmiData = [];
+  const tableRows = [];
+
+  for (let yr = 1; yr <= years; yr++) {
+    timelineLabels.push('Yr ' + yr);
+    const mIdx = Math.min(yr * 12 - 1, rem - 1);
+    const valNoPrep = simNoPrep.balanceProgression[mIdx] || 0;
+    const valTenure = simTenure.balanceProgression[mIdx] || 0;
+    const valEmi = simEmi.balanceProgression[mIdx] || 0;
+
+    balNoPrepData.push(valNoPrep);
+    balTenureData.push(valTenure);
+    balEmiData.push(valEmi);
+
+    tableRows.push([
+      'Year ' + yr,
+      '₹' + valNoPrep.toLocaleString('en-IN'),
+      '₹' + valTenure.toLocaleString('en-IN'),
+      '₹' + valEmi.toLocaleString('en-IN'),
+    ]);
+  }
+
+  // Sensitivity analysis: Interest Saved vs Prepayment Amount
+  const prepRange = [];
+  const prepValues = [];
+  const basePrep = lump;
+  for (let pFactor = 0.25; pFactor <= 2.0; pFactor += 0.25) {
+    const tempPrep = Math.round(basePrep * pFactor);
+    prepRange.push(tempPrep);
+    const tempPA = Math.max(0, outstanding - tempPrep);
+    const tempSim = runSim(tempPA, baseEmi, rem);
+    prepValues.push(Math.round(Math.max(0, simNoPrep.interestPaid - tempSim.interestPaid)));
+  }
+  const prepCurrentIdx = prepRange.findIndex(x => Math.abs(x - basePrep) < 1.0);
+
   return {
-    main: { label: 'Interest Saved', value: '₹' + Math.round(saved).toLocaleString(), pos: true },
+    main: { label: 'Interest Saved (Tenure Opt)', value: '₹' + Math.round(interestSavedTenure).toLocaleString('en-IN'), pos: true },
     secondary: [
-      { label: 'Months Saved', value: monthsSaved + ' months (' + Math.floor(monthsSaved / 12) + 'y ' + monthsSaved % 12 + 'm)' },
-      { label: 'New Outstanding', value: '₹' + Math.round(newP).toLocaleString() },
-      { label: 'Interest Without Prepayment', value: '₹' + Math.round(intBefore).toLocaleString() },
-      { label: 'Interest After Prepayment', value: '₹' + Math.round(intAfter).toLocaleString() }
+      { label: 'Months Saved (Tenure Opt)', value: monthsSaved + ' months (' + Math.floor(monthsSaved / 12) + 'y ' + monthsSaved % 12 + 'm)' },
+      { label: 'New Tenure Remaining', value: simTenure.months + ' months' },
+      { label: 'New Monthly EMI (EMI Opt)', value: '₹' + Math.round(newEmi).toLocaleString('en-IN') },
+      { label: 'Interest Saved (EMI Opt)', value: '₹' + Math.round(interestSavedEmi).toLocaleString('en-IN'), pos: true },
+      { label: 'Total Int (No Prepay)', value: '₹' + Math.round(simNoPrep.interestPaid).toLocaleString('en-IN') },
+      { label: 'Total Int (Tenure Opt)', value: '₹' + Math.round(simTenure.interestPaid).toLocaleString('en-IN') },
+      { label: 'Total Int (EMI Opt)', value: '₹' + Math.round(simEmi.interestPaid).toLocaleString('en-IN') }
+    ],
+    chart: {
+      a: Math.round(outstanding), b: Math.round(interestSavedTenure), lA: 'Outstanding Principal', lB: 'Interest Saved (Tenure Opt)',
+      timeline: {
+        labels: timelineLabels,
+        datasets: [
+          { label: 'No Prepayment', data: balNoPrepData, fill: false },
+          { label: 'Reduce Tenure', data: balTenureData, fill: true },
+          { label: 'Reduce EMI', data: balEmiData, fill: false },
+        ]
+      }
+    },
+    table: {
+      title: 'Outstanding Balance Comparison',
+      headers: ['Year', 'No Prepayment', 'Reduce Tenure (Same EMI)', 'Reduce EMI (Same Tenure)'],
+      rows: tableRows,
+      collapsible: true
+    },
+    sensitivity: [
+      { variable: 'lump', label: 'Prepayment Amount', range: prepRange, values: prepValues, currentIdx: prepCurrentIdx >= 0 ? prepCurrentIdx : 0, resultLabel: 'Interest Saved' }
     ]
   };
 };
-
 export const calcStepUpSIP: CalcFunction = (v) => {
   const monthly = Number(v.monthly) || 0;
   const ret = Number(v.ret) || 12;
@@ -959,23 +1169,107 @@ export const calcRD: CalcFunction = (v) => {
   const monthly_rd = Number(v.monthly_rd) || 0;
   const rate_rd = Number(v.rate_rd) || 0;
   const tenure_rd = Number(v.tenure_rd) || 12;
+
+  // Exact RD formula (compounds quarterly)
   const i = rate_rd / 4 / 100;
   const n = tenure_rd / 3;
   const denom = (1 - Math.pow(1 + i, -1 / 3));
   const M = denom === 0 ? monthly_rd * tenure_rd : monthly_rd * (Math.pow(1 + i, n) - 1) / denom;
-  const invested = monthly_rd * tenure_rd;
-  const interest = M - invested;
+  const totalDeposited = monthly_rd * tenure_rd;
+  const interest = Math.max(0, M - totalDeposited);
+
+  // Month-by-month simulation
+  let balance = 0;
+  let simulatedDeposited = 0;
+  let accruedInterest = 0;
+  const timelineLabels = [];
+  const investedData = [];
+  const balanceData = [];
+  const tableRows = [];
+
+  const step = tenure_rd <= 12 ? 1 : (tenure_rd <= 36 ? 3 : 6);
+
+  for (let m = 1; m <= tenure_rd; m++) {
+    simulatedDeposited += monthly_rd;
+    balance += monthly_rd;
+    const monthlyRate = rate_rd / 12 / 100;
+    const interestThisMonth = balance * monthlyRate;
+    accruedInterest += interestThisMonth;
+
+    if (m % 3 === 0 || m === tenure_rd) {
+      balance += accruedInterest;
+      accruedInterest = 0;
+    }
+
+    if (m % step === 0 || m === tenure_rd) {
+      timelineLabels.push('Mo ' + m);
+      investedData.push(Math.round(simulatedDeposited));
+      balanceData.push(Math.round(balance));
+      tableRows.push([
+        'Month ' + m,
+        '₹' + Math.round(simulatedDeposited).toLocaleString('en-IN'),
+        '₹' + Math.round(balance - simulatedDeposited).toLocaleString('en-IN'),
+        '₹' + Math.round(balance).toLocaleString('en-IN')
+      ]);
+    }
+  }
+
+  // Compare with SIP at 12%
+  const sipRate = 12;
+  const sip_r = sipRate / 12 / 100;
+  const sipMaturity = monthly_rd * ((Math.pow(1 + sip_r, tenure_rd) - 1) / sip_r) * (1 + sip_r);
+  const sipOutperformance = Math.max(0, sipMaturity - M);
+
+  // Post-tax calculations
+  const tax30 = interest * 0.312; // 30% tax + 4% cess = 31.2%
+  const postTaxMaturity30 = M - tax30;
+  const postTaxRate30 = ((postTaxMaturity30 - totalDeposited) / (totalDeposited || 1)) * 100 * (12 / tenure_rd);
+
+  // Sensitivity: RD Maturity vs Rate
+  const rateRange = [];
+  const rateValues = [];
+  const baseRate = rate_rd;
+  for (let rt = Math.max(1, baseRate - 2); rt <= baseRate + 2; rt += 0.5) {
+    rateRange.push(rt);
+    const tempI = rt / 4 / 100;
+    const tempDenom = (1 - Math.pow(1 + tempI, -1 / 3));
+    const tempM = tempDenom === 0 ? monthly_rd * tenure_rd : monthly_rd * (Math.pow(1 + tempI, n) - 1) / tempDenom;
+    rateValues.push(Math.round(tempM));
+  }
+  const rateCurrentIdx = rateRange.findIndex(x => Math.abs(x - baseRate) < 0.01);
+
   return {
     main: { label: 'Maturity Amount', value: '₹' + Math.round(M).toLocaleString('en-IN') },
     secondary: [
-      { label: 'Total Deposited', value: '₹' + invested.toLocaleString('en-IN') },
+      { label: 'Total Deposited', value: '₹' + totalDeposited.toLocaleString('en-IN') },
       { label: 'Interest Earned', value: '₹' + Math.round(interest).toLocaleString('en-IN'), pos: true },
-      { label: 'Effective Return', value: ((interest / (invested || 1)) * 100).toFixed(2) + '%', pos: true }
+      { label: 'Effective Return (Pre-tax)', value: ((interest / (totalDeposited || 1)) * 100).toFixed(2) + '%', pos: true },
+      { label: 'Post-Tax Maturity (30% Slab)', value: '₹' + Math.round(postTaxMaturity30).toLocaleString('en-IN') },
+      { label: 'Post-Tax Annual Return', value: postTaxRate30.toFixed(2) + '%' },
+      { label: 'Equivalent SIP (12% Return)', value: '₹' + Math.round(sipMaturity).toLocaleString('en-IN') },
+      { label: 'SIP Outperformance Gap', value: '₹' + Math.round(sipOutperformance).toLocaleString('en-IN'), pos: true }
     ],
-    chart: { a: Math.round(invested), b: Math.round(interest), lA: 'Deposited', lB: 'Interest' }
+    chart: {
+      a: Math.round(totalDeposited), b: Math.round(interest), lA: 'Deposited', lB: 'Interest Earned',
+      timeline: {
+        labels: timelineLabels,
+        datasets: [
+          { label: 'Deposited Amount', data: investedData, fill: false },
+          { label: 'Maturity Balance', data: balanceData, fill: true },
+        ]
+      }
+    },
+    table: {
+      title: 'RD Monthly Growth Schedule',
+      headers: ['Month', 'Deposited', 'Interest Accrued', 'Balance'],
+      rows: tableRows,
+      collapsible: true
+    },
+    sensitivity: [
+      { variable: 'rate', label: 'Interest Rate', range: rateRange, values: rateValues, currentIdx: rateCurrentIdx >= 0 ? rateCurrentIdx : 0, resultLabel: 'Maturity Amount' }
+    ]
   };
 };
-
 export const calcXIRR: CalcFunction = (v) => {
   const invested = Number(v.invested) || 1;
   const currentVal = Number(v.currentVal) || 1;
@@ -1033,18 +1327,92 @@ export const calcBalanceTransfer: CalcFunction = (v) => {
   const saved = intOld - intNew - processingFee;
   const diffInt = intOld - intNew;
   const breakEven = saved > 0 && diffInt > 0 ? Math.ceil(processingFee / (diffInt / n)) : 0;
+
+  const rOld = currentRate / 12 / 100;
+  const rNew = newRate / 12 / 100;
+  const emiOld = rOld === 0 ? P / n : P * rOld * Math.pow(1 + rOld, n) / (Math.pow(1 + rOld, n) - 1);
+  const emiNew = rNew === 0 ? P / n : P * rNew * Math.pow(1 + rNew, n) / (Math.pow(1 + rNew, n) - 1);
+
+  // Year-by-year simulation
+  const years = Math.ceil(remaining_bt / 12);
+  const timelineLabels = [];
+  const balOldData = [];
+  const balNewData = [];
+  const tableRows = [];
+
+  let bOld = P;
+  let bNew = P;
+
+  for (let yr = 1; yr <= years; yr++) {
+    timelineLabels.push('Yr ' + yr);
+    const monthsThisYear = Math.min(12, remaining_bt - (yr - 1) * 12);
+    for (let m = 0; m < monthsThisYear; m++) {
+      if (bOld > 0) {
+        const intVal = bOld * rOld;
+        const prinVal = Math.min(bOld, emiOld - intVal);
+        bOld -= prinVal;
+      }
+      if (bNew > 0) {
+        const intVal = bNew * rNew;
+        const prinVal = Math.min(bNew, emiNew - intVal);
+        bNew -= prinVal;
+      }
+    }
+    balOldData.push(Math.round(bOld));
+    balNewData.push(Math.round(bNew));
+
+    tableRows.push([
+      'Year ' + yr,
+      '₹' + Math.round(emiOld * monthsThisYear).toLocaleString('en-IN'),
+      '₹' + Math.round(emiNew * monthsThisYear).toLocaleString('en-IN'),
+      '₹' + Math.round(bOld).toLocaleString('en-IN'),
+      '₹' + Math.round(bNew).toLocaleString('en-IN')
+    ]);
+  }
+
+  // Sensitivity: Interest Saved vs New Interest Rate
+  const rateRange = [];
+  const rateValues = [];
+  const baseRate = newRate;
+  for (let rt = Math.max(1, baseRate - 2); rt <= baseRate + 2; rt += 0.5) {
+    rateRange.push(rt);
+    const tempIntNew = totalInt(rt);
+    rateValues.push(Math.round(Math.max(0, intOld - tempIntNew - processingFee)));
+  }
+  const rateCurrentIdx = rateRange.findIndex(x => Math.abs(x - baseRate) < 0.01);
+
   return {
     main: { label: 'Net Interest Saved', value: '₹' + Math.round(saved).toLocaleString('en-IN'), pos: saved > 0 },
     secondary: [
       { label: 'Interest at Current Rate', value: '₹' + Math.round(intOld).toLocaleString('en-IN') },
       { label: 'Interest at New Rate', value: '₹' + Math.round(intNew).toLocaleString('en-IN') },
+      { label: 'Old Monthly EMI', value: '₹' + Math.round(emiOld).toLocaleString('en-IN') },
+      { label: 'New Monthly EMI', value: '₹' + Math.round(emiNew).toLocaleString('en-IN'), pos: true },
       { label: 'Processing Fee', value: '₹' + processingFee.toLocaleString('en-IN') },
       { label: 'Break-Even in', value: saved > 0 ? breakEven + ' months' : 'Not beneficial' },
       { label: 'Verdict', value: saved > 0 ? '[OK] Transfer beneficial' : '[X] Not worth transferring' }
+    ],
+    chart: {
+      a: Math.round(P), b: Math.round(Math.max(0, saved)), lA: 'Outstanding Balance', lB: 'Net Savings',
+      timeline: {
+        labels: timelineLabels,
+        datasets: [
+          { label: 'Old Balance (Current Rate)', data: balOldData, fill: false },
+          { label: 'New Balance (New Rate)', data: balNewData, fill: true }
+        ]
+      }
+    },
+    table: {
+      title: 'Loan Balance Progression Comparison',
+      headers: ['Year', 'Annual EMI (Old)', 'Annual EMI (New)', 'Old Balance', 'New Balance'],
+      rows: tableRows,
+      collapsible: true
+    },
+    sensitivity: [
+      { variable: 'newRate', label: 'New Bank Rate', range: rateRange, values: rateValues, currentIdx: rateCurrentIdx >= 0 ? rateCurrentIdx : 0, resultLabel: 'Net Interest Saved' }
     ]
   };
 };
-
 export const calcSSY: CalcFunction = (v) => {
   const girlAge = Number(v.girlAge) || 0;
   const annual_ssy = Number(v.annual_ssy) || 0;
@@ -1316,20 +1684,59 @@ export const calcNSC: CalcFunction = (v) => {
     reinvestedInterest += amount * Math.pow(1 + rate / 100, i) - amount * Math.pow(1 + rate / 100, i - 1);
   }
   const reinvestTaxBenefit = Math.round(reinvestedInterest * parseFloat(taxslab) / 100);
+
+  const tableRows = [];
+  const yearsLabels = [];
+  const balanceData = [];
+  const interestEarnedData = [];
+  let balance = amount;
+  let totalInterest = 0;
+  for (let yr = 1; yr <= tenure; yr++) {
+    const yrInterest = balance * (rate / 100);
+    balance += yrInterest;
+    totalInterest += yrInterest;
+    yearsLabels.push('Yr ' + yr);
+    balanceData.push(Math.round(balance));
+    interestEarnedData.push(Math.round(totalInterest));
+    tableRows.push([
+      'Year ' + yr,
+      '₹' + Math.round(balance - yrInterest).toLocaleString('en-IN'),
+      '₹' + Math.round(yrInterest).toLocaleString('en-IN'),
+      yr < tenure ? 'Reinvested (80C Eligible)' : 'Paid Out (Taxable)',
+      '₹' + Math.round(balance).toLocaleString('en-IN'),
+    ]);
+  }
+
+  const doubleYrs = (rate === 0 ? 0 : 72 / rate).toFixed(1);
+
   return {
-    main: { label: 'Maturity Amount', value: '₹' + Math.round(maturity).toLocaleString() },
+    main: { label: 'Maturity Amount', value: '₹' + Math.round(maturity).toLocaleString('en-IN') },
     secondary: [
-      { label: 'Total Interest', value: '₹' + Math.round(interest).toLocaleString(), pos: true },
-      { label: 'Investment', value: '₹' + amount.toLocaleString() },
-      { label: 'Tax Saved (80C on principal)', value: '₹' + Math.round(taxBenefit80C).toLocaleString(), pos: true },
-      { label: 'Tax Saved (reinvested interest)', value: '₹' + reinvestTaxBenefit.toLocaleString(), pos: true },
+      { label: 'Total Interest', value: '₹' + Math.round(interest).toLocaleString('en-IN'), pos: true },
+      { label: 'Investment', value: '₹' + amount.toLocaleString('en-IN') },
+      { label: 'Tax Saved (80C on principal)', value: '₹' + Math.round(taxBenefit80C).toLocaleString('en-IN'), pos: true },
+      { label: 'Tax Saved (reinvested interest)', value: '₹' + reinvestTaxBenefit.toLocaleString('en-IN'), pos: true },
       { label: 'Effective Return (post-tax benefit)', value: ((interest + taxBenefit80C) / (amount || 1) * 100).toFixed(1) + '%', pos: true },
-      { label: 'Tenure', value: tenure + ' years (fixed)' }
+      { label: 'Doubles in (Rule of 72)', value: doubleYrs + ' years' }
     ],
-    chart: { a: amount, b: Math.round(interest), lA: 'Principal', lB: 'Interest' }
+    chart: {
+      a: amount, b: Math.round(interest), lA: 'Principal', lB: 'Interest Earned',
+      timeline: {
+        labels: yearsLabels,
+        datasets: [
+          { label: 'Total Value', data: balanceData, fill: true },
+          { label: 'Interest Accrued', data: interestEarnedData, fill: false }
+        ]
+      }
+    },
+    table: {
+      title: 'NSC Compounding & Reinvestment Schedule',
+      headers: ['Year', 'Opening Balance', 'Interest Earned', 'Status', 'Closing Balance'],
+      rows: tableRows,
+      collapsible: false
+    }
   };
 };
-
 export const calcAPY: CalcFunction = (v) => {
   const pension = String(v.pension || '5000');
   const age = Number(v.age) || 18;
@@ -1472,22 +1879,47 @@ export const calcRetirementCorpus: CalcFunction = (v) => {
   const r = return_pre / 12 / 100;
   const n = yearsToRetire * 12;
   const sip = remaining > 0 && r > 0 ? remaining * r / ((Math.pow(1 + r, n) - 1) * (1 + r)) : 0;
+
+  // Sensitivity 1: Return rate vs Required monthly SIP
+  const rateRange = [];
+  const rateValues = [];
+  for (let rt = Math.max(1, return_pre - 3); rt <= return_pre + 3; rt += 0.5) {
+    rateRange.push(rt);
+    const tempR = rt / 12 / 100;
+    const tempSip = remaining > 0 && tempR > 0 ? remaining * tempR / ((Math.pow(1 + tempR, n) - 1) * (1 + tempR)) : 0;
+    rateValues.push(Math.round(tempSip));
+  }
+  const rateCurrentIdx = rateRange.findIndex(x => Math.abs(x - return_pre) < 0.01);
+
+  // Sensitivity 2: Inflation vs Target Corpus
+  const inflRange = [];
+  const corpusValues = [];
+  for (let inf = Math.max(0, inflation - 2); inf <= inflation + 2; inf += 0.5) {
+    inflRange.push(inf);
+    const tempFutureMonthly = monthly_exp * Math.pow(1 + inf / 100, yearsToRetire);
+    const tempFutureAnnual = tempFutureMonthly * 12;
+    const tempRealReturn = ((1 + return_post / 100) / (1 + inf / 100)) - 1;
+    const tempCorpus = tempRealReturn <= 0 ? tempFutureAnnual * yearsInRetirement : tempFutureAnnual * (1 - Math.pow(1 + tempRealReturn, -yearsInRetirement)) / tempRealReturn;
+    corpusValues.push(Math.round(tempCorpus));
+  }
+  const inflCurrentIdx = inflRange.findIndex(x => Math.abs(x - inflation) < 0.01);
+
   return {
-    main: { label: 'Retirement Corpus Needed', value: '₹' + Math.round(corpus).toLocaleString() },
+    main: { label: 'Retirement Corpus Needed', value: '₹' + Math.round(corpus).toLocaleString('en-IN') },
     secondary: [
-      { label: 'Monthly Expenses at Retirement', value: '₹' + Math.round(futureMonthly).toLocaleString() },
+      { label: 'Monthly Expenses at Retirement', value: '₹' + Math.round(futureMonthly).toLocaleString('en-IN') },
       { label: 'Years to Retirement', value: yearsToRetire + ' years' },
       { label: 'Retirement Duration', value: yearsInRetirement + ' years' },
-      { label: 'Existing Savings FV', value: '₹' + Math.round(existingFV).toLocaleString() },
-      { label: 'Gap to Fill', value: '₹' + Math.round(remaining).toLocaleString() },
-      { label: 'Monthly SIP Required', value: '₹' + Math.round(sip).toLocaleString() },
-      { label: 'Daily SIP Equivalent', value: '₹' + Math.round(sip / 30).toLocaleString() + '/day' }
+      { label: 'Existing Savings FV', value: '₹' + Math.round(existingFV).toLocaleString('en-IN') },
+      { label: 'Gap to Fill', value: '₹' + Math.round(remaining).toLocaleString('en-IN') },
+      { label: 'Monthly SIP Required', value: '₹' + Math.round(sip).toLocaleString('en-IN') },
+      { label: 'Daily SIP Equivalent', value: '₹' + Math.round(sip / 30).toLocaleString('en-IN') + '/day' }
     ],
     chart: {
       labels: ['Existing FV', 'SIP Corpus', 'Gap'],
       data: [Math.round(existingFV), Math.round(remaining), 0],
       timeline: (() => {
-        const labels: string[] = [], savArr: number[] = [], targetArr: number[] = [];
+        const labels = [], savArr = [], targetArr = [];
         for (let yr = 1; yr <= yearsToRetire; yr++) {
           const months = yr * 12;
           const sipFV = r === 0 ? Math.round(sip) * months : Math.round(sip) * ((Math.pow(1 + r, months) - 1) / r) * (1 + r);
@@ -1503,10 +1935,13 @@ export const calcRetirementCorpus: CalcFunction = (v) => {
           ]
         };
       })()
-    }
+    },
+    sensitivity: [
+      { variable: 'return_pre', label: 'Expected Return (Pre-retirement)', range: rateRange, values: rateValues, currentIdx: rateCurrentIdx >= 0 ? rateCurrentIdx : 0, resultLabel: 'Monthly SIP' },
+      { variable: 'inflation', label: 'Inflation Rate', range: inflRange, values: corpusValues, currentIdx: inflCurrentIdx >= 0 ? inflCurrentIdx : 0, resultLabel: 'Retirement Corpus' }
+    ]
   };
 };
-
 export const calcSalaryHike: CalcFunction = (v) => {
   const currentSalary = Number(v.currentSalary) || 0;
   const currentCTC = Number(v.currentCTC) || 0;
@@ -2122,6 +2557,53 @@ export const calcBusinessLoan: CalcFunction = (v) => {
   const annualDebtService = emi * 12 + otherDebt;
   const noi = annualRevenue - operatingExpenses;
   const dscr = annualDebtService > 0 ? noi / annualDebtService : 0;
+
+  const years = Math.ceil(tenure_bl / 12);
+  const timelineLabels = [];
+  const principalPaidArr = [];
+  const interestPaidArr = [];
+  const balanceArr = [];
+  const tableRows = [];
+
+  let balance = loanAmt_bl;
+  let totPrin = 0, totInt = 0;
+  let currentRevenue = annualRevenue;
+  let currentExpenses = operatingExpenses;
+
+  for (let yr = 1; yr <= years; yr++) {
+    const monthsThisYear = Math.min(12, tenure_bl - (yr - 1) * 12);
+    let yrPrin = 0, yrInt = 0;
+    for (let mo = 0; mo < monthsThisYear; mo++) {
+      const intMo = balance * r;
+      const prinMo = emi - intMo;
+      balance -= prinMo;
+      totPrin += prinMo;
+      totInt += intMo;
+      yrPrin += prinMo;
+      yrInt += intMo;
+    }
+
+    const yrRevenue = currentRevenue * Math.pow(1.05, yr - 1);
+    const yrExpenses = currentExpenses * Math.pow(1.04, yr - 1);
+    const yrNoi = yrRevenue - yrExpenses;
+    const yrDebtService = emi * monthsThisYear + otherDebt * (monthsThisYear / 12);
+    const yrDscr = yrDebtService > 0 ? yrNoi / yrDebtService : 0;
+
+    timelineLabels.push('Yr ' + yr);
+    principalPaidArr.push(Math.round(totPrin));
+    interestPaidArr.push(Math.round(totInt));
+    balanceArr.push(Math.max(0, Math.round(balance)));
+
+    tableRows.push([
+      'Year ' + yr,
+      '₹' + Math.round(emi * monthsThisYear).toLocaleString('en-IN'),
+      '₹' + Math.round(yrPrin).toLocaleString('en-IN'),
+      '₹' + Math.round(yrInt).toLocaleString('en-IN'),
+      '₹' + Math.max(0, Math.round(balance)).toLocaleString('en-IN'),
+      yrDscr.toFixed(2) + 'x',
+    ]);
+  }
+
   return {
     main: { label: 'Monthly EMI', value: '₹' + Math.round(emi).toLocaleString('en-IN') },
     secondary: [
@@ -2131,10 +2613,26 @@ export const calcBusinessLoan: CalcFunction = (v) => {
       { label: 'Net Operating Income', value: '₹' + Math.round(noi).toLocaleString('en-IN') },
       { label: 'Annual Debt Service', value: '₹' + Math.round(annualDebtService).toLocaleString('en-IN') },
       { label: 'Total Payment', value: '₹' + Math.round(totalPayment).toLocaleString('en-IN') }
-    ]
+    ],
+    chart: {
+      a: Math.round(loanAmt_bl), b: Math.round(totalPayment - loanAmt_bl), lA: 'Principal', lB: 'Interest',
+      timeline: {
+        labels: timelineLabels,
+        datasets: [
+          { label: 'Principal Paid', data: principalPaidArr, fill: false },
+          { label: 'Interest Paid', data: interestPaidArr, fill: false },
+          { label: 'Balance Outstanding', data: balanceArr, fill: true },
+        ]
+      }
+    },
+    table: {
+      title: 'Business Loan Year-by-Year Schedule',
+      headers: ['Year', 'Annual EMI', 'Principal Paid', 'Interest Paid', 'Balance', 'NOI / Debt Service (DSCR)'],
+      rows: tableRows,
+      collapsible: true
+    }
   };
 };
-
 export const calcGstInvoice: CalcFunction = (v) => {
   const gstRate_gi = Number(v.gstRate_gi) || 18;
   const sellingPrice_gi = Number(v.sellingPrice_gi) || 0;
@@ -2404,6 +2902,29 @@ export const calcSGB: CalcFunction = (v) => {
   const totalProfit = totalReturn - sgb_amount;
   const cagr = (Math.pow(totalReturn / (sgb_amount || 1), 1 / years) - 1) * 100;
   const taxFree = years === 8;
+
+  const goldCAGR = Math.pow(sgb_expectedPrice / sgb_issuePrice, 1 / years) - 1;
+  const timelineLabels = [];
+  const goldValData = [];
+  const interestData = [];
+  const tableRows = [];
+
+  for (let y = 1; y <= years; y++) {
+    const goldPrice_y = sgb_issuePrice * Math.pow(1 + goldCAGR, y);
+    const bondValue_y = grams * goldPrice_y;
+    const cumInterest_y = annualInterest * y;
+    timelineLabels.push('Yr ' + y);
+    goldValData.push(Math.round(bondValue_y));
+    interestData.push(Math.round(cumInterest_y));
+    tableRows.push([
+      'Year ' + y,
+      '₹' + Math.round(goldPrice_y).toLocaleString('en-IN') + '/g',
+      '₹' + Math.round(bondValue_y).toLocaleString('en-IN'),
+      '₹' + Math.round(cumInterest_y).toLocaleString('en-IN'),
+      '₹' + Math.round(bondValue_y + cumInterest_y).toLocaleString('en-IN')
+    ]);
+  }
+
   return {
     main: { label: 'Total Return (incl. interest)', value: '₹' + Math.round(totalReturn).toLocaleString('en-IN') },
     secondary: [
@@ -2417,10 +2938,24 @@ export const calcSGB: CalcFunction = (v) => {
       { label: 'Capital Gains Tax', value: taxFree ? 'Tax-free (8-year maturity) [OK]' : 'Taxable at slab rate (premature) [!]' },
       { label: 'Holding Period', value: years + ' years' }
     ],
-    chart: { a: Math.round(sgb_amount), b: Math.round(totalProfit), lA: 'Invested', lB: 'Returns' }
+    chart: {
+      a: Math.round(sgb_amount), b: Math.round(totalProfit), lA: 'Initial Investment', lB: 'Total Profit',
+      timeline: {
+        labels: timelineLabels,
+        datasets: [
+          { label: 'Bond Gold Value', data: goldValData, fill: true },
+          { label: 'Cumulative Interest', data: interestData, fill: false }
+        ]
+      }
+    },
+    table: {
+      title: 'SGB Year-by-Year Valuation & Yield',
+      headers: ['Year', 'Gold Rate', 'Bond Value', 'Cumulative Interest', 'Total Value'],
+      rows: tableRows,
+      collapsible: false
+    }
   };
 };
-
 export const calcFoTurnover: CalcFunction = (v) => {
   const fo_futuresProfit = Number(v.fo_futuresProfit) || 0;
   const fo_futuresLoss = Number(v.fo_futuresLoss) || 0;

@@ -56,10 +56,30 @@ export interface ChartData {
   };
 }
 
+export interface TableData {
+  headers: string[];
+  rows: (string | number)[][];
+  title?: string;
+  collapsible?: boolean;
+  highlightRows?: number[];  // indices of milestone rows to highlight
+}
+
+export interface SensitivityPoint {
+  variable: string;        // input field id, e.g. 'rate'
+  label: string;           // display label, e.g. 'Interest Rate'
+  unit?: string;           // e.g. '%', 'months'
+  range: number[];         // x-axis values
+  values: number[];        // corresponding main result values
+  currentIdx: number;      // index of current input value
+  resultLabel?: string;    // e.g. 'Monthly EMI'
+}
+
 export interface CalculatorResult {
   main: ResultMain;
   secondary?: ResultSecondary[];
   chart?: ChartData;
+  table?: TableData;
+  sensitivity?: SensitivityPoint[];
   tips?: string[];
 }
 

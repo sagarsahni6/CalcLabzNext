@@ -431,6 +431,142 @@ Common splits: Balanced (30/30/40), Low-carb (40/40/20), Keto (30/65/5)`,
 - Strategy: Eat 2,200 kcal + burn 200 kcal through exercise
 - Expected weight loss in 12 weeks: **~6 kg**`
   },
+  concrete: {
+    formula: `V = L \\times W \\times D`,
+    formulaDesc: `Where:
+- **V** is the Volume of concrete in m³.
+- **L** is the Length of the slab/footing.
+- **W** is the Width.
+- **D** is the Depth (thickness).
+- Material quantities use the mix ratio (e.g., M20 = 1:1.5:3) and standard dry volume factor of 1.54.`,
+    example: `For a **6m × 4m slab, 150mm thick** with **M20 mix (1:1.5:3)**:
+- Volume = 6 × 4 × 0.15 = **3.6 m³**
+- Dry volume = 3.6 × 1.54 = 5.544 m³
+- Cement = 5.544 / (1+1.5+3) × 1 = **1.008 m³ ≈ 20.2 bags** (50 kg each)
+- Sand = 1.512 m³, Aggregate = 3.024 m³`
+  },
+  bricks: {
+    formula: `N = \\frac{L \\times H \\times T_{wall}}{(L_b + M) \\times (H_b + M) \\times (T_{wall})}`,
+    formulaDesc: `Where:
+- **N** is the Number of bricks required.
+- **L** and **H** are wall length and height.
+- **L_b** and **H_b** are brick dimensions (standard Indian: 230 × 75 mm).
+- **M** is the mortar thickness (typically 10mm).
+- **T_wall** is the wall thickness (half brick = 115mm, full brick = 230mm).`,
+    example: `For a **10m × 3m wall** in **half-brick (115mm)** with standard bricks:
+- Wall area = 10 × 3 = 30 m²
+- Bricks per m² = 1,000,000 / (240 × 85) = **49 bricks/m²**
+- Total = 30 × 49 = **1,470 bricks** + 5% wastage = **~1,544 bricks**`
+  },
+  paint: {
+    formula: `Paint = \\frac{(2 \\times (L + W) \\times H - Openings) \\times Coats}{Coverage}`,
+    formulaDesc: `Where:
+- **L**, **W**, **H** are room dimensions.
+- **Openings** = doors (1.9 m² each) + windows (1.5 m² each).
+- **Coats** is typically 2 for emulsion.
+- **Coverage** varies: Interior emulsion ~130 sq ft/L, Exterior ~100 sq ft/L, Primer ~140 sq ft/L.`,
+    example: `For a **5m × 4m × 3m room** with 1 door and 2 windows, 2 coats of interior emulsion:
+- Wall area = 2 × (5+4) × 3 = 54 m² = 581 sq ft
+- Openings = 1.9 + 2×1.5 = 4.9 m² = 52.7 sq ft
+- Paintable = (581 − 52.7) × 2 coats = 1,057 sq ft
+- **Paint needed ≈ 8.1 litres** (at 130 sq ft/L)`
+  },
+  flooring: {
+    formula: `Tiles = \\frac{Room\\;Area}{Tile\\;Area} \\times (1 + Wastage\\%)`,
+    formulaDesc: `Where:
+- **Room Area** = Room Length × Room Width (in m²).
+- **Tile Area** = Tile Length × Tile Width (convert mm to m).
+- **Wastage** typically 5-10% for straight lay, 10-15% for diagonal.
+- **Boxes** = Total tiles / Tiles per box (rounded up).`,
+    example: `**5m × 4m room** with **600×600mm tiles**, 4 tiles/box:
+- Room area = 20 m²
+- Tile area = 0.6 × 0.6 = 0.36 m²
+- Tiles needed = 20 / 0.36 = 55.6 → **56 tiles** + 8% waste = **61 tiles**
+- Boxes = ceil(61/4) = **16 boxes**`
+  },
+  steel: {
+    formula: `W = \\frac{D^2}{162} \\times L`,
+    formulaDesc: `Where:
+- **W** is the Weight in kg per bar.
+- **D** is the Bar Diameter in mm.
+- **L** is the Length in metres.
+- The constant **162** comes from (1000² × π) / (4 × 7850), where 7850 kg/m³ is steel density.
+- This is the **BIS standard** formula used across all Indian construction sites.`,
+    example: `**10 bars of 12mm dia, 12m length each**:
+- Weight per bar = (12² / 162) × 12 = 0.889 × 12 = **10.67 kg**
+- Total weight = 10 × 10.67 = **106.7 kg**
+- Cost at ₹72/kg = **₹7,680** (approx)`
+  },
+  constructioncost: {
+    formula: `Cost = Area \\times Rate_{per\\;sqft} \\times Floors \\times Finish\\;Multiplier`,
+    formulaDesc: `Where:
+- **Area** is the built-up area per floor in sq ft.
+- **Rate** varies by city tier: Metro ₹2,500, Tier-2 ₹1,800, Tier-3 ₹1,400, Rural ₹800/sq ft.
+- **Finish Multiplier**: Basic 0.85, Standard 1.0, Premium 1.35, Luxury 1.7.
+- Multi-storey: Each floor above ground adds ~5% to per-floor cost (structural loading).`,
+    example: `**1,500 sq ft, 1 floor, Tier-2 city, Standard finish**:
+- Base cost = 1,500 × ₹1,800 = ₹27,00,000
+- Finish multiplier = 1.0
+- **Total ≈ ₹27 Lakh**
+- Breakdown: Structure ~45%, Finishing ~30%, MEP ~15%, Misc ~10%`
+  },
+  stampdutycalc: {
+    formula: `Total = Property\\;Value \\times (Stamp\\;Duty\\% + Registration\\%)`,
+    formulaDesc: `Stamp duty rates vary by state and gender:
+- **Maharashtra**: Male 6%, Female 5% + Registration 1%
+- **Karnataka**: 5% + Registration 1%
+- **Delhi**: Male 6%, Female 4% + Registration 1%
+- **Tamil Nadu**: 7% + Registration 1%
+- **Gujarat**: 4.9% + Registration 1%
+- Women buyers typically get 1-2% concession in most states.`,
+    example: `**₹50 Lakh property in Maharashtra** (male buyer):
+- Stamp Duty = 50,00,000 × 6% = **₹3,00,000**
+- Registration = 50,00,000 × 1% = **₹50,000** (capped at ₹30,000)
+- **Total registration cost ≈ ₹3,30,000**`
+  },
+  solarpanel: {
+    formula: `Payback = \\frac{System\\;Cost - Subsidy}{Annual\\;Savings}`,
+    formulaDesc: `Where:
+- **Annual generation** = System kW × 4.5 (avg daily sun hours) × 365 × 0.8 (efficiency)
+- **Annual savings** = Units generated × Electricity tariff rate
+- **Subsidy**: PM Surya Ghar scheme — ₹30,000/kW for first 2 kW, ₹18,000/kW for next 1 kW (max 3 kW)
+- **Lifetime** = 25 years with ~0.5% annual degradation.`,
+    example: `**3 kW system at ₹1,50,000**, tariff ₹8/unit:
+- Annual generation = 3 × 4.5 × 365 × 0.8 = **3,942 units**
+- Annual savings = 3,942 × ₹8 = **₹31,536**
+- Subsidy = ₹30K×2 + ₹18K×1 = **₹78,000**
+- Net cost = ₹72,000 → Payback = **~2.3 years**`
+  },
+  concretemix: {
+    formula: `Cement = \\frac{V_{dry} \\times C_{ratio}}{Sum\\;of\\;Ratios} \\div 0.035`,
+    formulaDesc: `Where:
+- **V_dry** = Wet volume × 1.54 (dry volume factor for compaction).
+- **C_ratio** = Cement part of the mix ratio (e.g., 1 in M20 = 1:1.5:3).
+- **Sum** = Total of all ratio parts (e.g., 1+1.5+3 = 5.5 for M20).
+- **0.035 m³** = volume of one 50 kg cement bag.
+- Water-cement ratio: M15 = 0.50, M20 = 0.45, M25 = 0.40.`,
+    example: `**1 m³ of M20 concrete (1:1.5:3)** with 5% wastage:
+- Dry volume = 1 × 1.54 × 1.05 = 1.617 m³
+- Cement = (1.617 / 5.5) × 1 = 0.294 m³ = **8.4 bags**
+- Sand = 0.294 × 1.5 = **0.441 m³**
+- Aggregate = 0.294 × 3 = **0.882 m³**
+- Water = 8.4 × 50 × 0.45 = **189 litres**`
+  },
+  landarea: {
+    formula: `Area_B = Area_A \\times ConversionFactor`,
+    formulaDesc: `Key Indian land area conversions:
+- 1 Acre = 43,560 sq ft = 4,047 m² = 100 Cent (South India)
+- 1 Hectare = 2.471 Acres = 10,000 m²
+- 1 Bigha (UP) = 27,000 sq ft; 1 Bigha (Raj) = 17,424 sq ft
+- 1 Gunta = 1,089 sq ft = 101.17 m² (Karnataka/Maharashtra)
+- 1 Marla = 272.25 sq ft; 1 Kanal = 20 Marla = 5,445 sq ft`,
+    example: `Convert **1 Acre** to all Indian units:
+- 1 Acre = **43,560 sq ft** = 4,047 m² = 4,840 sq yards
+- = **100 Cents** (Kerala/Tamil Nadu)
+- = **40 Guntas** (Karnataka)
+- = **1.613 Bigha** (UP) or **2.5 Bigha** (Rajasthan)
+- = **160 Marla** or **8 Kanal** (Punjab/Haryana)`
+  },
 };
 
 // ── CUSTOM FAQs ───────────────────────────────────────────
@@ -645,6 +781,48 @@ const CUSTOM_FAQS: Record<string, FAQItem[]> = {
     { q: 'What is the minimum calories I should eat?', a: 'General minimums: 1,200 kcal/day for women, 1,500 kcal/day for men. Below this, you risk nutrient deficiencies, muscle loss, hormonal disruption, gallstones, and metabolic slowdown. Very low calorie diets (800 kcal) should only be done under medical supervision for a limited time.' },
     { q: 'Can I have cheat meals while in a calorie deficit?', a: 'Yes, strategically. A planned refeed (1 higher-calorie day per week) can help psychologically and may boost leptin levels (hunger hormone). However, one large cheat meal can erase 3-4 days of deficit. Budget it: if weekly deficit is 3,500 kcal, a 1,500 kcal cheat meal reduces net weekly loss by 43%.' },
   ],
+  concrete: [
+    { q: 'How many bags of cement do I need for 1 cubic metre of concrete?', a: 'For M20 grade (1:1.5:3 mix), you need approximately 8-9 bags (50 kg each) of cement per cubic metre. For M15 (1:2:4), about 6-7 bags, and for M25 (1:1:2), about 11-12 bags. The dry volume factor of 1.54 accounts for voids that get filled during mixing.' },
+    { q: 'What concrete grade should I use for a house slab?', a: 'For residential slabs and beams, M20 (1:1.5:3) is the standard minimum as per IS 456. M25 is recommended for RCC columns, foundations, and multi-storey buildings. M15 is suitable only for lean concrete, flooring, and non-structural work. Never use below M20 for any structural member.' },
+    { q: 'How much does 1 cubic metre of concrete cost in India?', a: 'Ready-Mix Concrete (RMC) costs \u20b94,500-\u20b96,500/m\u00b3 for M20 grade depending on the city. Site-mixed concrete costs \u20b93,500-\u20b95,000/m\u00b3 (materials only). Add \u20b9500-\u20b91,000/m\u00b3 for labour, formwork, and curing. Premium grades (M30+) cost 15-25% more.' },
+    { q: 'What is the water-cement ratio and why does it matter?', a: 'Water-cement ratio (w/c) is the weight of water divided by weight of cement. M20 uses 0.45-0.50, M25 uses 0.40-0.45. Lower w/c ratio means stronger concrete but harder to work with. Too much water weakens concrete significantly: every 1% extra water reduces strength by around 5%.' },
+    { q: 'How long should concrete be cured?', a: 'Minimum 7 days for OPC cement, 10-14 days for PPC/PSC cement. Proper curing (keeping concrete moist) develops 65% strength in 7 days and 99% in 28 days. Skip curing and you may lose 30-40% of the designed strength. Use wet jute bags, ponding, or curing compounds.' },
+  ],
+  bricks: [
+    { q: 'How many bricks are needed to build a 10x10 room?', a: 'For a 10x10 ft room (4 walls, 10 ft height) in half-brick (4.5 inch) wall: Wall area = 4 x 10 x 10 = 400 sq ft = 37.2 m\u00b2. At ~49 bricks/m\u00b2 for half-brick, you need ~1,823 bricks. Deduct ~10% for openings (doors/windows), add 5% wastage. Total is approximately 1,700-1,750 standard bricks.' },
+    { q: 'What is the standard brick size in India?', a: 'Standard modular brick (IS 1077): 190 x 90 x 90 mm (nominal with mortar: 200 x 100 x 100 mm). Traditional Indian brick: 230 x 115 x 75 mm. The modular size is recommended by BIS for better bonding and reduced mortar consumption.' },
+    { q: 'What is the difference between half-brick and full-brick wall?', a: 'Half-brick wall (115mm/4.5 inch): Used for partitions, boundary walls, and non-load-bearing walls. Full-brick wall (230mm/9 inch): Used for external walls and load-bearing structures. Full-brick wall uses roughly double the bricks and mortar but provides better structural strength, sound insulation, and thermal comfort.' },
+    { q: 'How much mortar is needed per 1000 bricks?', a: 'For half-brick wall: approximately 0.25-0.30 m\u00b3 of mortar per 1000 bricks. For full-brick wall: 0.45-0.50 m\u00b3. Standard mortar mix is 1:6 (cement:sand) for internal walls and 1:4 for external/load-bearing walls. This translates to roughly 1.5-2 bags of cement per 1000 bricks.' },
+    { q: 'What are AAC blocks and are they better than clay bricks?', a: 'AAC (Autoclaved Aerated Concrete) blocks are 3x larger (600x200x200mm), 3x lighter, and provide better insulation than clay bricks. They reduce construction time by 30% and mortar by 60%. Cost is ~20% higher per m\u00b2 but saves on plastering and structural steel. Ideal for high-rise buildings and earthquake-prone zones.' },
+  ],
+  paint: [
+    { q: 'How much paint do I need for a 10x12 room?', a: 'For a 10x12 ft room with 10 ft ceiling, 1 door, 2 windows, and 2 coats of emulsion: Wall area = 2x(10+12)x10 = 440 sq ft. Minus openings = ~400 sq ft. At 130 sq ft/L coverage, you need 400x2/130 which is about 6.2 litres. Buy a 4L + 1L + 1L pack. Add primer separately (~4L).' },
+    { q: 'What is the difference between distemper and emulsion paint?', a: 'Distemper: Cheapest option (\u20b910-25/sq ft), water-based, suitable for ceilings and budget homes, not washable, 3-4 year life. Emulsion: Mid-range (\u20b920-50/sq ft), water-based, washable, stain-resistant, 5-7 year life. Enamel: Oil-based, highest durability, used for doors/windows/metal, glossy finish, 8-10 year life.' },
+    { q: 'How much does it cost to paint a 2 BHK flat?', a: 'For a typical 2 BHK (800-1000 sq ft carpet area): Interior painting with standard emulsion = \u20b930,000-\u20b950,000 (material + labour). Premium brand emulsion = \u20b950,000-\u20b980,000. With texture/design walls = \u20b980,000-\u20b91,20,000. Labour rate: \u20b925-40/sq ft in metros, \u20b915-25 in smaller cities.' },
+    { q: 'Do I need primer before painting?', a: 'Yes, primer is essential for new walls (seals porosity, improves paint adhesion), repainted walls (covers stains and old colors), and exterior walls (prevents moisture damage). Skip primer and paint may peel within 1-2 years. Use water-based primer for emulsion paint and oil-based primer for enamel paint.' },
+    { q: 'How many coats of paint are recommended?', a: 'Minimum 2 coats of finish paint over 1 coat of primer is standard. For dark colors over light walls or vice versa, you may need 3 coats. Exterior walls need 2 coats of exterior emulsion over 1 coat of exterior primer. Each additional coat adds ~30% more paint consumption.' },
+  ],
+  constructioncost: [
+    { q: 'What is the cost of constructing a house in India in 2026?', a: 'Average construction cost ranges from \u20b9800/sq ft (rural, basic) to \u20b93,500/sq ft (metro, luxury). Standard quality in Tier-2 cities: \u20b91,600-\u20b92,200/sq ft. This includes structure, finishing, plumbing, electrical, and basic fittings. Land cost, interiors, and furnishing are extra.' },
+    { q: 'What is included in the per sq ft construction rate?', a: 'The rate typically includes: civil structure (foundation, columns, beams, slabs) ~45%, finishing (plastering, painting, flooring, doors) ~30%, MEP (plumbing, electrical, fire safety) ~15%, and miscellaneous (compound wall, water tank, drainage) ~10%. It does NOT include land cost, interior design, modular kitchen, or furniture.' },
+    { q: 'How much does it cost to build a 1000 sq ft house?', a: 'At standard quality in Tier-2 city: 1,000 x \u20b91,800 = \u20b918 Lakh (structure + finishing). Add \u20b93-5 Lakh for compound wall, water tank, and site development. Total = \u20b921-23 Lakh. In metros with premium finish: \u20b935-45 Lakh. In rural areas with basic finish: \u20b910-12 Lakh.' },
+    { q: 'Is it cheaper to buy a flat or build a house?', a: 'Building is typically 20-30% cheaper per sq ft than buying a flat in the same area (excluding land). A flat at \u20b95,000/sq ft includes land cost, builder profit, and amenities. Building at \u20b92,000/sq ft is construction only. However, building requires land purchase, architect fees, approvals, and 12-18 months of your time.' },
+    { q: 'What are the hidden costs in house construction?', a: 'Commonly missed costs: architect/engineer fees (3-5% of construction), soil testing (\u20b915-25K), plan approval and permits (\u20b950K-2L), compound wall (\u20b92-5L), water/borewell connection (\u20b950K-1.5L), electrical meter and transformer (\u20b920-50K), road and drainage (\u20b91-3L), and GST on materials (5-28%). Budget 15-20% buffer over estimated cost.' },
+  ],
+  solarpanel: [
+    { q: 'Is rooftop solar worth it in India in 2026?', a: 'Yes, with 3-5 year payback and 25-year panel life, ROI is 300-500%. Key factors: PM Surya Ghar subsidy covers 40-60% of cost for up to 3 kW, electricity tariffs keep rising (~5-8% annually), and net metering lets you sell excess power. A 3 kW system saves \u20b925,000-\u20b935,000/year on electricity bills.' },
+    { q: 'What is the PM Surya Ghar Yojana subsidy?', a: 'Under PM Surya Ghar (2024 scheme): \u20b930,000/kW subsidy for first 2 kW, \u20b918,000/kW for additional capacity up to 3 kW, total max subsidy \u20b978,000. For a 3 kW system costing \u20b91.5-1.8 Lakh, your net cost after subsidy is only \u20b972,000-\u20b91,02,000. Available only for residential consumers with valid electricity connection.' },
+    { q: 'How much roof space do I need for solar panels?', a: 'Approximately 100 sq ft per kW. A 3 kW system needs ~300 sq ft of shadow-free roof area. Panels should face south (in India) with a tilt angle equal to your latitude (20-30 degrees). East-west facing roofs generate 10-15% less power. Flat roofs are ideal with adjustable tilt mounting structures.' },
+    { q: 'How many units does a 1 kW solar system generate?', a: 'A 1 kW system generates approximately 4-5 units (kWh) per day or 1,200-1,500 units/year in most Indian cities. Peak output occurs 10 AM - 3 PM. Generation varies by region: Rajasthan/Gujarat get 5+ units/kW/day, while Kerala/Northeast get 3.5-4 units. Monsoon months see 30-40% lower output.' },
+    { q: 'What maintenance does a rooftop solar system need?', a: 'Minimal maintenance: Clean panels with water every 2-4 weeks (dusty areas weekly), check wiring connections annually, and monitor inverter for errors. No moving parts to replace. Panels have 25-year warranty, inverters 5-10 years. Annual maintenance cost: \u20b92,000-\u20b95,000. Panel degradation is only 0.5-0.7% per year.' },
+  ],
+  landarea: [
+    { q: 'How many square feet is 1 acre?', a: '1 Acre = 43,560 square feet = 4,047 square metres = 4,840 square yards. In Indian context: 1 Acre = 100 Cents (Kerala/TN), 40 Guntas (Karnataka), 1.613 Bigha (UP), 2.5 Bigha (Rajasthan), 8 Kanal (Punjab). Remember: 1 Cent = 435.6 sq ft.' },
+    { q: 'What is the difference between Bigha in UP and Rajasthan?', a: '1 Bigha varies dramatically by state: UP/Bihar = 27,000 sq ft (0.62 acres), Rajasthan = 17,424 sq ft (0.4 acres), HP = 8,712 sq ft (0.2 acres), West Bengal = 14,400 sq ft (0.33 acres). Always confirm the local Bigha definition before land transactions. This is a major source of disputes in rural land deals.' },
+    { q: 'What is a Gunta and where is it used?', a: '1 Gunta (also Guntha) = 1,089 sq ft = 101.17 m\u00b2. It is used primarily in Karnataka, Maharashtra, and parts of Andhra Pradesh. 40 Guntas = 1 Acre. Land revenue records in these states often list plot sizes in Guntas. 1 Gunta is roughly a 33 ft x 33 ft plot.' },
+    { q: 'How do I convert Marla to square feet?', a: '1 Marla = 272.25 sq ft = 25.29 m\u00b2. 1 Kanal = 20 Marla = 5,445 sq ft. Used in Punjab, Haryana, J&K, and parts of Pakistan. In urban areas, residential plots are commonly 5 Marla (1,361 sq ft), 10 Marla (2,722 sq ft), or 1 Kanal (5,445 sq ft).' },
+    { q: 'What is the difference between carpet area, built-up area and super built-up area?', a: 'Carpet area = actual usable floor area inside walls (smallest). Built-up area = carpet + wall thickness + balcony (10-15% more). Super built-up area = built-up + proportionate share of common areas like lobby, stairs, lift (25-40% more than carpet). RERA mandates sale based on carpet area, but many builders still quote super built-up prices.' },
+  ],
 };
 
 // ── SOURCES / REFERENCES ──────────────────────────────────
@@ -728,6 +906,30 @@ const CUSTOM_SOURCES: Record<string, { label: string; url: string }[]> = {
   inhandsalary: [
     { label: 'Income Tax Department', url: 'https://www.incometax.gov.in/iec/foportal' },
     { label: 'EPFO — PF Contribution Rules', url: 'https://www.epfindia.gov.in/' },
+  ],
+  concrete: [
+    { label: 'IS 456:2000 — Plain and Reinforced Concrete', url: 'https://www.bis.gov.in/' },
+    { label: 'IS 10262:2019 — Concrete Mix Design', url: 'https://www.bis.gov.in/' },
+  ],
+  bricks: [
+    { label: 'IS 1077 — Common Burnt Clay Building Bricks', url: 'https://www.bis.gov.in/' },
+    { label: 'National Building Code of India (NBC) 2016', url: 'https://bis.gov.in/index.php/standards/technical-department/national-building-code/' },
+  ],
+  constructioncost: [
+    { label: 'CPWD Plinth Area Rates 2024-25', url: 'https://cpwd.gov.in/' },
+    { label: 'State Schedule of Rates (SOR)', url: 'https://cpwd.gov.in/' },
+  ],
+  stampdutycalc: [
+    { label: 'IGR Maharashtra — Stamp Duty Rates', url: 'https://igrmaharashtra.gov.in/' },
+    { label: 'Revenue Department — State-wise Stamp Duty', url: 'https://dor.gov.in/' },
+  ],
+  solarpanel: [
+    { label: 'PM Surya Ghar Muft Bijli Yojana', url: 'https://pmsuryaghar.gov.in/' },
+    { label: 'MNRE — Solar Rooftop Calculator', url: 'https://solarrooftop.gov.in/' },
+  ],
+  landarea: [
+    { label: 'Survey of India — Measurement Standards', url: 'https://www.surveyofindia.gov.in/' },
+    { label: 'Revenue Records — Land Measurement', url: 'https://dolr.gov.in/' },
   ],
 };
 

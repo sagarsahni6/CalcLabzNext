@@ -2725,5 +2725,77 @@
     "name": "Home Electrical Load Calculator",
     "title": "Home Electrical Load & MCB Wire Sizer | Calc Labz",
     "desc": "Calculate total connected electrical load in kW, peak current draw, and recommended main MCB and wire gauge sizes."
+  },
+  {
+    "id": "fenceWall",
+    "slug": "fence-boundary-wall-calculator",
+    "cat": "construction",
+    "priority": "normal",
+    "name": "Fence / Boundary Wall Calculator",
+    "title": "Fence & Boundary Wall Cost Calculator — Posts, Material & Cost | Calc Labz",
+    "desc": "Calculate posts needed, fencing material quantity and total cost for brick walls, chain link, precast and iron railing boundary walls."
+  },
+  {
+    "id": "waterproofing",
+    "slug": "waterproofing-calculator",
+    "cat": "construction",
+    "priority": "normal",
+    "name": "Waterproofing Calculator",
+    "title": "Waterproofing Cost Calculator — Material & Labour Estimate | Calc Labz",
+    "desc": "Estimate waterproofing material quantity and cost for terraces and bathrooms using cementitious, liquid membrane, bituminous or PU methods."
+  },
+  {
+    "id": "falseCeiling",
+    "slug": "false-ceiling-calculator",
+    "cat": "construction",
+    "priority": "normal",
+    "name": "False Ceiling Calculator",
+    "title": "False Ceiling Cost Calculator — Gypsum, POP, PVC & Grid | Calc Labz",
+    "desc": "Calculate panels, GI channels, screws and total cost for gypsum, POP, grid, PVC and wooden false ceiling installations."
+  },
+  {
+    "id": "columnFooting",
+    "slug": "column-footing-calculator",
+    "cat": "construction",
+    "priority": "normal",
+    "name": "Column / Footing Size Calculator",
+    "title": "Column Footing Size Calculator — Concrete & Rebar Estimate | Calc Labz",
+    "desc": "Calculate isolated footing dimensions, concrete volume and rebar quantity based on column load and soil bearing capacity."
+  },
+  {
+    "id": "windowDoor",
+    "slug": "window-door-cost-calculator",
+    "cat": "construction",
+    "priority": "normal",
+    "name": "Window & Door Cost Estimator",
+    "title": "Window & Door Cost Calculator — Wood, UPVC, Aluminium | Calc Labz",
+    "desc": "Estimate total cost for doors and windows including frames, glass, hardware and fittings across wood, UPVC, aluminium and steel materials."
+  },
+  {
+    "id": "sandGravel",
+    "slug": "sand-gravel-calculator",
+    "cat": "construction",
+    "priority": "normal",
+    "name": "Sand & Gravel Calculator",
+    "title": "Sand & Gravel Quantity Calculator — Volume, Weight & Trucks | Calc Labz",
+    "desc": "Calculate sand or gravel quantity in cubic meters, tonnes and truck loads for construction fill, base layers and leveling."
+  },
+  {
+    "id": "scaffolding",
+    "slug": "scaffolding-calculator",
+    "cat": "construction",
+    "priority": "normal",
+    "name": "Scaffolding Calculator",
+    "title": "Scaffolding Rental Cost Calculator — Frames, Planks & Lifts | Calc Labz",
+    "desc": "Estimate scaffolding rental cost, number of lifts, frames and planks needed for building construction and maintenance work."
+  },
+  {
+    "id": "carpetArea",
+    "slug": "rera-carpet-area-calculator",
+    "cat": "construction",
+    "priority": "normal",
+    "name": "RERA Carpet Area Calculator",
+    "title": "RERA Carpet Area Calculator — Super Built-Up to Carpet Area | Calc Labz",
+    "desc": "Convert super built-up area to RERA carpet area with loading factor analysis, wall deduction and effective price per carpet sq ft."
   }
 ]

@@ -16,6 +16,7 @@ import {
 import {
   calcConcrete, calcBricks, calcPaint, calcFlooring, calcSteel, calcRoofing, calcEarthwork, calcPlasterwork, calcWaterTank, calcLandArea, calcStampDuty, calcConstructionCost, calcSolarPanel, calcHomeRenovation, calcConcreteMix, calcMaterialWaste, calcRainwater,
   calcStaircase, calcSepticTank, calcElectricalLoad,
+  calcFenceWall, calcWaterproofing, calcFalseCeiling, calcColumnFooting, calcWindowDoor, calcSandGravel, calcScaffolding, calcCarpetArea,
 } from '@/lib/calculations/construction';
 import {
   calcSpeedDist, calcNewtons, calcOhmAdvanced, calcDensity, calcChemMolar, calcWavelength, calcGravitational, calcHalfLife, calcPH, calcKinematic, calcThermodynamics, calcAcceleration,
@@ -1748,11 +1749,12 @@ export const DB: Record<string, CalculatorDefinition> = {
   },
   concrete: {
     name: 'Concrete Calculator', desc: 'Cement, sand, aggregate for slabs & columns',
-    icon: 'fa-building', cat: 'construction' as CalculatorCategory,
+    icon: 'fa-building', cat: 'construction' as CalculatorCategory, badge: 'Popular',
     inputs: [
       { id: 'length', label: 'Length', default: 6, suffix: 'm' },
       { id: 'width', label: 'Width', default: 4, suffix: 'm' },
       { id: 'depth', label: 'Thickness/Depth', default: 0.15, suffix: 'm' },
+      { id: 'mix', label: 'Concrete Grade', type: 'select', options: ['M15 (1:2:4)', 'M20 (1:1.5:3)', 'M25 (1:1:2)'] },
     ],
     calc: calcConcrete,
   },
@@ -1762,6 +1764,9 @@ export const DB: Record<string, CalculatorDefinition> = {
     inputs: [
       { id: 'length', label: 'Wall Length', default: 10, suffix: 'm' },
       { id: 'height', label: 'Wall Height', default: 3, suffix: 'm' },
+      { id: 'thickness', label: 'Wall Thickness', type: 'select', options: ['Half Brick (115mm)', 'One Brick (230mm)', '1.5 Brick (345mm)'] },
+      { id: 'brickL', label: 'Brick Length', default: 230, suffix: 'mm' },
+      { id: 'brickH', label: 'Brick Height', default: 75, suffix: 'mm' },
     ],
     calc: calcBricks,
   },
@@ -1775,6 +1780,7 @@ export const DB: Record<string, CalculatorDefinition> = {
       { id: 'doors', label: 'Number of Doors', default: 1 },
       { id: 'windows', label: 'Number of Windows', default: 2 },
       { id: 'coats', label: 'Coats of Paint', default: 2 },
+      { id: 'paintType', label: 'Paint Type', type: 'select', options: ['Interior Emulsion', 'Exterior Emulsion', 'Primer', 'Distemper', 'Enamel Paint'] },
     ],
     calc: calcPaint,
   },
@@ -1787,6 +1793,7 @@ export const DB: Record<string, CalculatorDefinition> = {
       { id: 'tileL', label: 'Tile Length', default: 600, suffix: 'mm' },
       { id: 'tileW', label: 'Tile Width', default: 600, suffix: 'mm' },
       { id: 'boxQty', label: 'Tiles per Box', default: 4 },
+      { id: 'groutGap', label: 'Grout Gap', default: 3, suffix: 'mm' },
     ],
     calc: calcFlooring,
   },
@@ -1794,8 +1801,8 @@ export const DB: Record<string, CalculatorDefinition> = {
     name: 'Steel / Rebar Calculator', desc: 'Weight of steel bars for reinforcement',
     icon: 'fa-bars-progress', cat: 'construction' as CalculatorCategory,
     inputs: [
-      { id: 'dia', label: 'Bar Diameter', default: 12, suffix: 'mm' },
-      { id: 'length', label: 'Total Bar Length', default: 100, suffix: 'm' },
+      { id: 'dia', label: 'Bar Diameter', type: 'select', options: ['8', '10', '12', '16', '20', '25', '32'] },
+      { id: 'length', label: 'Bar Length', default: 12, suffix: 'm' },
       { id: 'count', label: 'Number of Bars', default: 10 },
     ],
     calc: calcSteel,
@@ -1829,6 +1836,7 @@ export const DB: Record<string, CalculatorDefinition> = {
       { id: 'length', label: 'Wall Length', default: 10, suffix: 'm' },
       { id: 'height', label: 'Wall Height', default: 3, suffix: 'm' },
       { id: 'thickness', label: 'Plaster Thickness', default: 12, suffix: 'mm' },
+      { id: 'ratio', label: 'Mix Ratio', type: 'select', options: ['1:3 (rich)', '1:4 (standard)', '1:6 (lean)'] },
     ],
     calc: calcPlasterwork,
   },
@@ -1839,6 +1847,7 @@ export const DB: Record<string, CalculatorDefinition> = {
       { id: 'people', label: 'Number of Residents', default: 4 },
       { id: 'days', label: 'Storage Days Required', default: 2 },
       { id: 'perHead', label: 'Liters per Person/Day', default: 135 },
+      { id: 'shape', label: 'Tank Shape', type: 'select', options: ['Rectangular', 'Cylindrical'] },
     ],
     calc: calcWaterTank,
   },
@@ -1847,6 +1856,7 @@ export const DB: Record<string, CalculatorDefinition> = {
     icon: 'fa-map', cat: 'construction' as CalculatorCategory, badge: 'Popular',
     inputs: [
       { id: 'areaVal', label: 'Area Value', default: 1, suffix: 'unit' },
+      { id: 'fromUnit', label: 'Convert From', type: 'select', options: ['Square Meter', 'Square Feet', 'Square Yard', 'Acre', 'Hectare', 'Bigha (UP/Bihar)', 'Bigha (Rajasthan)', 'Cent', 'Gunta', 'Marla', 'Kanal'] },
     ],
     calc: calcLandArea,
   },
@@ -1855,6 +1865,8 @@ export const DB: Record<string, CalculatorDefinition> = {
     icon: 'fa-stamp', cat: 'construction' as CalculatorCategory,
     inputs: [
       { id: 'propVal', label: 'Property Value', default: 5000000, prefix: '₹' },
+      { id: 'state', label: 'State', type: 'select', options: ['Maharashtra', 'Karnataka', 'Delhi', 'Tamil Nadu', 'UP/Bihar', 'Gujarat', 'Rajasthan'] },
+      { id: 'gender', label: 'Buyer Gender', type: 'select', options: ['Male', 'Female', 'Joint'] },
     ],
     calc: calcStampDuty,
   },
@@ -1864,6 +1876,8 @@ export const DB: Record<string, CalculatorDefinition> = {
     inputs: [
       { id: 'area_c', label: 'Built-up Area', default: 1500, suffix: 'sq ft' },
       { id: 'floors', label: 'Number of Floors', default: 1 },
+      { id: 'tier', label: 'City Tier', type: 'select', options: ['Tier-1 Metro (₹2500/sqft)', 'Tier-2 (₹1800/sqft)', 'Tier-3 (₹1400/sqft)', 'Tier-4 (₹1100/sqft)', 'Rural (₹800/sqft)'] },
+      { id: 'finishLevel', label: 'Finish Quality', type: 'select', options: ['Basic', 'Standard', 'Premium', 'Luxury'] },
     ],
     calc: calcConstructionCost,
   },
@@ -1883,6 +1897,9 @@ export const DB: Record<string, CalculatorDefinition> = {
     icon: 'fa-paint-roller', cat: 'construction' as CalculatorCategory,
     inputs: [
       { id: 'area', label: 'Total Area', default: 1000, suffix: 'sq ft' },
+      { id: 'scope', label: 'Renovation Scope', type: 'select', options: ['Full Renovation', 'Kitchen Only', 'Bathroom Only', 'Painting Only', 'Flooring Only'] },
+      { id: 'quality', label: 'Quality Level', type: 'select', options: ['Economy', 'Standard', 'Premium', 'Luxury'] },
+      { id: 'city', label: 'City Type', type: 'select', options: ['Metro (Delhi/Mumbai)', 'Tier-1 (Pune/Hyd)', 'Tier-2', 'Tier-3'] },
     ],
     calc: calcHomeRenovation,
   },
@@ -2557,6 +2574,7 @@ export const DB: Record<string, CalculatorDefinition> = {
     inputs: [
       { id: 'volume_cm', label: 'Concrete Volume Needed', default: 1, suffix: 'm³' },
       { id: 'wastage_cm', label: 'Wastage Allowance', default: 5, suffix: '%' },
+      { id: 'mixRatio', label: 'Mix Ratio', type: 'select', options: ['M10 (1:3:6)', 'M15 (1:2:4)', 'M20 (1:1.5:3)', 'M25 (1:1:2)', 'M30 (Design Mix)', 'Custom'] },
     ],
     calc: calcConcreteMix,
   },
@@ -2578,8 +2596,127 @@ export const DB: Record<string, CalculatorDefinition> = {
     inputs: [
       { id: 'roofArea_rw', label: 'Catchment / Roof Area', default: 1000, suffix: 'sq ft' },
       { id: 'annualRainfall', label: 'Annual Rainfall', default: 800, suffix: 'mm' },
+      { id: 'runoffCoeff', label: 'Runoff Coefficient', type: 'select', options: ['0.9 (concrete/metal roof)', '0.8 (tiled roof)', '0.6 (ground/gravel)', 'Custom'] },
+      { id: 'dailyDemand_rw', label: 'Daily Water Demand', default: 500, suffix: 'litres' },
     ],
     calc: calcRainwater,
+  },
+  staircase: {
+    name: 'Staircase Calculator', desc: 'Riser, tread, stringer length and 2R+T comfort check',
+    icon: 'fa-stairs', cat: 'construction' as CalculatorCategory,
+    inputs: [
+      { id: 'totalRise', label: 'Total Floor Height', default: 3000, suffix: 'mm' },
+      { id: 'targetRiser', label: 'Target Riser Height', default: 175, suffix: 'mm' },
+      { id: 'targetTread', label: 'Target Tread Depth', default: 275, suffix: 'mm' },
+    ],
+    calc: calcStaircase,
+  },
+  septicTank: {
+    name: 'Septic Tank Size Calculator', desc: 'Tank dimensions based on users and desludging interval',
+    icon: 'fa-toilet', cat: 'construction' as CalculatorCategory,
+    inputs: [
+      { id: 'users', label: 'Number of Users', default: 6 },
+      { id: 'waterPerPerson', label: 'Water Usage per Person', default: 150, suffix: 'L/day' },
+      { id: 'interval', label: 'Desludging Interval', default: 2, suffix: 'years' },
+    ],
+    calc: calcSepticTank,
+  },
+  electricalLoad: {
+    name: 'Home Electrical Load Calculator', desc: 'Connected load, MCB size, inverter recommendation',
+    icon: 'fa-bolt', cat: 'construction' as CalculatorCategory,
+    inputs: [
+      { id: 'acCount', label: 'Number of ACs', default: 1 },
+      { id: 'fansCount', label: 'Number of Fans', default: 4 },
+      { id: 'lightsCount', label: 'Number of Lights', default: 10 },
+      { id: 'geyserCount', label: 'Number of Geysers', default: 1 },
+      { id: 'fridgeCount', label: 'Refrigerators', default: 1 },
+      { id: 'tvCount', label: 'TVs / Monitors', default: 1 },
+      { id: 'ovenCount', label: 'Ovens / Microwaves', default: 0 },
+    ],
+    calc: calcElectricalLoad,
+  },
+  fenceWall: {
+    name: 'Fence / Boundary Wall Calculator', desc: 'Posts, fencing material and cost for compound walls',
+    icon: 'fa-border-top-left', cat: 'construction' as CalculatorCategory, badge: 'New',
+    inputs: [
+      { id: 'fenceLength', label: 'Total Boundary Length', default: 100, suffix: 'm' },
+      { id: 'fenceHeight', label: 'Wall/Fence Height', default: 2, suffix: 'm' },
+      { id: 'pillarSpacing', label: 'Pillar Spacing', default: 3, suffix: 'm' },
+      { id: 'fenceMaterial', label: 'Material Type', type: 'select', options: ['Brick Wall', 'Chain Link Fence', 'Precast Compound Wall', 'Iron Railing', 'Barbed Wire'] },
+    ],
+    calc: calcFenceWall,
+  },
+  waterproofing: {
+    name: 'Waterproofing Calculator', desc: 'Material quantity and cost for terrace & bathroom waterproofing',
+    icon: 'fa-droplet', cat: 'construction' as CalculatorCategory, badge: 'New',
+    inputs: [
+      { id: 'wpArea', label: 'Area to Waterproof', default: 100, suffix: 'm²' },
+      { id: 'wpMethod', label: 'Waterproofing Method', type: 'select', options: ['Cementitious Coating', 'Liquid Membrane', 'Bituminous Coating', 'PU (Polyurethane)', 'APP Membrane Sheet'] },
+      { id: 'wpCoats', label: 'Number of Coats', default: 2 },
+    ],
+    calc: calcWaterproofing,
+  },
+  falseCeiling: {
+    name: 'False Ceiling Calculator', desc: 'Panels, channels, screws and cost estimate',
+    icon: 'fa-maximize', cat: 'construction' as CalculatorCategory, badge: 'New',
+    inputs: [
+      { id: 'fcLength', label: 'Room Length', default: 5, suffix: 'm' },
+      { id: 'fcWidth', label: 'Room Width', default: 4, suffix: 'm' },
+      { id: 'fcMaterial', label: 'Ceiling Material', type: 'select', options: ['Gypsum Board', 'POP (Plaster of Paris)', 'Grid / Mineral Fiber', 'PVC Panel', 'Wooden'] },
+    ],
+    calc: calcFalseCeiling,
+  },
+  columnFooting: {
+    name: 'Column / Footing Size Calculator', desc: 'Footing dimensions, concrete and rebar for columns',
+    icon: 'fa-arrows-down-to-line', cat: 'construction' as CalculatorCategory, badge: 'New',
+    inputs: [
+      { id: 'colLoad', label: 'Column Load', default: 500, suffix: 'kN' },
+      { id: 'soilBearing', label: 'Soil Bearing Capacity', default: 150, suffix: 'kN/m²' },
+      { id: 'colSize', label: 'Column Size', default: 300, suffix: 'mm' },
+    ],
+    calc: calcColumnFooting,
+  },
+  windowDoor: {
+    name: 'Window & Door Cost Estimator', desc: 'Frame, glass and hardware cost for all openings',
+    icon: 'fa-door-open', cat: 'construction' as CalculatorCategory, badge: 'New',
+    inputs: [
+      { id: 'doorCount', label: 'Number of Doors', default: 3 },
+      { id: 'windowCount', label: 'Number of Windows', default: 4 },
+      { id: 'wdMaterial', label: 'Material Type', type: 'select', options: ['Wooden (Teak)', 'Wooden (Sal)', 'UPVC', 'Aluminium', 'Steel'] },
+    ],
+    calc: calcWindowDoor,
+  },
+  sandGravel: {
+    name: 'Sand & Gravel Calculator', desc: 'Quantity in m³, tonnes and truck loads',
+    icon: 'fa-mound', cat: 'construction' as CalculatorCategory, badge: 'New',
+    inputs: [
+      { id: 'sgArea', label: 'Area', default: 50, suffix: 'm²' },
+      { id: 'sgDepth', label: 'Depth/Thickness', default: 150, suffix: 'mm' },
+      { id: 'sgMaterial', label: 'Material Type', type: 'select', options: ['River Sand', 'M-Sand (Manufactured)', 'Pit Sand', 'Gravel (20mm)', 'Gravel (40mm)', 'Stone Dust'] },
+    ],
+    calc: calcSandGravel,
+  },
+  scaffolding: {
+    name: 'Scaffolding Calculator', desc: 'Frames, planks, lifts and rental cost estimate',
+    icon: 'fa-building-lock', cat: 'construction' as CalculatorCategory, badge: 'New',
+    inputs: [
+      { id: 'scHeight', label: 'Building Height', default: 12, suffix: 'm' },
+      { id: 'scPerimeter', label: 'Building Perimeter', default: 60, suffix: 'm' },
+      { id: 'scType', label: 'Scaffold Type', type: 'select', options: ['Steel Tubular', 'H-Frame', 'Cup-Lock', 'Bamboo'] },
+      { id: 'scDuration', label: 'Rental Duration', default: 30, suffix: 'days' },
+    ],
+    calc: calcScaffolding,
+  },
+  carpetArea: {
+    name: 'RERA Carpet Area Calculator', desc: 'Carpet area from super built-up with loading factor',
+    icon: 'fa-ruler-combined', cat: 'construction' as CalculatorCategory, badge: 'New',
+    inputs: [
+      { id: 'superBuiltUp', label: 'Super Built-Up Area', default: 1200, suffix: 'sq ft' },
+      { id: 'loadingPct', label: 'Loading Factor', default: 30, suffix: '%' },
+      { id: 'balconyArea', label: 'Balcony Area', default: 50, suffix: 'sq ft' },
+      { id: 'pricePerSqft', label: 'Price per Sq Ft (Super Built-Up)', default: 5000, prefix: '₹' },
+    ],
+    calc: calcCarpetArea,
   },
   ecomprofit: {
     name: 'E-commerce Profit Calculator', desc: 'True profit per order with all hidden costs included',
@@ -3195,42 +3332,6 @@ export const DB: Record<string, CalculatorDefinition> = {
       { id: 'tolerance_r', label: 'Tolerance Color', default: 'Gold', options: ['Brown', 'Red', 'Green', 'Blue', 'Violet', 'Gold', 'Silver'] },
     ],
     calc: calcResistorDecode,
-  },
-
-  // ── Phase 3: Construction (3 new) ──────────────────
-  staircase: {
-    name: 'Staircase Calculator', desc: 'Calculate the number of steps, rise height, tread depth, and compliance angle',
-    icon: 'fa-stairs', cat: 'construction' as CalculatorCategory,
-    inputs: [
-      { id: 'totalRise', label: 'Total Rise (Floor to Floor height)', default: 3000, suffix: 'mm' },
-      { id: 'targetRiser', label: 'Target Riser Height', default: 175, suffix: 'mm' },
-      { id: 'targetTread', label: 'Target Tread Depth', default: 275, suffix: 'mm' },
-    ],
-    calc: calcStaircase,
-  },
-  septicTank: {
-    name: 'Septic Tank Size Calculator', desc: 'Estimate required septic tank capacity and dimensions based on family size',
-    icon: 'fa-arrows-down-to-people', cat: 'construction' as CalculatorCategory,
-    inputs: [
-      { id: 'users', label: 'Number of Active Users', default: 6 },
-      { id: 'waterPerPerson', label: 'Daily Water Consumption', default: 135, suffix: 'L/day' },
-      { id: 'interval', label: 'Desludging Interval', default: 3, suffix: 'years' },
-    ],
-    calc: calcSepticTank,
-  },
-  electricalLoad: {
-    name: 'Home Electrical Load Calculator', desc: 'Calculate connected load kW, peak current, MCB, and wire size for home appliances',
-    icon: 'fa-plug', cat: 'construction' as CalculatorCategory,
-    inputs: [
-      { id: 'acCount', label: '1.5 Ton ACs (1500W each)', default: 2 },
-      { id: 'fansCount', label: 'Ceiling Fans (75W each)', default: 5 },
-      { id: 'lightsCount', label: 'LED Lights (15W each)', default: 12 },
-      { id: 'geyserCount', label: 'Water Geysers (2000W each)', default: 1 },
-      { id: 'fridgeCount', label: 'Refrigerators (300W each)', default: 1 },
-      { id: 'tvCount', label: 'LED TVs (100W each)', default: 2 },
-      { id: 'ovenCount', label: 'Microwaves/Ovens (1500W each)', default: 1 },
-    ],
-    calc: calcElectricalLoad,
   },
 };
 

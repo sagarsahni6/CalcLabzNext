@@ -16,6 +16,7 @@ import {
 import {
   calcConcrete, calcBricks, calcPaint, calcFlooring, calcSteel, calcRoofing, calcEarthwork, calcPlasterwork, calcWaterTank, calcLandArea, calcStampDuty, calcConstructionCost, calcSolarPanel, calcHomeRenovation, calcConcreteMix, calcMaterialWaste, calcRainwater,
   calcStaircase, calcSepticTank, calcElectricalLoad,
+  calcFenceWall, calcWaterproofing, calcFalseCeiling, calcColumnFooting, calcWindowDoor, calcSandGravel, calcScaffolding, calcCarpetArea,
 } from '@/lib/calculations/construction';
 import {
   calcSpeedDist, calcNewtons, calcOhmAdvanced, calcDensity, calcChemMolar, calcWavelength, calcGravitational, calcHalfLife, calcPH, calcKinematic, calcThermodynamics, calcAcceleration,
@@ -373,6 +374,15 @@ const calcRegistry: Record<string, CalcFunction> = {
   staircase: calcStaircase,
   septicTank: calcSepticTank,
   electricalLoad: calcElectricalLoad,
+  // Phase 4 — New Construction
+  fenceWall: calcFenceWall,
+  waterproofing: calcWaterproofing,
+  falseCeiling: calcFalseCeiling,
+  columnFooting: calcColumnFooting,
+  windowDoor: calcWindowDoor,
+  sandGravel: calcSandGravel,
+  scaffolding: calcScaffolding,
+  carpetArea: calcCarpetArea,
 };
 
 export function getCalcFunction(calcId: string): CalcFunction | null {

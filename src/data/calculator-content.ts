@@ -567,9 +567,84 @@ Common splits: Balanced (30/30/40), Low-carb (40/40/20), Keto (30/65/5)`,
 - = **1.613 Bigha** (UP) or **2.5 Bigha** (Rajasthan)
 - = **160 Marla** or **8 Kanal** (Punjab/Haryana)`
   },
+  heartrate: {
+    formula: `MHR = 220 - Age`,
+    formulaDesc: `**Karvonen Target HR** (more accurate with resting HR):\n- **Target HR** = Resting HR + (HRR \u00d7 %Intensity)\n- **HRR** = Max HR \u2212 Resting HR (Heart Rate Reserve)\n- Tanaka formula (more accurate for older adults): **208 \u2212 0.7 \u00d7 Age**\n- Zone 2 (60\u201370% HRR) = optimal fat-burning zone\n- Zone 4 (80\u201390% HRR) = lactate threshold training`,
+    example: `For a **30-year-old** with resting HR of **65 bpm**:\n- Max HR = 220 \u2212 30 = **190 bpm**\n- HRR = 190 \u2212 65 = **125 bpm**\n- Zone 2 (60%): 65 + 125 \u00d7 0.60 = **140 bpm**\n- Zone 4 (80%): 65 + 125 \u00d7 0.80 = **165 bpm**`
+  },
+  bloodpressure: {
+    formula: `MAP = DBP + \\\\frac{SBP - DBP}{3}`,
+    formulaDesc: `**ACC/AHA 2017 Guidelines**:\n- **Normal**: SBP < 120 AND DBP < 80\n- **Elevated**: SBP 120\u2013129 AND DBP < 80\n- **Stage 1**: SBP 130\u2013139 OR DBP 80\u201389\n- **Stage 2**: SBP \u2265 140 OR DBP \u2265 90\n- **Crisis**: SBP > 180 OR DBP > 120\n- **Pulse Pressure** = SBP \u2212 DBP (normal 30\u201360 mmHg)\n- **MAP** normal range: 70\u2013100 mmHg`,
+    example: `Blood pressure reading: **135/85 mmHg**:\n- Category: **Stage 1 Hypertension** (SBP \u2265 130)\n- Pulse Pressure = 135 \u2212 85 = **50 mmHg** (Normal)\n- MAP = 85 + (135 \u2212 85)/3 = **102 mmHg** (slightly elevated)\n- Action: Lifestyle changes + consider medication`
+  },
+  pregnancy: {
+    formula: `Due\\\\;Date = LMP + 280\\\\;days`,
+    formulaDesc: `**Naegele's Rule** for estimating due date:\n- Add **280 days (40 weeks)** to the first day of Last Menstrual Period (LMP)\n- **Conception** typically occurs ~14 days after LMP\n- Only **5%** of babies are born on the exact due date\n- Full-term range: 37\u201342 weeks`,
+    example: `LMP: **1 January 2026**:\n- Due Date = 1 Jan + 280 days = **8 October 2026**\n- Conception \u2248 **15 January 2026**\n- 1st Trimester: Weeks 1\u201312 (Jan\u2013Mar)\n- 2nd Trimester: Weeks 13\u201326 (Apr\u2013Jun)\n- 3rd Trimester: Weeks 27\u201340 (Jul\u2013Oct)`
+  },
+  calories: {
+    formula: `Burned = \\\\frac{MET \\\\times 3.5 \\\\times Weight}{200} \\\\times Duration`,
+    formulaDesc: `Where:\n- **MET** = Metabolic Equivalent of Task (1 MET = resting energy)\n- **Weight** in kilograms, **Duration** in minutes\n- Common METs: Walking 3.5, Running 10, Cycling 8, Swimming 7, HIIT 12\n- **1 kg fat \u2248 7,700 kcal** (to lose 1 kg, burn 7,700 extra kcal)`,
+    example: `**70 kg person jogging (MET 7) for 30 minutes**:\n- Burned = (7 \u00d7 3.5 \u00d7 70 / 200) \u00d7 30\n- Burned = 8.575 \u00d7 30 = **257 kcal**\n- Fat burned \u2248 257 / 7700 \u00d7 1000 = **33g**`
+  },
+  sleep: {
+    formula: `Bedtime = WakeTime - (Cycles \\\\times 90\\\\;min) - 14\\\\;min`,
+    formulaDesc: `Sleep cycle science:\n- Each sleep cycle lasts **~90 minutes** (NREM stages 1-3 \u2192 REM)\n- Waking at the end of a cycle = less grogginess\n- **14 minutes** is the average time to fall asleep\n- Recommended: **5\u20136 cycles** (7.5\u20139 hours) per night`,
+    example: `Wake time: **6:30 AM**:\n- 6 cycles (9h): Bedtime = **9:16 PM**\n- 5 cycles (7.5h): Bedtime = **10:46 PM**\n- 4 cycles (6h): Bedtime = **12:16 AM**\n- Best choice for most adults: **10:46 PM** (5 cycles + buffer)`
+  },
+  cholesterolratio: {
+    formula: `Ratio = \\\\frac{Total\\\\;Cholesterol}{HDL}`,
+    formulaDesc: `Key lipid ratios:\n- **Total/HDL Ratio**: Ideal < 3.5, Moderate 3.5\u20135.0, High > 5.0\n- **LDL/HDL Ratio**: Ideal < 2.5\n- **Non-HDL** = Total \u2212 HDL\n- **VLDL** \u2248 Triglycerides / 5 (Friedewald estimation)\n- **Atherogenic Index** = log\u2081\u2080(Triglycerides / HDL)`,
+    example: `Total: **220**, HDL: **55**, LDL: **130**, Triglycerides: **175**:\n- Total/HDL = 220/55 = **4.0** (Moderate risk)\n- LDL/HDL = 130/55 = **2.36** (Low risk \u2713)\n- Non-HDL = **165 mg/dL** (elevated)\n- VLDL = 175/5 = **35 mg/dL**`
+  },
+  diabetesrisk: {
+    formula: `Score = Age_{pts} + BMI_{pts} + Waist_{pts} + Family_{pts} + Activity_{pts}`,
+    formulaDesc: `Based on the **FINDRISC** scoring:\n- **Age**: <40 = 0, 40-49 = 1, 50-59 = 2, 60+ = 3\n- **BMI**: <25 = 0, 25-30 = 1, 30-35 = 2, 35+ = 3\n- **Waist**: \u226594cm = +1, \u2265102cm = +1 more\n- **Family**: Parent/Sibling = +2, Both Parents = +4\n- **Activity**: Inactive = +2\n- \u22643 Low, 4\u20138 Moderate, 9\u201312 High, >12 Very High`,
+    example: `55-year-old, BMI 28, waist 100cm, parent has diabetes, active:\n- Age (55): +2, BMI (28): +1, Waist (100): +1, Family: +2, Active: +0\n- Total: **6/22** \u2192 **Moderate Risk** (1\u20135% chance in 10 years)`
+  },
+  idealweight: {
+    formula: `Hamwi: M = 48 + 2.7 \\\\times inches\\\\;over\\\\;5ft`,
+    formulaDesc: `Four formulas:\n- **Hamwi**: Men = 48 + 2.7\u00d7in, Women = 45.5 + 2.2\u00d7in\n- **Miller**: Men = 56.2 + 1.41\u00d7in, Women = 53.1 + 1.36\u00d7in\n- **Robinson**: Men = 52 + 1.9\u00d7in, Women = 49 + 1.7\u00d7in\n- **BMI 22 Target**: Weight = 22 \u00d7 Height(m)\u00b2`,
+    example: `For a **175 cm (5'9") male**:\n- Hamwi = 48 + 2.7 \u00d7 9 = **72.3 kg**\n- Miller = 56.2 + 1.41 \u00d7 9 = **68.9 kg**\n- BMI 22 = 22 \u00d7 1.75\u00b2 = **67.4 kg**`
+  },
+  proteinintake: {
+    formula: `Protein = Weight \\\\times Activity\\\\;Factor \\\\times Goal\\\\;Factor`,
+    formulaDesc: `Evidence-based protein recommendations:\n- **Sedentary RDA**: 0.8g/kg (minimum)\n- **Active Adults**: 1.2\u20131.6g/kg\n- **Muscle Building**: 1.6\u20132.2g/kg\n- **Fat Loss**: 1.6\u20132.4g/kg (preserves muscle in deficit)\n- Source: ISSN Position Stand on Protein`,
+    example: `**80 kg male**, moderately active, building muscle:\n- 80 \u00d7 1.2 \u00d7 1.6 = **154g/day**\n- Per meal (4 meals): **38g** (~150g chicken breast)\n- Calories from protein: 154 \u00d7 4 = **616 kcal**`
+  },
+  onerepmax: {
+    formula: `1RM = Weight \\\\times \\\\left(1 + \\\\frac{Reps}{30}\\\\right)`,
+    formulaDesc: `Four estimation formulas (averaged):\n- **Epley**: W \u00d7 (1 + R/30)\n- **Brzycki**: W \u00d7 (36 / (37 \u2212 R))\n- **Lombardi**: W \u00d7 R^0.10\n- **O'Conner**: W \u00d7 (1 + 0.025 \u00d7 R)\n- Most accurate with 3\u201310 reps; less reliable above 15.`,
+    example: `Bench pressed **80 kg for 6 reps**:\n- Epley: 80 \u00d7 (1 + 6/30) = **96 kg**\n- Brzycki: 80 \u00d7 (36/31) = **93 kg**\n- Average 1RM \u2248 **95 kg**\n- Training: 80% = 76 kg (8 reps), 70% = 66 kg (12 reps)`
+  },
+  runningpace: {
+    formula: `Predicted = Base \\\\times \\\\left(\\\\frac{Target}{Base\\\\;Dist}\\\\right)^{1.06}`,
+    formulaDesc: `**Riegel Formula** for race prediction:\n- Exponent 1.06 models fatigue factor\n- Most accurate within 2\u00d7 of base distance\n- Pace = Time / Distance (min/km)\n- Speed = Distance / (Time/60) (km/h)`,
+    example: `Ran **5K in 25 minutes**:\n- Predicted 10K: 25 \u00d7 (10/5)^1.06 = **52 min** (5:12 /km)\n- Predicted Half: 25 \u00d7 (21.1/5)^1.06 = **115 min** (5:27 /km)\n- Predicted Marathon: 25 \u00d7 (42.2/5)^1.06 = **242 min** (5:44 /km)`
+  },
+  vo2max: {
+    formula: `VO_2Max = \\\\frac{Distance - 504.9}{44.73}`,
+    formulaDesc: `Three estimation methods:\n- **Cooper 12-min Run**: (Distance \u2212 504.9) / 44.73\n- **1.5 Mile Run**: 483 / Time(min) + 3.5\n- **Resting HR**: 15.3 \u00d7 (MHR / Resting HR)\n- Rating: <30 Poor, 30\u201340 Below Avg, 40\u201350 Good, 50\u201360 Excellent, 60+ Elite`,
+    example: `Cooper test: **2,400 meters in 12 min**:\n- VO\u2082 Max = (2400 \u2212 504.9) / 44.73 = **42.4 ml/kg/min**\n- Rating: **Good** (Top 25%)\n- Predicted marathon: \u2248 **142 min** (2h 22m)`
+  },
+  water: {
+    formula: `Daily\\\\;Water = Weight \\\\times Activity\\\\;Factor`,
+    formulaDesc: `Activity Factors:\n- Sedentary = 30ml/kg, Moderate = 35ml/kg, Active = 40ml/kg, Very Active = 45ml/kg\n- IOM: Men ~3.7L/day, Women ~2.7L/day (including food)\n- ~20% from food, increase 500ml+ during exercise/heat`,
+    example: `**70 kg, moderately active**:\n- 70 \u00d7 35 = **2,450 ml** (2.45 L)\n- Glasses (250ml): **10 glasses**\n- Hourly: 2,450 / 16 waking hrs = **153 ml/hour**`
+  },
+  smokingcost: {
+    formula: `Annual = \\\\frac{Cigs/Day}{20} \\\\times Pack\\\\;Price \\\\times 365`,
+    formulaDesc: `Financial impact:\n- If invested at 12%: FV = Annual \u00d7 ((1.12^Years \u2212 1) / 0.12)\n- Health timeline after quitting: 20 min (BP normalizes), 1 year (heart risk halves), 10 years (lung cancer risk halves)`,
+    example: `**10 cigs/day** at \u20b9300/pack for **15 years**:\n- Annual: **\u20b954,750**\n- Total: **\u20b98,21,250**\n- If invested @12%: **\u20b920,39,876**\n- Lost: **\u20b912.2 Lakh** in missed returns`
+  },
+  sleepdebt: {
+    formula: `Debt = (Needed - Actual) \\\\times Days`,
+    formulaDesc: `Sleep debt effects:\n- Debt > 8 hrs = moderate cognitive impairment\n- Debt > 16 hrs = equivalent to **0.1% blood alcohol**\n- Recovery: ~2 extra hours/night\n- Chronic debt increases: obesity +55%, diabetes +28%, depression +2.5\u00d7`,
+    example: `Need **8 hours**, sleep **6 hours** for **7 days**:\n- Nightly deficit: 2 hours, Weekly debt: **14 hours**\n- Impact: **Severe** cognitive impairment\n- Recovery: ~7 nights of 10-hour sleep`
+  },
 };
 
-// ── CUSTOM FAQs ───────────────────────────────────────────
+// \u2500\u2500 CUSTOM FAQs \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 const CUSTOM_FAQS: Record<string, FAQItem[]> = {
   emi: [
     { q: 'What is a Loan EMI?', a: 'EMI stands for Equated Monthly Installment. It is a fixed amount of money that a borrower pays back to a lender (bank or NBFC) every calendar month until the loan is fully repaid. It consists of both the interest component and the principal component.' },

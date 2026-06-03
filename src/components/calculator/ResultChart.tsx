@@ -257,7 +257,11 @@ export default function ResultChart({ chart, calcId }: ResultChartProps) {
   }, [chart]);
 
   // Determine if this is a comparison calculator
-  const isComparison = calcId === 'taxregime' || calcId === 'rentvsbuy' || calcId === 'loancompare';
+  // Calculators where labels+data should render as bar chart (comparison/zones) not donut
+  const isComparison = calcId === 'taxregime' || calcId === 'rentvsbuy' || calcId === 'loancompare'
+    || calcId === 'bmr' || calcId === 'heartrate' || calcId === 'bloodpressure'
+    || calcId === 'cholesterolratio' || calcId === 'sleep' || calcId === 'vo2max'
+    || calcId === 'idealweight' || calcId === 'bsa' || calcId === 'electrolyte';
 
   return (
     <div style={{

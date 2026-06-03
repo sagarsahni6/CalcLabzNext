@@ -332,7 +332,98 @@ export function getInterpretation(
       return { severity: 'info', emoji: 'fa-cake-candles', title: 'Age Calculator', message: `Your exact age: ${mainStr}.`, advice: 'Your chronological age is just a number. Biological age (fitness, health markers) matters more. Regular exercise can make your biological age 10+ years younger.' };
     }
 
-    // ── Math & Education ────────────────────────────
+    case 'anemia': {
+      if (mainStr.includes('Normal')) return { severity: 'success', emoji: 'fa-heart', title: 'Normal Hemoglobin', message: 'Your hemoglobin is within the healthy range.', advice: 'Maintain with iron-rich foods: spinach, lentils, red meat, and vitamin C to aid absorption.' };
+      if (mainStr.includes('Mild')) return { severity: 'warning', emoji: 'fa-droplet', title: 'Mild Anemia', message: 'Your hemoglobin is slightly below normal.', advice: 'Increase iron-rich foods (spinach, liver, lentils). Pair with vitamin C. Avoid tea/coffee with meals as they block iron absorption.' };
+      if (mainStr.includes('Moderate')) return { severity: 'warning', emoji: 'fa-triangle-exclamation', title: 'Moderate Anemia', message: 'Your hemoglobin is significantly below normal.', advice: 'See a doctor. Iron supplements are likely needed. Get a complete blood count (CBC) and ferritin test.' };
+      return { severity: 'danger', emoji: 'fa-circle-exclamation', title: 'Severe Anemia', message: 'Your hemoglobin is dangerously low.', advice: 'Seek urgent medical attention. Severe anemia can cause organ damage. Blood transfusion may be needed.' };
+    }
+
+    case 'lungcapacity': {
+      return { severity: 'info', emoji: 'fa-lungs', title: 'Lung Function', message: `Predicted FVC: ${mainStr}.`, advice: 'A normal FEV1/FVC ratio is >70%. Values below may indicate COPD or asthma. Regular aerobic exercise, diaphragmatic breathing, and avoiding smoking improve lung capacity.' };
+    }
+
+    case 'vitamins': {
+      if (mainStr.includes('Sufficient')) return { severity: 'success', emoji: 'fa-sun', title: 'Adequate Vitamin D', message: 'Your estimated vitamin D status is likely sufficient.', advice: 'Maintain with 15-20 min of midday sun exposure. Continue 1000 IU/day supplementation. Retest levels annually.' };
+      if (mainStr.includes('Insufficient')) return { severity: 'warning', emoji: 'fa-cloud-sun', title: 'Insufficient Vitamin D', message: 'Your estimated vitamin D status is below optimal.', advice: 'Supplement with 2000 IU/day. Increase sun exposure. Eat fortified foods, fatty fish, and egg yolks. Get a 25(OH)D blood test.' };
+      return { severity: 'danger', emoji: 'fa-triangle-exclamation', title: 'Vitamin D Deficient', message: 'You are likely vitamin D deficient.', advice: 'Take 4000 IU/day supplement. Deficiency causes bone loss, fatigue, and weakened immunity. Get a blood test and consult your doctor.' };
+    }
+
+    case 'ibw': {
+      return { severity: 'info', emoji: 'fa-weight-scale', title: 'Ideal Body Weight', message: `Ideal weight: ${mainStr}.`, advice: 'Ideal weight formulas provide estimates — your body composition matters more. Focus on being within a healthy BMI range (18.5-24.9) and maintaining good muscle mass.' };
+    }
+
+    case 'bsa': {
+      return { severity: 'info', emoji: 'fa-user', title: 'Body Surface Area', message: `Your BSA: ${mainStr}.`, advice: 'BSA is used clinically for drug dosing (chemotherapy, burn care), cardiac index calculations, and metabolic rate estimation. Normal adult BSA ranges from 1.6 to 2.0 m².' };
+    }
+
+    case 'smokingcost': {
+      const cost = parseInt(mainStr.replace(/[₹,]/g, ''));
+      if (isNaN(cost) || cost === 0) return { severity: 'info', emoji: 'fa-ban-smoking', title: 'Non-Smoker', message: 'Great! You don\'t have smoking costs.', advice: 'Stay smoke-free. Even second-hand smoke increases health risks.' };
+      return { severity: 'danger', emoji: 'fa-smoking', title: 'Smoking Financial Impact', message: `Annual smoking cost: ${mainStr}.`, advice: 'After quitting: 20 min — BP normalizes, 1 year — heart disease risk halves, 5 years — stroke risk equals non-smoker, 10 years — lung cancer risk halves. The money saved could fund a retirement corpus.' };
+    }
+
+    case 'childheight': {
+      return { severity: 'info', emoji: 'fa-child', title: 'Height Prediction', message: `Predicted adult height: ${mainStr}.`, advice: 'This mid-parental height method has ±8.5cm variance. Genetics accounts for ~80%, nutrition and sleep for ~20%. Ensure adequate protein, calcium, and 8-10 hours sleep during growth years.' };
+    }
+
+    case 'leanbodymass': {
+      return { severity: 'info', emoji: 'fa-dumbbell', title: 'Lean Body Mass', message: `Your lean mass: ${mainStr}.`, advice: 'FFMI (Fat-Free Mass Index) above 25 is near the natural genetic limit. Focus on progressive overload, adequate protein (1.6-2.2g/kg), and sleep to maximize lean mass.' };
+    }
+
+    case 'caloriegoal': {
+      if (mainStr.includes('kcal')) {
+        const cals = parseInt(mainStr);
+        if (!isNaN(cals) && cals < 1400) return { severity: 'warning', emoji: 'fa-triangle-exclamation', title: 'Aggressive Target', message: `Daily target: ${mainStr} — this may be too aggressive.`, advice: 'Eating below 1500 kcal (men) or 1200 kcal (women) can slow metabolism and cause nutrient deficiencies. Consider extending your timeline for safer weight loss.' };
+      }
+      return { severity: 'info', emoji: 'fa-bullseye', title: 'Calorie Goal Set', message: `Your daily target: ${mainStr}.`, advice: 'Track for 2-3 weeks to build awareness. Weigh weekly at the same time. Adjust by 100-200 kcal if progress stalls after 2 weeks.' };
+    }
+
+    case 'electrolyte': {
+      return { severity: 'info', emoji: 'fa-glass-water-droplet', title: 'Hydration Plan', message: `Recommended fluid intake: ${mainStr}.`, advice: 'Electrolytes are critical during exercise, hot weather, and illness. Signs of imbalance: muscle cramps, headache, fatigue. Add a pinch of salt and lemon to water during intense workouts.' };
+    }
+
+    case 'waistHeightRatio': {
+      const ratio = parseFloat(mainStr);
+      if (isNaN(ratio)) return null;
+      if (ratio < 0.5) return { severity: 'success', emoji: 'fa-heart', title: 'Healthy Ratio', message: `WHtR of ${ratio.toFixed(3)} — excellent.`, advice: 'A waist-to-height ratio below 0.5 indicates low visceral fat risk. This is one of the best predictors of cardiovascular health.' };
+      if (ratio < 0.58) return { severity: 'warning', emoji: 'fa-triangle-exclamation', title: 'Elevated Risk', message: `WHtR of ${ratio.toFixed(3)} — above the 0.5 threshold.`, advice: 'Focus on reducing visceral fat through aerobic exercise (walking 30 min/day), reducing refined carbs, and increasing fiber intake.' };
+      return { severity: 'danger', emoji: 'fa-heartbeat', title: 'High Risk', message: `WHtR of ${ratio.toFixed(3)} — significantly elevated.`, advice: 'Your waist circumference significantly exceeds healthy limits. Consult a doctor for cardiovascular risk assessment. Prioritize waist reduction over scale weight.' };
+    }
+
+    case 'pregnancyweight': {
+      if (mainStr.includes('kg')) {
+        if (mainStr.includes('On track') || mainStr.includes('✓')) return { severity: 'success', emoji: 'fa-baby', title: 'On Track', message: `Weight gain is within recommended range.`, advice: 'Continue balanced nutrition. Focus on protein, folate, iron, and calcium. Aim for 300 extra kcal/day in 2nd trimester, 450 in 3rd.' };
+      }
+      return { severity: 'info', emoji: 'fa-baby', title: 'Pregnancy Weight', message: `Weight gained: ${mainStr}.`, advice: 'Weight gain varies by pre-pregnancy BMI. Underweight women need more gain (12.5-18 kg), overweight women less (7-11.5 kg). Consult your OB-GYN for personalized guidance.' };
+    }
+
+    case 'breastmilk': {
+      return { severity: 'info', emoji: 'fa-baby', title: 'Feeding Guide', message: `Daily intake needed: ${mainStr}.`, advice: 'Feed on demand — hunger cues include lip smacking, rooting, and hand-to-mouth. Adequate wet diapers (6+/day) indicate sufficient intake. Breast milk composition adapts to baby\'s needs.' };
+    }
+
+    case 'stepcounter': {
+      const steps = Number(values.steps) || 0;
+      if (steps >= 10000) return { severity: 'success', emoji: 'fa-person-walking', title: '10K Goal Reached!', message: `You've hit ${steps.toLocaleString()} steps!`, advice: 'Excellent! 10,000 steps burns ~300-400 kcal. For additional benefits, try incorporating brisk walking intervals (3 min fast, 2 min normal).' };
+      if (steps >= 7000) return { severity: 'info', emoji: 'fa-shoe-prints', title: 'Good Activity', message: `${steps.toLocaleString()} steps — solid effort.`, advice: 'You\'re above the minimum recommended 7,000 steps. Each additional 1,000 steps/day reduces mortality risk by ~15% (up to 10K).' };
+      if (steps >= 4000) return { severity: 'warning', emoji: 'fa-shoe-prints', title: 'Below Target', message: `${steps.toLocaleString()} steps — room for improvement.`, advice: 'Try adding a 15-min walk after each meal. Take stairs, park farther away, and walk during phone calls. Small changes add up.' };
+      return { severity: 'danger', emoji: 'fa-chair', title: 'Sedentary Alert', message: `Only ${steps.toLocaleString()} steps — significantly below target.`, advice: 'Prolonged sitting increases health risks regardless of exercise. Set hourly reminders to stand and walk. Start with 5,000 steps and increase by 500/week.' };
+    }
+
+    case 'menstrualcycle': {
+      return { severity: 'info', emoji: 'fa-calendar-days', title: 'Cycle Tracker', message: `Next period: ${mainStr}.`, advice: 'Track your cycle for 3+ months for accuracy. Irregular cycles (outside 21-35 days) may indicate hormonal imbalance — consult a gynecologist. PMS symptoms typically start 7-10 days before period.' };
+    }
+
+    case 'bacdetailed': {
+      const bac = parseFloat(mainStr);
+      if (isNaN(bac)) return null;
+      if (bac < 0.02) return { severity: 'success', emoji: 'fa-check-circle', title: 'Sober', message: 'Your BAC is effectively zero.', advice: 'You are sober and safe to drive.' };
+      if (bac < 0.03) return { severity: 'warning', emoji: 'fa-wine-glass', title: 'Near Legal Limit (India)', message: `BAC: ${mainStr} — approaching India's legal limit of 0.03%.`, advice: 'Wait before driving. India has one of the strictest drink-drive limits globally (0.03%). BAC drops at ~0.015%/hour — no way to speed this up.' };
+      if (bac < 0.08) return { severity: 'danger', emoji: 'fa-car', title: 'Over Legal Limit', message: `BAC: ${mainStr} — over India's legal limit.`, advice: 'DO NOT DRIVE. You are legally intoxicated in India. Use a cab or designated driver. Impairment affects reaction time and judgment even below 0.08%.' };
+      return { severity: 'danger', emoji: 'fa-circle-exclamation', title: 'Severely Impaired', message: `BAC: ${mainStr} — significant impairment.`, advice: 'DO NOT DRIVE under any circumstances. At this BAC level, motor skills, vision, and judgment are severely compromised. If you feel unwell, seek medical help.' };
+    }
+
+
     case 'percentage': {
       return { severity: 'info', emoji: 'fa-percent', title: 'Percentage Result', message: `Result: ${mainStr}`, advice: 'Quick mental math: 10% = move decimal left. 5% = half of 10%. 15% = 10% + 5%. 20% = 10% × 2. Works for tips, discounts, and taxes.' };
     }

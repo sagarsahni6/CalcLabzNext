@@ -10,7 +10,9 @@ import ConsentBanner from '@/components/layout/ConsentBanner';
 import BackToTop from '@/components/ui/BackToTop';
 import LoadingBar from '@/components/ui/LoadingBar';
 import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
 import JsonLd from '@/components/seo/JsonLd';
+import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
 import { getGlobalSchemas } from '@/lib/seo/schema';
 import Script from 'next/script';
 
@@ -145,6 +147,9 @@ export default function RootLayout({
           </div>
           <BackToTop />
           <ConsentBanner />
+          <Suspense fallback={null}>
+            <GoogleAnalytics />
+          </Suspense>
           <CommandPalette />
         </ThemeProvider>
       </body>

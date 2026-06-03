@@ -68,7 +68,7 @@ export interface SensitivityPoint {
   variable: string;        // input field id, e.g. 'rate'
   label: string;           // display label, e.g. 'Interest Rate'
   unit?: string;           // e.g. '%', 'months'
-  range: number[];         // x-axis values
+  range: (number | string)[];  // x-axis values (numeric or categorical)
   values: number[];        // corresponding main result values
   currentIdx: number;      // index of current input value
   resultLabel?: string;    // e.g. 'Monthly EMI'

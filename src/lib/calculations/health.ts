@@ -65,6 +65,7 @@ export const calcBMR: CalcFunction = (v) => {
   const weight = Number(v.weight) || 70;
   const age = Number(v.age) || 30;
   const gender = String(v.gender || "Male");
+  const bodyFat = Number(v.bodyfat_bmr) || 0;
   const bmr = gender === "Male"
     ? 10 * weight + 6.25 * height - 5 * age + 5
     : 10 * weight + 6.25 * height - 5 * age - 161;
@@ -72,6 +73,9 @@ export const calcBMR: CalcFunction = (v) => {
   const hbBmr = gender === "Male"
     ? 88.362 + 13.397 * weight + 4.799 * height - 5.677 * age
     : 447.593 + 9.247 * weight + 3.098 * height - 4.330 * age;
+  // Katch-McArdle (if body fat known)
+  const lbm = bodyFat > 0 ? weight * (1 - bodyFat / 100) : 0;
+  const kmBmr = bodyFat > 0 ? 370 + 21.6 * lbm : 0;
   const sed = Math.round(bmr * 1.2), light = Math.round(bmr * 1.375), mod = Math.round(bmr * 1.55), active = Math.round(bmr * 1.725), vActive = Math.round(bmr * 1.9);
   return {
     main: { label: "BMR", value: Math.round(bmr) + " kcal/day" },
@@ -82,6 +86,7 @@ export const calcBMR: CalcFunction = (v) => {
       { label: "Very Active (×1.725)", value: active + " kcal" },
       { label: "Extra Active (×1.9)", value: vActive + " kcal" },
       { label: "Harris-Benedict BMR", value: Math.round(hbBmr) + " kcal (comparison)" },
+      ...(kmBmr > 0 ? [{ label: "Katch-McArdle BMR", value: Math.round(kmBmr) + " kcal (body fat adjusted)" }] : []),
       { label: "Daily Protein (min)", value: Math.round(weight * 0.8) + "g (sedentary RDA)" },
     ],
     chart: {
@@ -155,6 +160,12 @@ export const calcTDEE: CalcFunction = (v) => {
       collapsible: true,
       highlightRows: [3],
     },
+    sensitivity: [{
+      variable: 'activity', label: 'Activity Level', unit: '',
+      range: ['Sedentary', 'Light', 'Moderate', 'Active', 'Very Active'],
+      values: [Math.round(bmr * 1.2), Math.round(bmr * 1.375), Math.round(bmr * 1.55), Math.round(bmr * 1.725), Math.round(bmr * 1.9)],
+      currentIdx: idx !== -1 ? idx : 0, resultLabel: 'TDEE (kcal/day)',
+    }],
   };
 };
 
@@ -322,6 +333,10 @@ export const calcMacros: CalcFunction = (v) => {
   const proteinCal = Math.round(calories * p);
   const carbCal = Math.round(calories * c);
   const fatCal = Math.round(calories * f);
+  // Sensitivity: calorie target ±500
+  const sensCals = [calories - 500, calories - 250, calories, calories + 250, calories + 500];
+  const sensProt = sensCals.map(cal => Math.round(cal * p / 4));
+  const sensCalIdx = 2; // current is always the middle
   return {
     main: { label: "Protein", value: proteinG + "g" },
     secondary: [
@@ -347,6 +362,10 @@ export const calcMacros: CalcFunction = (v) => {
       ],
       collapsible: true,
     },
+    sensitivity: [{
+      variable: 'calories', label: 'Calorie Target', unit: 'kcal',
+      range: sensCals, values: sensProt, currentIdx: sensCalIdx, resultLabel: 'Protein (g)',
+    }],
   };
 };
 
@@ -648,6 +667,7 @@ export const calcBodyFat: CalcFunction = (v) => {
       { label: "FFMI", value: ffmi.toFixed(1) + (ffmi > 25 ? " (near genetic limit)" : "") },
       { label: "Healthy Range", value: gender === "Male" ? "10–20%" : "18–28%" },
       { label: "Lean-to-Fat Ratio", value: (leanMass / fatMass).toFixed(1) + ":1" },
+      { label: "Competition Readiness", value: gender === 'Male' ? (bf < 8 ? 'Stage Ready ✓' : bf < 12 ? 'Prep Phase' : bf < 15 ? 'Off-Season Lean' : 'Not Contest Ready') : (bf < 15 ? 'Stage Ready ✓' : bf < 20 ? 'Prep Phase' : bf < 24 ? 'Off-Season Lean' : 'Not Contest Ready') },
     ],
     chart: { a: Math.round(leanMass * 10) / 10, b: Math.round(fatMass * 10) / 10, lA: 'Lean Mass (kg)', lB: 'Fat Mass (kg)' },
     table: {
@@ -665,6 +685,17 @@ export const calcBodyFat: CalcFunction = (v) => {
         ? [bf < 6 ? 0 : bf < 14 ? 1 : bf < 18 ? 2 : bf < 25 ? 3 : 4]
         : [bf < 14 ? 0 : bf < 21 ? 1 : bf < 25 ? 2 : bf < 32 ? 3 : 4],
     },
+    sensitivity: [{
+      variable: 'waist', label: 'Waist Circumference', unit: 'cm',
+      range: [waist - 6, waist - 4, waist - 2, waist, waist + 2, waist + 4, waist + 6].map(Math.round),
+      values: [waist - 6, waist - 4, waist - 2, waist, waist + 2, waist + 4, waist + 6].map(w => {
+        let bfEst;
+        if (gender === 'Male') bfEst = 495 / (1.0324 - 0.19077 * Math.log10(w - neck) + 0.15456 * Math.log10(height)) - 450;
+        else bfEst = 495 / (1.29579 - 0.35004 * Math.log10(w + hip - neck) + 0.22100 * Math.log10(height)) - 450;
+        return Math.round(Math.max(3, Math.min(60, bfEst)) * 10) / 10;
+      }),
+      currentIdx: 3, resultLabel: 'Body Fat (%)',
+    }],
   };
 };
 
@@ -727,6 +758,19 @@ export const calcSmokingCost: CalcFunction = (v) => {
           { label: 'If Invested @12% (₹)', data: tlInvested, fill: true },
         ],
       },
+    },
+    table: {
+      title: 'Year-by-Year Cost & Health Recovery After Quitting',
+      headers: ['Year', 'Cumulative Spent (₹)', 'If Invested @12% (₹)', 'Health Recovery Milestone'],
+      rows: [
+        ['Year 1', Math.round(yearlyCost).toLocaleString(), Math.round(yearlyCost).toLocaleString(), '20 min: BP normalizes, 12 hrs: CO drops'],
+        ['Year 2', Math.round(yearlyCost * 2).toLocaleString(), Math.round(yearlyCost * ((Math.pow(1.12, 2) - 1) / 0.12)).toLocaleString(), 'Heart disease risk halves'],
+        ['Year 5', Math.round(yearlyCost * 5).toLocaleString(), Math.round(yearlyCost * ((Math.pow(1.12, 5) - 1) / 0.12)).toLocaleString(), 'Stroke risk = non-smoker'],
+        ['Year 10', Math.round(yearlyCost * 10).toLocaleString(), Math.round(yearlyCost * ((Math.pow(1.12, 10) - 1) / 0.12)).toLocaleString(), 'Lung cancer risk halves'],
+        ['Year 15', Math.round(yearlyCost * 15).toLocaleString(), Math.round(yearlyCost * ((Math.pow(1.12, 15) - 1) / 0.12)).toLocaleString(), 'Heart risk = non-smoker'],
+        ['Year 20', Math.round(yearlyCost * 20).toLocaleString(), Math.round(yearlyCost * ((Math.pow(1.12, 20) - 1) / 0.12)).toLocaleString(), 'All risks nearly baseline'],
+      ],
+      collapsible: true,
     },
   };
 };
@@ -896,6 +940,7 @@ export const calcCholesterolRatio: CalcFunction = (v) => {
       { label: "LDL/HDL Ratio", value: ldlHdl.toFixed(2) + " — " + riskLdl },
       { label: "Non-HDL Cholesterol", value: nonHdl + " mg/dL" + (nonHdl < 130 ? " ✓" : " [!]") },
       { label: "VLDL (estimated)", value: vldl.toFixed(0) + " mg/dL" },
+      { label: "Friedewald LDL (calc)", value: Math.round(total - hdl - triglycerides / 5) + " mg/dL" + (triglycerides > 400 ? " (inaccurate — TG > 400)" : "") },
       { label: "Triglycerides Status", value: trigStatus },
       { label: "Atherogenic Index", value: atherogenicIdx.toFixed(2) + " — " + aiRisk },
       { label: "Healthy Total/HDL", value: "< 3.5 (ideal < 3.0)" },
@@ -964,6 +1009,10 @@ export const calcCalorieDeficit: CalcFunction = (v) => {
       { label: "Weight to Lose", value: weightToLose.toFixed(1) + " kg" },
       { label: "Time to Goal", value: weeksNeeded + " weeks (" + Math.round(weeksNeeded / 4.3) + " months)" },
       { label: "Goal Date (estimated)", value: goalDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) },
+      { label: "Protein Target", value: Math.round(weight * 2.0) + "g (" + Math.round(weight * 2.0 * 4) + " kcal) — preserves muscle" },
+      { label: "Fat Target", value: Math.round(targetCalories * 0.25 / 9) + "g (" + Math.round(targetCalories * 0.25) + " kcal)" },
+      { label: "Carb Target", value: Math.round((targetCalories - weight * 2.0 * 4 - targetCalories * 0.25) / 4) + "g (remaining)" },
+      { label: "Refeed Day", value: actualDeficit > 500 ? 'Recommended 1×/week at TDEE (' + tdee + ' kcal) to prevent metabolic adaptation' : 'Not needed at moderate deficit' },
       { label: "BMR", value: Math.round(bmr) + " kcal" },
       { label: "Min Safe Calories", value: gender === "Male" ? "1,500 kcal" : "1,200 kcal" }
     ],
@@ -1050,6 +1099,16 @@ export const calcRunningPace: CalcFunction = (v) => {
     const s = Math.round((mins % 1) * 60);
     return (h > 0 ? h + 'h ' : '') + m + 'm ' + s + 's';
   };
+  // Predicted times for bar chart
+  const pred5k = Math.round(timeMin * Math.pow(5 / distanceKm, 1.06));
+  const pred10k = Math.round(timeMin * Math.pow(10 / distanceKm, 1.06));
+  const predHalf = Math.round(timeMin * Math.pow(21.1 / distanceKm, 1.06));
+  const predFull = Math.round(timeMin * Math.pow(42.195 / distanceKm, 1.06));
+  // Sensitivity: pace at different distances
+  const sensDists = [3, 5, 10, 15, 21.1, 42.195];
+  const sensLabels = ['3K', '5K', '10K', '15K', 'Half', 'Marathon'];
+  const sensPaces = sensDists.map(d => Math.round(timeMin * Math.pow(d / distanceKm, 1.06) / d * 100) / 100);
+  const sensIdx = sensDists.indexOf(distanceKm) !== -1 ? sensDists.indexOf(distanceKm) : 1;
   return {
     main: { label: "Pace", value: paceM + ":" + String(paceS).padStart(2, '0') + " min/km" },
     secondary: [
@@ -1057,6 +1116,10 @@ export const calcRunningPace: CalcFunction = (v) => {
       { label: "Predicted " + targetDist + " Time", value: (predH > 0 ? predH + "h " : "") + predM + "m " + predS + "s" },
       { label: "Calories/km (est.)", value: Math.round(speedKmh > 8 ? 1.0 * 70 : 0.7 * 70) + " kcal" },
     ],
+    chart: {
+      labels: ['5K', '10K', 'Half Marathon', 'Marathon'],
+      data: [pred5k, pred10k, predHalf, predFull],
+    },
     table: {
       title: 'Race Predictions (Riegel Formula)',
       headers: ['Race', 'Distance', 'Predicted Time', 'Avg Pace'],
@@ -1068,6 +1131,10 @@ export const calcRunningPace: CalcFunction = (v) => {
       ],
       collapsible: true,
     },
+    sensitivity: [{
+      variable: 'distance', label: 'Race Distance', unit: '',
+      range: sensLabels, values: sensPaces, currentIdx: sensIdx, resultLabel: 'Pace (min/km)',
+    }],
   };
 };
 
@@ -1234,6 +1301,16 @@ export const calcCalorieGoal: CalcFunction = (v) => {
           { label: 'Weight Trajectory (kg)', data: cgWeights, fill: true },
         ],
       },
+    },
+    table: {
+      title: 'Weekly Calorie & Weight Targets',
+      headers: ['Week', 'Target Calories', 'Expected Weight', 'Deficit/Day'],
+      rows: Array.from({ length: Math.min(10, weeks) }, (_, i) => {
+        const wk = (i + 1) * Math.max(1, Math.floor(weeks / 10));
+        const wt = Math.round((currentWeight - weeklyLoss * wk) * 10) / 10;
+        return ['Week ' + wk, targetCals + ' kcal', wt + ' kg', actualDeficit + ' kcal'];
+      }),
+      collapsible: true,
     },
     sensitivity: [{
       variable: 'weeks', label: 'Timeline (weeks)', unit: 'weeks',

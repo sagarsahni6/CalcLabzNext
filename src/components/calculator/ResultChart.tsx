@@ -261,7 +261,8 @@ export default function ResultChart({ chart, calcId }: ResultChartProps) {
   const isComparison = calcId === 'taxregime' || calcId === 'rentvsbuy' || calcId === 'loancompare'
     || calcId === 'bmr' || calcId === 'heartrate' || calcId === 'bloodpressure'
     || calcId === 'cholesterolratio' || calcId === 'sleep' || calcId === 'vo2max'
-    || calcId === 'idealweight' || calcId === 'bsa' || calcId === 'electrolyte';
+    || calcId === 'idealweight' || calcId === 'bsa' || calcId === 'electrolyte'
+    || calcId === 'runningpace';
 
   return (
     <div style={{

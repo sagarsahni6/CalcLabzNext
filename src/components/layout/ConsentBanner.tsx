@@ -16,7 +16,7 @@ interface CalcLabzWindow extends Window {
   sanitizeHTML?: (html: string) => string;
   safeStore?: (key: string, value: string) => void;
   showToast?: (msg: string) => void;
-  dataLayer?: unknown[];
+  dataLayer?: (unknown | IArguments)[];
   gtag?: (...args: unknown[]) => void;
   _toastTimeout?: ReturnType<typeof setTimeout>;
 }
@@ -52,9 +52,13 @@ export default function ConsentBanner() {
       document.head.appendChild(s);
 
       w.dataLayer = w.dataLayer || [];
-      w.gtag = function (...args: unknown[]) {
-        w.dataLayer!.push(args);
-      };
+      // Must use `arguments` object — NOT rest params.
+      // Google's gtag.js only processes dataLayer entries that are
+      // Arguments objects ([object Arguments]), not plain Arrays.
+      w.gtag = function () {
+        // eslint-disable-next-line prefer-rest-params
+        w.dataLayer!.push(arguments);
+      } as (...args: unknown[]) => void;
       w.gtag('js', new Date());
       w.gtag('config', GA_ID);
     };

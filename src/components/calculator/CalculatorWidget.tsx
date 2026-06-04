@@ -15,6 +15,12 @@ import RelatedCalculators from '@/components/calculator/RelatedCalculators';
 import CalculatorErrorBoundary from '@/components/calculator/CalculatorErrorBoundary';
 import { addToHistory } from '@/lib/history';
 import { validateField } from '@/lib/validation';
+import { isEngineeringCalc, supportsMaterials } from '@/lib/calculator-framework';
+import { validateEngineering } from '@/lib/engineering-validation';
+import EngineeringValidationBadge from '@/components/calculator/EngineeringValidationBadge';
+import MaterialSelector from '@/components/calculator/MaterialSelector';
+import ProjectManager from '@/components/calculator/ProjectManager';
+import QuickUnitConverter from '@/components/calculator/QuickUnitConverter';
 
 // Lazy-load Recharts chart component (only loads when chart data exists)
 const ResultChart = dynamic(() => import('@/components/calculator/ResultChart'), {
@@ -104,6 +110,10 @@ export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWid
   const [errors, setErrors] = useState<Record<string, string>>({});
   const resultRef = useRef<HTMLDivElement | null>(null);
   const widgetRef = useRef<HTMLDivElement | null>(null);
+  const [selectedMaterialId, setSelectedMaterialId] = useState<string | undefined>();
+
+  const isEngineering = isEngineeringCalc(calcId);
+  const hasMaterials = isEngineering && supportsMaterials(calcId);
 
   const handleChange = useCallback((id: string, value: string, type?: string) => {
     if (type === 'select' || type === 'text' || type === 'date') {
@@ -118,6 +128,46 @@ export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWid
       delete next[id];
       return next;
     });
+  }, []);
+
+  // Handle material selection — auto-fill relevant input fields
+  const handleMaterialSelect = useCallback((material: import('@/types/engineering').MaterialProperty) => {
+    setSelectedMaterialId(material.id);
+    const autoFillMap: Record<string, number | undefined> = {
+      yieldStrength: material.yieldStrength,
+      elasticModulus: material.elasticModulus,
+      density: material.density,
+      thermalConductivity: material.thermalConductivity,
+      specificHeat: material.specificHeat,
+      poissonsRatio: material.poissonsRatio,
+    };
+    setValues((prev) => {
+      const next = { ...prev };
+      // Match input field IDs to material properties
+      for (const inp of inputs) {
+        const id = inp.id.toLowerCase();
+        const label = inp.label.toLowerCase();
+        if ((id.includes('yield') || label.includes('yield')) && autoFillMap.yieldStrength != null) {
+          next[inp.id] = autoFillMap.yieldStrength;
+        } else if ((id.includes('elastic') || id.includes('modulus') || label.includes('modulus')) && autoFillMap.elasticModulus != null) {
+          next[inp.id] = autoFillMap.elasticModulus;
+        } else if ((id === 'density' || label.includes('density')) && autoFillMap.density != null) {
+          next[inp.id] = autoFillMap.density;
+        } else if ((id.includes('thermal') || id.includes('conductivity') || label.includes('conductivity')) && autoFillMap.thermalConductivity != null) {
+          next[inp.id] = autoFillMap.thermalConductivity;
+        } else if ((id.includes('specific') || label.includes('specific heat')) && autoFillMap.specificHeat != null) {
+          next[inp.id] = autoFillMap.specificHeat;
+        } else if ((id.includes('poisson') || label.includes('poisson')) && autoFillMap.poissonsRatio != null) {
+          next[inp.id] = autoFillMap.poissonsRatio;
+        }
+      }
+      return next;
+    });
+  }, [inputs]);
+
+  // Handle project load — restore saved inputs
+  const handleProjectLoad = useCallback((loadedInputs: Record<string, number | string>) => {
+    setValues((prev) => ({ ...prev, ...loadedInputs }));
   }, []);
 
   const calculate = useCallback(() => {
@@ -229,6 +279,12 @@ export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWid
     return getInterpretation(calcId, values, result.main.value);
   }, [calcId, values, result]);
 
+  // Engineering validation — check results against standards limits
+  const engineeringValidation = useMemo(() => {
+    if (!result?.main || !isEngineeringCalc(calcId)) return null;
+    return validateEngineering(calcId, values, result.main.value);
+  }, [calcId, values, result]);
+
   return (
     <CalculatorErrorBoundary calculatorName={DB[calcId]?.name || calcId}>
     <div ref={widgetRef}>
@@ -251,6 +307,11 @@ export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWid
           <span>{calcError}</span>
         </div>
       )}
+      {/* ── Material Selector (engineering calcs with material support) ── */}
+      {hasMaterials && (
+        <MaterialSelector onSelect={handleMaterialSelect} selectedId={selectedMaterialId} />
+      )}
+
       {/* ── Inputs ── */}
       <div className="inp-grid">
         {inputs.map((inp, inputIdx) => {
@@ -371,6 +432,8 @@ export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWid
           style={{ marginTop: '30px' }}
           aria-live="polite"
           aria-atomic="true"
+          role="region"
+          aria-label="Calculation results"
         >
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             {/* Wrapper for Exporting/Copying/Printing */}
@@ -390,6 +453,11 @@ export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWid
               {/* Interpretation Badge */}
               {interpretation && (
                 <InterpretationBadge interpretation={interpretation} />
+              )}
+
+              {/* Engineering Validation Badge (Safe/Warning/Critical) */}
+              {engineeringValidation && (
+                <EngineeringValidationBadge validation={engineeringValidation} />
               )}
 
               {/* Secondary Results Grid */}
@@ -445,8 +513,18 @@ export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWid
               )}
             </div>
 
-            {/* Export buttons (Print, Copy, Share) */}
-            <ExportButtons resultRef={resultRef} calcName={DB[calcId]?.name || calcId} calcId={calcId} />
+            {/* Export buttons (Print, Copy, Share, + PDF for engineering) */}
+            <ExportButtons resultRef={resultRef} calcName={DB[calcId]?.name || calcId} calcId={calcId} isEngineering={isEngineering} calcInputs={inputs} calcValues={values} />
+
+            {/* Project Save/Load (engineering calcs only) */}
+            {isEngineering && (
+              <ProjectManager
+                calcId={calcId}
+                calcName={DB[calcId]?.name || calcId}
+                currentInputs={values}
+                onLoad={handleProjectLoad}
+              />
+            )}
 
             {/* Comparison Mode for side-by-side scenarios */}
             <ComparisonMode calcId={calcId} />
@@ -464,6 +542,11 @@ export default function CalculatorWidget({ calcId, inputs, tips }: CalculatorWid
             {/* Sensitivity / What-If Analysis */}
             {result.sensitivity && result.sensitivity.length > 0 && (
               <SensitivityAnalysis sensitivity={result.sensitivity} />
+            )}
+
+            {/* Quick Unit Converter (engineering calcs only) */}
+            {isEngineering && (
+              <QuickUnitConverter />
             )}
           </div>
         </div>

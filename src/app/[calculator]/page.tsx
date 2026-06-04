@@ -12,10 +12,18 @@ import { getSchemaCategory, generateSEOContent, generateHowToSteps, getQuickAnsw
 import { getCrossCategoryLinks } from '@/lib/related-calculators';
 import QuickAnswer from '@/components/seo/QuickAnswer';
 import JsonLd from '@/components/seo/JsonLd';
-import { getCalculatorSchemas } from '@/lib/seo/schema';
+import { getCalculatorSchemas, getEngineeringSchemas } from '@/lib/seo/schema';
 import { generateCalculatorMetadata } from '@/lib/seo/metadata';
 import CalculatorGraphic from '@/components/calculator/CalculatorGraphic';
 import { getCustomFormula, getCustomFAQs, getCustomSources } from '@/data/calculator-content';
+import { ENGINEERING_FORMULAS } from '@/data/engineering-formulas';
+import { getStandards } from '@/data/engineering-standards';
+import { getEducation } from '@/data/engineering-education';
+import { isEngineeringCalc } from '@/lib/calculator-framework';
+import FormulaDerivation from '@/components/calculator/FormulaDerivation';
+import StandardsReference from '@/components/calculator/StandardsReference';
+import EngineeringDiagram from '@/components/calculator/EngineeringDiagram';
+import EngineeringEducation from '@/components/calculator/EngineeringEducation';
 
 // ── STATIC GENERATION ─────────────────────────────
 export function generateStaticParams() {
@@ -226,6 +234,12 @@ export default async function CalculatorPage({
   // Sources & References for E-E-A-T trust signals (Phase 4)
   const sources = getCustomSources(calcId);
 
+  // ── Engineering Workstation Data ─────────────────
+  const isEngineering = isEngineeringCalc(calcId);
+  const engineeringFormulas = isEngineering ? (ENGINEERING_FORMULAS[calcId] ?? []) : [];
+  const engineeringStandards = isEngineering ? getStandards(calcId) : [];
+  const engineeringEducation = isEngineering ? getEducation(calcId) : null;
+
   // Category → gradient + icon mapping for thumbnails
   const BLOG_CAT_THEME: Record<string, { gradient: string; icon: string }> = {
     finance: { gradient: 'linear-gradient(135deg, #1E3A5F, #2563EB)', icon: 'fa-landmark' },
@@ -303,10 +317,19 @@ export default async function CalculatorPage({
     howToSteps,
   });
 
+  // MathSolver schema for engineering calculators
+  const engineeringMathSchema = isEngineering
+    ? getEngineeringSchemas({ name: calc.name, desc: calc.desc, slug })
+    : null;
+
   return (
     <>
       {/* JSON-LD Schemas — raw <script> tags for SSR HTML visibility to Googlebot */}
       <JsonLd id="calc-schemas" data={calcSchemas} />
+      {/* MathSolver schema for engineering calculators */}
+      {isEngineering && engineeringMathSchema && (
+        <JsonLd id="engineering-schema" data={engineeringMathSchema} />
+      )}
 
       <article className="card" itemScope itemType="https://schema.org/WebApplication">
         {/* Breadcrumb */}
@@ -413,6 +436,35 @@ export default async function CalculatorPage({
             </div>
           </div>
         </div>
+
+        {/* ── Engineering Workstation Sections (engineering category only) ── */}
+        {isEngineering && (
+          <>
+            {/* Interactive Engineering Diagram */}
+            <EngineeringDiagram calcId={calcId} />
+
+            {/* Step-by-Step Formula Derivation with KaTeX */}
+            {engineeringFormulas.length > 0 && (
+              <FormulaDerivation steps={engineeringFormulas} calculatorName={calc.name} />
+            )}
+
+            {/* Applicable Standards & Codes */}
+            {engineeringStandards.length > 0 && (
+              <StandardsReference standards={engineeringStandards} calculatorName={calc.name} />
+            )}
+
+            {/* Engineering Educational Content */}
+            {engineeringEducation && (
+              <EngineeringEducation
+                theory={engineeringEducation.theory}
+                applications={engineeringEducation.applications}
+                examples={engineeringEducation.examples}
+                faqs={engineeringEducation.faqs}
+                calculatorName={calc.name}
+              />
+            )}
+          </>
+        )}
 
         {/* ── Formula & Examples — Standalone Section ── */}
         <div className="standalone-section formula-section">

@@ -198,6 +198,44 @@ export function getCalculatorSchemas(opts: CalculatorSchemaOpts) {
   ];
 }
 
+// ── ENGINEERING CALCULATOR SCHEMAS ───────────────────
+
+interface EngineeringSchemaOpts {
+  name: string;
+  desc: string;
+  slug: string;
+  formulaExpression?: string;
+}
+
+/**
+ * Returns a MathSolver JSON-LD schema for engineering calculator pages.
+ * This helps Google understand the mathematical nature of the calculator
+ * and may enable rich results for math-related queries.
+ */
+export function getEngineeringSchemas(opts: EngineeringSchemaOpts) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'MathSolver',
+    name: `${opts.name} - ${SEO.SITE_NAME}`,
+    description: opts.desc,
+    url: `${SEO.BASE_URL}/${opts.slug}`,
+    potentialAction: {
+      '@type': 'SolveMathAction',
+      target: `${SEO.BASE_URL}/${opts.slug}`,
+      mathExpression: opts.formulaExpression || opts.desc,
+      eduQuestionType: 'Calculation',
+    },
+    mathExpression: opts.formulaExpression || opts.desc,
+    inLanguage: 'en-IN',
+    isAccessibleForFree: true,
+    creator: {
+      '@type': 'Organization',
+      name: SEO.ORG.name,
+      url: SEO.BASE_URL,
+    },
+  };
+}
+
 // ── CATEGORY PAGE SCHEMAS ────────────────────────────
 
 interface CategorySchemaOpts {

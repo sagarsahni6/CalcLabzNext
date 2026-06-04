@@ -7,6 +7,9 @@ interface ExportButtonsProps {
   resultRef?: React.RefObject<HTMLDivElement | null>;
   calcName: string;
   calcId: string;
+  isEngineering?: boolean;
+  calcInputs?: { id: string; label: string; suffix?: string; prefix?: string }[];
+  calcValues?: Record<string, number | string>;
 }
 
 function showToast(message: string) {
@@ -253,11 +256,71 @@ function ShareMenu({ resultRef, calcName, calcId }: ExportButtonsProps) {
   );
 }
 
-export default function ExportButtons({ resultRef, calcName, calcId }: ExportButtonsProps) {
+export default function ExportButtons({ resultRef, calcName, calcId, isEngineering, calcInputs, calcValues }: ExportButtonsProps) {
+  const [pdfLoading, setPdfLoading] = useState(false);
+
+  const handlePdfExport = async () => {
+    if (pdfLoading) return;
+    setPdfLoading(true);
+    try {
+      const { generateEngineeringPDF } = await import('@/lib/report-generator');
+      const el = resultRef?.current;
+      const mainText = el?.querySelector('.res-val')?.textContent || '';
+      const mainLabel = el?.querySelector('.res-lbl')?.textContent || 'Result';
+
+      // Collect secondary results from DOM
+      const secCards = el?.querySelectorAll('.res-card') || [];
+      const secondaryResults: { label: string; value: string | number }[] = [];
+      secCards.forEach((card) => {
+        const lbl = card.querySelector('.res-lbl')?.textContent || '';
+        const val = card.querySelector('.res-val')?.textContent || '';
+        if (lbl && val) secondaryResults.push({ label: lbl, value: val });
+      });
+
+      // Build input parameters from props
+      const reportInputs = (calcInputs || []).map((inp) => {
+        const val = calcValues?.[inp.id] ?? '';
+        return {
+          label: inp.label,
+          value: val,
+          unit: inp.suffix || '',
+        };
+      });
+
+      const blob = await generateEngineeringPDF({
+        calcName,
+        calcId,
+        inputs: reportInputs,
+        mainResult: { label: mainLabel, value: mainText },
+        secondaryResults,
+      });
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${calcId}-report-${new Date().toISOString().slice(0, 10)}.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('PDF report downloaded!');
+    } catch (err) {
+      console.error('PDF generation error:', err);
+      showToast('Failed to generate PDF');
+    } finally {
+      setPdfLoading(false);
+    }
+  };
+
   return (
     <div style={{
       display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '16px',
     }}>
+      {isEngineering && (
+        <ExportButton
+          iconName={pdfLoading ? 'fa-spinner' : 'fa-file-pdf'}
+          label={pdfLoading ? 'Generating...' : 'PDF Report'}
+          onClick={handlePdfExport}
+        />
+      )}
       <ExportButton iconName="fa-print" label="Print" onClick={() => window.print()} />
       <ExportButton iconName="fa-copy" label="Copy" onClick={() => {
         const el = resultRef?.current;

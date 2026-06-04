@@ -2777,3 +2777,101 @@ input[type="number"]{-moz-appearance:textfield}
     stroke-dasharray:none !important;
   }
 }
+
+/* ═══════════════════════════════════════════════════
+   Engineering Workstation — Accessibility & Styles
+   ═══════════════════════════════════════════════════ */
+
+/* ── Focus-Visible Rings ───────────────────────── */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role="button"]:focus-visible,
+[role="tab"]:focus-visible,
+details > summary:focus-visible {
+  outline: 2px solid var(--p);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ── Reduced Motion — Engineering Animations ── */
+@media (prefers-reduced-motion: reduce) {
+  .engineering-diagram-section svg *,
+  .engineering-validation-badge *,
+  .material-selector-section *,
+  .project-manager-section *,
+  .engineering-education-section * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ── FAQ Details (Engineering Education) ───────── */
+.faq-details {
+  background: var(--bg2);
+  border: 1px solid var(--brd);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.2s var(--ease);
+}
+
+.faq-details[open] {
+  border-color: var(--p);
+  box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.1);
+}
+
+.faq-details > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 16px;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--txt);
+  list-style: none;
+  user-select: none;
+  transition: background 0.2s var(--ease);
+}
+
+.faq-details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-details > summary:hover {
+  background: var(--bg3);
+}
+
+.faq-details[open] > summary {
+  border-bottom: 1px solid var(--brd);
+  color: var(--p);
+}
+
+.faq-details .faq-answer {
+  padding: 14px 16px;
+  font-size: 0.85rem;
+  color: var(--txt1);
+  line-height: 1.7;
+}
+
+/* ── Skip-to-content Link (Accessibility) ──────── */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  background: var(--p);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  z-index: 10000;
+  transition: top 0.2s;
+}
+
+.skip-link:focus {
+  top: 16px;
+}

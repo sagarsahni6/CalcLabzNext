@@ -1274,6 +1274,7 @@ export const DB: Record<string, CalculatorDefinition> = {
       { id: 'current_pcb', label: 'Maximum Current', default: 1, suffix: 'A' },
       { id: 'temp_rise', label: 'Allowable Temp Rise', default: 10, suffix: '°C' },
       { id: 'thickness_pcb', label: 'Copper Thickness', default: 1, suffix: 'oz (35µm)' },
+      { id: 'layer', label: 'Layer Type', type: 'select', options: ['External (outer)', 'Internal (inner)'] },
     ],
     calc: calcPcbTrace,
   },
@@ -1282,6 +1283,7 @@ export const DB: Record<string, CalculatorDefinition> = {
     icon: 'fa-volume-high', cat: 'engineering' as CalculatorCategory,
     inputs: [
       { id: 'db_val', label: 'Decibel Value', default: 20, suffix: 'dB' },
+      { id: 'reference', label: 'Reference Type', type: 'select', options: ['Power (10·log₁₀)', 'Voltage (20·log₁₀)'] },
     ],
     calc: calcDecibel,
   },
@@ -3454,6 +3456,26 @@ const slugRedirects: Record<string, string> = {
   'staircase-calculator': 'staircase',
   'septic-tank-size-calculator': 'septicTank',
   'home-electrical-load-calculator': 'electricalLoad',
+  // Engineering — human-friendly hyphenated slugs
+  'ohms-law-calculator': 'ohmslaw',
+  'volt-divider-calculator': 'voltdivider',
+  'voltage-divider-calculator': 'voltdivider',
+  'led-resistor-calculator': 'ledresistor',
+  'battery-life-calculator': 'batterylife',
+  'pcb-trace-calculator': 'pcbtrace',
+  'pcb-trace-width-calculator': 'pcbtrace',
+  'antenna-length-calculator': 'antennalen',
+  'beam-load-calculator': 'beamload',
+  'heat-exchanger-calculator': 'heatexchanger',
+  'fluid-flow-calculator': 'fluidflow',
+  'spring-force-calculator': 'springforce',
+  'gear-ratio-calculator': 'gearratio',
+  'inverter-battery-calculator': 'inverterbattery',
+  'ac-btu-calculator': 'acbtu',
+  'pipe-flow-calculator': 'pipeflow',
+  'three-phase-calculator': 'threephase',
+  'three-phase-power-calculator': 'threephase',
+  'motor-size-calculator': 'motorSize',
 };
 
 Object.entries(slugRedirects).forEach(([slug, id]) => {
@@ -3474,7 +3496,7 @@ export function getCalcsByCategory(cat: CalculatorCategory): string[] {
 }
 
 export function getAllCalculatorSlugs(): string[] {
-  return [...new Set(Object.values(idToSlug))];
+  return [...new Set([...Object.values(idToSlug), ...Object.keys(slugToId)])];
 }
 
 import registryData from '@/data/calculator-registry.json';

@@ -814,8 +814,8 @@ function MathTemplate({ w, h }: { w: number; h: number }) {
   // Sine-ish wave
   const pts: string[] = [];
   for (let i = 0; i <= 24; i++) {
-    const x = (i / 24) * w;
-    const y = h / 2 + Math.sin((i / 24) * Math.PI * 3) * (h * 0.3);
+    const x = Math.round(((i / 24) * w) * 100) / 100;
+    const y = Math.round((h / 2 + Math.sin((i / 24) * Math.PI * 3) * (h * 0.3)) * 100) / 100;
     pts.push(`${x},${y}`);
   }
   return (
@@ -874,10 +874,10 @@ function EngineeringTemplate({ w, h }: { w: number; h: number }) {
       {/* Teeth */}
       {[0,60,120,180,240,300].map(angle => {
         const rad = (angle * Math.PI) / 180;
-        const x1 = w/2 + Math.cos(rad) * h * 0.28;
-        const y1 = h/2 + Math.sin(rad) * h * 0.28;
-        const x2 = w/2 + Math.cos(rad) * h * 0.35;
-        const y2 = h/2 + Math.sin(rad) * h * 0.35;
+        const x1 = Math.round((w/2 + Math.cos(rad) * h * 0.28) * 100) / 100;
+        const y1 = Math.round((h/2 + Math.sin(rad) * h * 0.28) * 100) / 100;
+        const x2 = Math.round((w/2 + Math.cos(rad) * h * 0.35) * 100) / 100;
+        const y2 = Math.round((h/2 + Math.sin(rad) * h * 0.35) * 100) / 100;
         return <line key={angle} x1={x1} y1={y1} x2={x2} y2={y2}
           stroke="#64748B" strokeWidth="3" strokeLinecap="round" opacity="0.25" />;
       })}
@@ -916,10 +916,10 @@ function DateTimeTemplate({ w, h }: { w: number; h: number }) {
       {/* Hour ticks */}
       {[0,30,60,90,120,150,180,210,240,270,300,330].map(angle => {
         const rad = (angle * Math.PI) / 180;
-        const x1 = cx + Math.cos(rad) * (r - 4);
-        const y1 = cy + Math.sin(rad) * (r - 4);
-        const x2 = cx + Math.cos(rad) * r;
-        const y2 = cy + Math.sin(rad) * r;
+        const x1 = Math.round((cx + Math.cos(rad) * (r - 4)) * 100) / 100;
+        const y1 = Math.round((cy + Math.sin(rad) * (r - 4)) * 100) / 100;
+        const x2 = Math.round((cx + Math.cos(rad) * r) * 100) / 100;
+        const y2 = Math.round((cy + Math.sin(rad) * r) * 100) / 100;
         return <line key={angle} x1={x1} y1={y1} x2={x2} y2={y2}
           stroke="#0EA5E9" strokeWidth="1.5" opacity="0.3" />;
       })}

@@ -39,13 +39,13 @@ export async function generateEngineeringPDF(opts: ReportOptions): Promise<Blob>
   let y = margin;
 
   // ── Colors
-  const blue = [37, 99, 235] as const;
-  const darkGray = [15, 23, 42] as const;
-  const medGray = [100, 116, 139] as const;
-  const lightGray = [241, 245, 249] as const;
-  const green = [16, 185, 129] as const;
-  const amber = [245, 158, 11] as const;
-  const red = [239, 68, 68] as const;
+  const blue = [37, 99, 235] as [number, number, number];
+  const darkGray = [15, 23, 42] as [number, number, number];
+  const medGray = [100, 116, 139] as [number, number, number];
+  const lightGray = [241, 245, 249] as [number, number, number];
+  const green = [16, 185, 129] as [number, number, number];
+  const amber = [245, 158, 11] as [number, number, number];
+  const red = [239, 68, 68] as [number, number, number];
 
   // ── Helper: add page break if needed
   const checkPageBreak = (neededHeight: number) => {

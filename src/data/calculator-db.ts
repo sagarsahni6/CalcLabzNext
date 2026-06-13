@@ -3499,6 +3499,14 @@ export function getAllCalculatorSlugs(): string[] {
   return [...new Set([...Object.values(idToSlug), ...Object.keys(slugToId)])];
 }
 
+/**
+ * Returns only the PRIMARY canonical slug for each calculator — NO redirect aliases.
+ * Use this for sitemaps and SEO signals to avoid feeding Google redirect/duplicate URLs.
+ */
+export function getCanonicalCalculatorSlugs(): string[] {
+  return Object.keys(DB).map((id) => idToSlug[id] || id.toLowerCase().replace(/_/g, '-') + '-calculator');
+}
+
 import registryData from '@/data/calculator-registry.json';
 export const calculatorRegistry: RegistryEntry[] = registryData as RegistryEntry[];
 

@@ -33,7 +33,7 @@
     "priority": "normal",
     "name": "Logarithm Calculator",
     "title": "Logarithm Calculator — Free Online Calculator | Calc Labz",
-    "desc": "Natural log, log base 10 and custom base"
+    "desc": "Calculate logarithms with natural log (ln), log base 10, and any custom base. Get step-by-step solutions with change of base formula — free online math tool."
   },
   {
     "id": "factorial",
@@ -186,7 +186,7 @@
     "priority": "normal",
     "name": "Matrix Determinant (3×3)",
     "title": "Matrix Determinant (3×3) — Free Online Calculator | Calc Labz",
-    "desc": "Calculate determinant of a 3×3 matrix"
+    "desc": "Calculate the determinant of any 3×3 matrix with step-by-step cofactor expansion. Also get the adjoint, inverse, and eigenvalue analysis — free math calculator."
   },
   {
     "id": "complexnum",
@@ -204,7 +204,7 @@
     "priority": "high",
     "name": "Loan EMI Calculator",
     "title": "Loan EMI Calculator — Free Online Calculator | Calc Labz",
-    "desc": "Monthly EMI, total interest & payment breakdown"
+    "desc": "Calculate your monthly EMI for home, car, or personal loans. Get full amortization schedules, total interest breakdowns, and prepayment savings — free online."
   },
   {
     "id": "sip",
@@ -213,7 +213,7 @@
     "priority": "high",
     "name": "SIP Calculator",
     "title": "SIP Calculator — Free Online Calculator | Calc Labz",
-    "desc": "Systematic Investment Plan future value"
+    "desc": "Calculate SIP returns with compound interest and step-up projections. See how monthly mutual fund investments grow into long-term wealth — free India SIP tool."
   },
   {
     "id": "gst",
@@ -249,7 +249,7 @@
     "priority": "high",
     "name": "Simple Interest",
     "title": "Simple Interest — Free Online Calculator | Calc Labz",
-    "desc": "SI = PRT/100"
+    "desc": "Calculate simple interest on any principal amount with custom rate and time period. See total interest earned, maturity value, and monthly breakdowns — free tool."
   },
   {
     "id": "incometax",
@@ -258,7 +258,7 @@
     "priority": "high",
     "name": "Income Tax Calculator",
     "title": "Income Tax Calculator — Free Online Calculator | Calc Labz",
-    "desc": "New regime FY 2025-26 (India)"
+    "desc": "Calculate your income tax under India's New Tax Regime for FY 2025-26. See slab-wise breakdown, standard deduction, Section 87A rebate, and cess — free tool."
   },
   {
     "id": "roi",
@@ -276,7 +276,7 @@
     "priority": "high",
     "name": "PPF Calculator",
     "title": "PPF Calculator — Free Online Calculator | Calc Labz",
-    "desc": "Public Provident Fund maturity"
+    "desc": "Calculate PPF maturity amount and tax-free returns over 15 years. See year-by-year interest accrual and the power of annual contributions — updated 2026 rates."
   },
   {
     "id": "fd",
@@ -321,7 +321,7 @@
     "priority": "high",
     "name": "Inflation Calculator",
     "title": "Inflation Calculator — Free Online Calculator | Calc Labz",
-    "desc": "Future value with inflation erosion"
+    "desc": "Calculate how inflation erodes your money's purchasing power over time. See the future value of today's rupees and the real cost of goods in 5, 10, or 20 years."
   },
   {
     "id": "swp",
@@ -402,7 +402,7 @@
     "priority": "high",
     "name": "TDS Calculator",
     "title": "TDS Calculator — Free Online Calculator | Calc Labz",
-    "desc": "Tax Deducted at Source on salary & payments"
+    "desc": "Calculate TDS deductions on salary, interest, rent, and professional fees under Indian tax law. See applicable rates by section — updated for FY 2025-26."
   },
   {
     "id": "epf",
@@ -429,7 +429,7 @@
     "priority": "high",
     "name": "Stock Return Calculator",
     "title": "Stock Return Calculator — Free Online Calculator | Calc Labz",
-    "desc": "Shares P&L with brokerage & taxes (India)"
+    "desc": "Calculate stock market profit and loss including brokerage, STT, GST, and stamp duty charges in India. See your net returns after all trading costs — free tool."
   },
   {
     "id": "mutualfundreturns",
@@ -672,7 +672,7 @@
     "priority": "normal",
     "name": "BMI Calculator",
     "title": "BMI Calculator — Free Online Calculator | Calc Labz",
-    "desc": "Body Mass Index with category & ideal weight"
+    "desc": "Calculate your Body Mass Index (BMI) instantly. Get your WHO weight category, ideal weight range, and health risk assessment — free online BMI tool for adults."
   },
   {
     "id": "bmr",
@@ -681,7 +681,7 @@
     "priority": "normal",
     "name": "BMR Calculator",
     "title": "BMR Calculator — Free Online Calculator | Calc Labz",
-    "desc": "Basal Metabolic Rate (Mifflin-St Jeor)"
+    "desc": "Calculate your Basal Metabolic Rate (BMR) using the Mifflin-St Jeor equation. Find how many calories your body burns at rest to plan your diet and fitness goals."
   },
   {
     "id": "tdee",
@@ -690,7 +690,7 @@
     "priority": "normal",
     "name": "TDEE Calculator",
     "title": "TDEE Calculator — Free Online Calculator | Calc Labz",
-    "desc": "Total Daily Energy Expenditure"
+    "desc": "Calculate your Total Daily Energy Expenditure (TDEE) based on the Mifflin-St Jeor BMR formula and activity level. Get calorie targets for weight loss or gain."
   },
   {
     "id": "water",
@@ -699,7 +699,7 @@
     "priority": "normal",
     "name": "Water Intake Calculator",
     "title": "Water Intake Calculator — Free Online Calculator | Calc Labz",
-    "desc": "Daily hydration requirement"
+    "desc": "Calculate your daily water intake based on body weight, activity level, and climate. Get personalised hydration goals in glasses and litres — free health tool."
   },
   {
     "id": "heartrate",
@@ -708,7 +708,7 @@
     "priority": "normal",
     "name": "Heart Rate Zones",
     "title": "Heart Rate Zones — Free Online Calculator | Calc Labz",
-    "desc": "Target heart rate for every fitness zone"
+    "desc": "Calculate your target heart rate zones for fat burn, cardio, and peak training using the Karvonen formula. Personalised zones based on age and resting heart rate."
   },
   {
     "id": "age",
@@ -735,7 +735,7 @@
     "priority": "normal",
     "name": "Sleep Calculator",
     "title": "Sleep Calculator — Free Online Calculator | Calc Labz",
-    "desc": "Optimal bedtimes based on sleep cycles"
+    "desc": "Calculate the best time to go to bed or wake up based on 90-minute sleep cycles. Get optimal bedtime recommendations for 4 to 6 complete sleep cycles — free tool."
   },
   {
     "id": "macros",
@@ -744,7 +744,7 @@
     "priority": "normal",
     "name": "Macro Calculator",
     "title": "Macro Calculator — Free Online Calculator | Calc Labz",
-    "desc": "Daily protein, carbs & fat targets"
+    "desc": "Calculate your daily macronutrient targets — protein, carbohydrates, and fats — based on your TDEE, body weight, and fitness goal (cut, maintain, or bulk)."
   },
   {
     "id": "pregnancy",
@@ -807,7 +807,7 @@
     "priority": "normal",
     "name": "IBW — Ideal Body Weight",
     "title": "IBW — Ideal Body Weight — Free Online Calculator | Calc Labz",
-    "desc": "Target weight by height using clinical formulas"
+    "desc": "Calculate your ideal body weight using Devine, Robinson, Miller, and Hamwi clinical formulas. Compare multiple medical standards for your height and gender."
   },
   {
     "id": "vitamins",
@@ -861,7 +861,7 @@
     "priority": "normal",
     "name": "Diabetes Risk Score",
     "title": "Diabetes Risk Score — Free Online Calculator | Calc Labz",
-    "desc": "ADA-based type 2 diabetes risk assessment"
+    "desc": "Assess your type 2 diabetes risk using the ADA-based screening questionnaire. Get a personalised risk score with lifestyle recommendations — free health tool."
   },
   {
     "id": "sleepdebt",
@@ -924,7 +924,7 @@
     "priority": "normal",
     "name": "Weight Converter",
     "title": "Weight Converter — Free Online Calculator | Calc Labz",
-    "desc": "kg, g, lb, oz, stone, tonne"
+    "desc": "Convert between kilograms, grams, pounds, ounces, stone, and tonnes instantly. Supports metric, imperial, and US customary weight units — free online converter."
   },
   {
     "id": "temperature",
@@ -933,7 +933,7 @@
     "priority": "normal",
     "name": "Temperature Converter",
     "title": "Temperature Converter — Free Online Calculator | Calc Labz",
-    "desc": "°C, °F, K, Rankine"
+    "desc": "Convert between Celsius, Fahrenheit, Kelvin, and Rankine temperature scales instantly. See the conversion formula used and compare values across all scales."
   },
   {
     "id": "area",
@@ -969,7 +969,7 @@
     "priority": "normal",
     "name": "Volume Converter",
     "title": "Volume Converter — Free Online Calculator | Calc Labz",
-    "desc": "Liters, gallons, ml, cubic units"
+    "desc": "Convert between litres, gallons, millilitres, cubic metres, and 15+ volume units instantly. Supports metric, imperial, and US customary units — free converter."
   },
   {
     "id": "data",
@@ -987,7 +987,7 @@
     "priority": "normal",
     "name": "Pressure Converter",
     "title": "Pressure Converter — Free Online Calculator | Calc Labz",
-    "desc": "Pa, bar, psi, atm, mmHg, kPa"
+    "desc": "Convert between Pascal, bar, PSI, atm, mmHg, kPa, and 10+ pressure units instantly. Accurate conversions for engineering, physics, and weather applications."
   },
   {
     "id": "energy",
@@ -1023,7 +1023,7 @@
     "priority": "normal",
     "name": "Time Unit Converter",
     "title": "Time Unit Converter — Free Online Calculator | Calc Labz",
-    "desc": "Seconds, minutes, hours, days, weeks"
+    "desc": "Convert between seconds, minutes, hours, days, weeks, months, and years instantly. Supports decimal and fractional time conversions — free online time converter."
   },
   {
     "id": "countdown",
@@ -1032,7 +1032,7 @@
     "priority": "normal",
     "name": "Event Countdown",
     "title": "Event Countdown — Free Online Calculator | Calc Labz",
-    "desc": "Days, hours, minutes until your event"
+    "desc": "Create a live countdown timer to any future event. See exact days, hours, minutes, and seconds remaining until your wedding, exam, birthday, or deadline."
   },
   {
     "id": "timezone",
@@ -1068,7 +1068,7 @@
     "priority": "normal",
     "name": "Power Calculator",
     "title": "Power Calculator — Free Online Calculator | Calc Labz",
-    "desc": "Electrical power, current, voltage"
+    "desc": "Calculate electrical power, current, voltage, and resistance using Ohm's law and the power equation. Free online tool for students and electrical engineers."
   },
   {
     "id": "pythagorean",
@@ -1167,7 +1167,7 @@
     "priority": "normal",
     "name": "Fuel Cost Calculator",
     "title": "Fuel Cost Calculator — Free Online Calculator | Calc Labz",
-    "desc": "Trip cost, mileage & efficiency"
+    "desc": "Calculate fuel cost for any trip based on distance, vehicle mileage, and current fuel price. Compare petrol vs diesel costs and find your cost per kilometre."
   },
   {
     "id": "salary",
@@ -1320,7 +1320,7 @@
     "priority": "normal",
     "name": "Freelancer Rate Calculator",
     "title": "Freelancer Rate Calculator — Free Online Calculator | Calc Labz",
-    "desc": "Ideal hourly and daily rate based on desired annual income"
+    "desc": "Calculate your ideal freelance hourly and daily billing rate based on target annual income, billable hours, and expenses. Price your services competitively in India."
   },
   {
     "id": "carbonfootprint",
@@ -1473,7 +1473,7 @@
     "priority": "normal",
     "name": "pH Calculator",
     "title": "pH Calculator — Free Online Calculator | Calc Labz",
-    "desc": "Acid/base strength from H⁺ ion concentration"
+    "desc": "Calculate pH, pOH, and hydrogen ion concentration for any acid or base solution. Classify strength on the pH scale with scientific precision — free chemistry tool."
   },
   {
     "id": "kinematicCalc",
@@ -1545,7 +1545,7 @@
     "priority": "normal",
     "name": "Roofing Material Calculator",
     "title": "Roofing Material Calculator — Free Online Calculator | Calc Labz",
-    "desc": "Sheets, underlayment & ridge caps needed"
+    "desc": "Calculate roofing materials needed for your project — sheets, underlayment, ridge caps, and nails. Supports metal, asphalt, and tile roofing with wastage factor."
   },
   {
     "id": "earthwork",
@@ -1599,7 +1599,7 @@
     "priority": "normal",
     "name": "Home Construction Cost",
     "title": "Home Construction Cost — Free Online Calculator | Calc Labz",
-    "desc": "Estimate construction cost per sq ft by city tier"
+    "desc": "Estimate total home construction cost in India per square foot. Get material, labour, and finishing cost breakdowns by city tier and floor count — free 2026 tool."
   },
   {
     "id": "solarpanel",
@@ -1635,7 +1635,7 @@
     "priority": "normal",
     "name": "Exam Score Needed",
     "title": "Exam Score Needed — Free Online Calculator | Calc Labz",
-    "desc": "What score you need in finals to achieve your target percentage"
+    "desc": "Calculate the exact marks you need in your final exam to achieve your target percentage or grade. Enter current scores and weightage to see your required score."
   },
   {
     "id": "eduloan",
@@ -1716,7 +1716,7 @@
     "priority": "high",
     "name": "FIRE Calculator",
     "title": "FIRE Calculator — Free Online Calculator | Calc Labz",
-    "desc": "Financial Independence, Retire Early — years to freedom"
+    "desc": "Calculate your FIRE number and years to financial independence. See how savings rate, investment returns, and expenses impact your early retirement timeline in India."
   },
   {
     "id": "debtavalanche",
@@ -1860,7 +1860,7 @@
     "priority": "high",
     "name": "Monte Carlo Retirement Simulator",
     "title": "Monte Carlo Retirement Simulator — Free Online Calculator | Calc Labz",
-    "desc": "Probability of your retirement plan succeeding"
+    "desc": "Run Monte Carlo simulations on your retirement portfolio. See the probability of your savings lasting through retirement across thousands of market scenarios."
   },
   {
     "id": "inflationgoal",
@@ -1887,7 +1887,7 @@
     "priority": "high",
     "name": "GST Invoice + Profit Margin",
     "title": "GST Invoice + Profit Margin — Free Online Calculator | Calc Labz",
-    "desc": "Generate invoice breakdown with profit margin analysis"
+    "desc": "Generate a GST-compliant invoice breakdown with CGST, SGST, and IGST split. Includes profit margin analysis, markup percentage, and net profit calculation."
   },
   {
     "id": "esoptax",
@@ -1896,7 +1896,7 @@
     "priority": "high",
     "name": "ESOP Tax Calculator",
     "title": "ESOP Tax Calculator — Free Online Calculator | Calc Labz",
-    "desc": "Tax on ESOP exercise and sale — perquisite vs capital gains"
+    "desc": "Calculate ESOP taxes on exercise and sale in India. Get perquisite tax at exercise, STCG and LTCG on sale, and net post-tax gains — updated FY 2025-26 rules."
   },
   {
     "id": "freelancetax",
@@ -1914,7 +1914,7 @@
     "priority": "high",
     "name": "TCS on Foreign Remittance",
     "title": "TCS on Foreign Remittance — Free Online Calculator | Calc Labz",
-    "desc": "Tax Collected at Source on LRS payments abroad"
+    "desc": "Calculate TCS on foreign remittances under India's LRS scheme. Get exact tax amounts for education, travel, and investment transfers abroad — updated for 2026."
   },
   {
     "id": "sec80c",
@@ -2022,7 +2022,7 @@
     "priority": "normal",
     "name": "Attendance Percentage Calculator",
     "title": "Attendance Percentage Calculator — Free Online Calculator | Calc Labz",
-    "desc": "Track attendance and calculate classes needed for 75%"
+    "desc": "Track your class attendance percentage and calculate exactly how many more classes you need to attend or can skip to maintain 75% or any custom target requirement."
   },
   {
     "id": "gpaplanner",
@@ -2157,7 +2157,7 @@
     "priority": "normal",
     "name": "Material Wastage Calculator",
     "title": "Material Wastage Calculator — Free Online Calculator | Calc Labz",
-    "desc": "Tile, paint, flooring material with wastage factor"
+    "desc": "Calculate exact quantities of tiles, paint, or flooring with built-in wastage factors. Avoid over-ordering and reduce material waste on your construction project."
   },
   {
     "id": "rainwater",

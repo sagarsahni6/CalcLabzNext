@@ -28,5 +28,27 @@
       "source": "/hero-connect",
       "destination": "/store/hero-connect-pdi-automator.html"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/store/HERO-CONNECT-PDI-Automator",
+      "destination": "/store/hero-connect-pdi-automator",
+      "permanent": true
+    },
+    {
+      "source": "/store/HERO-CONNECT-PDI-Automator.html",
+      "destination": "/store/hero-connect-pdi-automator",
+      "permanent": true
+    },
+    {
+      "source": "/hero-connect-pdi",
+      "destination": "/store/hero-connect-pdi-automator",
+      "permanent": true
+    },
+    {
+      "source": "/hero-connect",
+      "destination": "/store/hero-connect-pdi-automator",
+      "permanent": true
+    }
   ]
 }

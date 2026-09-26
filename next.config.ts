@@ -18,6 +18,10 @@ const nextConfig: NextConfig = {
   // Port rewrites from vercel.json
   async redirects() {
     return [
+      { source: '/store/HERO-CONNECT-PDI-Automator', destination: '/store/hero-connect-pdi-automator', permanent: true },
+      { source: '/store/HERO-CONNECT-PDI-Automator.html', destination: '/store/hero-connect-pdi-automator', permanent: true },
+      { source: '/hero-connect-pdi', destination: '/store/hero-connect-pdi-automator', permanent: true },
+      { source: '/hero-connect', destination: '/store/hero-connect-pdi-automator', permanent: true },
       // Canonical redirect for legacy construction slug
       { source: '/construction-calculator', destination: '/construction-cost-calculator', permanent: true },
       // Legacy short slugs → canonical hyphenated slugs (301 permanent redirects)

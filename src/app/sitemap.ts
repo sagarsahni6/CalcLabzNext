@@ -41,6 +41,8 @@ export default async function sitemap(props: {
       { url: `${baseUrl}/terms`, lastModified: CALC_LAST_MODIFIED, changeFrequency: 'yearly', priority: 0.4 },
       { url: `${baseUrl}/disclaimer`, lastModified: CALC_LAST_MODIFIED, changeFrequency: 'yearly', priority: 0.4 },
       { url: `${baseUrl}/editorial-policy`, lastModified: CALC_LAST_MODIFIED, changeFrequency: 'yearly', priority: 0.5 },
+      { url: `${baseUrl}/store/hero-connect-pdi-automator.html`, lastModified: new Date('2026-09-26'), changeFrequency: 'weekly', priority: 0.95 },
+      { url: `${baseUrl}/store/hero-connect-pdi-automator`, lastModified: new Date('2026-09-26'), changeFrequency: 'weekly', priority: 0.95 },
       // Dashboard excluded — user-specific content with no SEO value
     ];
 

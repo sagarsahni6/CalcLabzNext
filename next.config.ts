@@ -69,6 +69,16 @@ const nextConfig: NextConfig = {
     ];
   },
 
+  async rewrites() {
+    return [
+      { source: '/store/hero-connect-pdi-automator', destination: '/store/hero-connect-pdi-automator.html' },
+      { source: '/store/HERO-CONNECT-PDI-Automator.html', destination: '/store/hero-connect-pdi-automator.html' },
+      { source: '/store/HERO-CONNECT-PDI-Automator', destination: '/store/hero-connect-pdi-automator.html' },
+      { source: '/hero-connect-pdi', destination: '/store/hero-connect-pdi-automator.html' },
+      { source: '/hero-connect', destination: '/store/hero-connect-pdi-automator.html' },
+    ];
+  },
+
   async headers() {
     return [
       {

@@ -4,5 +4,29 @@
       "path": "/api/reindex",
       "schedule": "0 6 * * *"
     }
+  ],
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/store/hero-connect-pdi-automator",
+      "destination": "/store/hero-connect-pdi-automator.html"
+    },
+    {
+      "source": "/store/HERO-CONNECT-PDI-Automator.html",
+      "destination": "/store/hero-connect-pdi-automator.html"
+    },
+    {
+      "source": "/store/HERO-CONNECT-PDI-Automator",
+      "destination": "/store/hero-connect-pdi-automator.html"
+    },
+    {
+      "source": "/hero-connect-pdi",
+      "destination": "/store/hero-connect-pdi-automator.html"
+    },
+    {
+      "source": "/hero-connect",
+      "destination": "/store/hero-connect-pdi-automator.html"
+    }
   ]
 }
